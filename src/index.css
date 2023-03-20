@@ -12,16 +12,21 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-  --primary-color:#40513B;
-  --secondary-color: #609966;
-  --third-color: #9DC08B;
-  --table-doc-color: #EDF1D6;
-  --primary-color-border:hsl(107, 73%, 10%);
+  --primary-color: #003545;
+  --secondary-color: #ed6363;
+  --third-color: #3c6562;
+  --primary-color-border: #00454a;
+  --table-doc-color: #edf1d6;
 
+  --header-bs: 0px 10px 30px 3px rgba(0, 0, 0, 0.5);
+  --sidebar-bs: 10px 0px 30px 3px rgba(0, 0, 0, 0.5);
 }
-body {
+* {
   margin: 0;
   box-sizing: border-box;
   padding: 0;
-  
+}
+a {
+  text-decoration: none;
+  color: #ffffff;
 }
