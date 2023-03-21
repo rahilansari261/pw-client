@@ -1,10 +1,30 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@font-face {
+  font-family: 'Cabin-Bold';
+  src: local('Cabin-Bold'),
+    url('./fonts/Cabin/static/Cabin/Cabin-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cabin-Medium';
+  src: local('Cabin-Medium'),
+    url('./fonts/Cabin/static/Cabin/Cabin-Medium.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cabin-Regular';
+  src: local('Cabin-Regular'),
+    url('./fonts/Cabin/static/Cabin/Cabin-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Cabin-SemiBold';
+  src: local('Cabin-SemiBold'),
+    url('./fonts/Cabin/static/Cabin/Cabin-SemiBold.ttf') format('truetype');
+}
 
+:root {
+  font-family: 'Cabin-Regular', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  line-height: 1.5;  
   color-scheme: light dark;
-  color: #000;
+  color: #333;
   background-color: #ffffff;
 
   font-synthesis: none;
@@ -13,13 +33,15 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   --primary-color: #003545;
-  --secondary-color: #3E98A0;
+  --secondary-color: #3e98a0;
   --third-color: #3c6562;
-  --primary-color-border: #00454a;
-  --table-doc-color: #edf1d6;
-
-  --header-bs: 0px 10px 30px 3px rgba(0, 0, 0, 0.5);
-  --sidebar-bs: 10px 0px 30px 3px rgba(0, 0, 0, 0.5);
+  --table-title-section: hsl(0, 0%, 90%);
+  --white-color: #ffffff;
+  --table-border-color: hsl(210, 14%, 89%);
+  --table-cell-color: #f5f5f5;
+  --button-add-color: #218838;
+  --header-bs: 0px 2px 4px 0px rgba(0, 0, 0, 1);
+  --sidebar-bs: 0px 2px 0px 0px rgba(0, 0, 0, 1);
 }
 * {
   margin: 0;

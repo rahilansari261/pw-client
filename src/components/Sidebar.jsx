@@ -88,6 +88,7 @@ const LiFlexItem = styled.li`
   padding: 0.75em;
   border-bottom: 2px solid var(--primary-color-border);
   cursor: pointer;
+  box-shadow: var(--sidebar-bs);
 `
 const LiFlexItemLogo = styled.li`
   display: flex;
