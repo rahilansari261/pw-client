@@ -79,6 +79,7 @@ const Table = styled.table`
   border-collapse: collapse;
   font-size: 14px;
   color: #333333;
+  overflow-x: auto;
 `
 const TableHead = styled.thead`
   border-bottom: 2px solid var(--table-border-color);
