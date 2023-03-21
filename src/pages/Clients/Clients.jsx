@@ -92,10 +92,12 @@ const DetailSection = styled.div`
   background-color: var(--white-color);
   padding 1em;
   border-radius:  0 0 4px 4px;
+  max-width:1000px;
+  overflow-x: auto;
 `
 const Title = styled.div`
   padding-left: 8px;
-  font-family:'Cabin-bold';
+  font-family: 'Cabin-bold';
 `
 
 const TitleWrapper = styled.div`
@@ -115,7 +117,6 @@ const Table = styled.table`
   border-collapse: collapse;
   font-size: 14px;
   color: #333333;
-  overflow-x: scroll;
 `
 const TableHead = styled.thead`
   border-bottom: 2px solid var(--table-border-color);
@@ -128,8 +129,8 @@ const TableData = styled.td`
   border-right: 1px solid var(--table-border-color);
   border-bottom: 1px solid var(--table-border-color);
   text-align: left;
-  padding:8px;
-  font-family:'Cabin-Regular'
+  padding: 8px;
+  font-family: 'Cabin-Regular';
 `
 const TableHeadData = styled.th`
   border-right: 1px solid var(--table-border-color);
