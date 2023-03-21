@@ -1,5 +1,6 @@
 import * as Icon from 'react-feather'
 import styled from 'styled-components'
+import { Button } from '../../components/Button'
 
 export const Clients = () => {
   return (
@@ -9,7 +10,7 @@ export const Clients = () => {
           <Icon.Users />
           <Title>Clients</Title>
         </TitleWrapper>
-        <AddButton>Add New Client</AddButton>
+        <Button label='primary'>Add New Client</Button>
       </TitleSection>
       <DetailSection>
         <Table>
@@ -103,14 +104,7 @@ const Title = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
 `
-const AddButton = styled.div`
-  font-size: 12px;
-  background-color: var(--button-add-color);
-  color: var(--white-color);
-  padding 0.65em;
-  border-radius:4px;
-  cursor:pointer;
-`
+
 const Table = styled.table`
   width: 100%;
   border: 1px solid var(--table-border-color);

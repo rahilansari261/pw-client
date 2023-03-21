@@ -39,7 +39,12 @@
   --white-color: #ffffff;
   --table-border-color: hsl(210, 14%, 89%);
   --table-cell-color: #f5f5f5;
-  --button-add-color: #218838;
+  --primary-button:#0069D9;
+  --secondary-button: #5A6268;
+  --success-button: #218838;
+  --danger-button: #C82333;
+  --warning-button: #E0A800;
+  --info-button: #138496;
   --header-bs: 0px 2px 4px 0px rgba(0, 0, 0, 1);
   --sidebar-bs: 0px 2px 0px 0px rgba(0, 0, 0, 1);
 }
