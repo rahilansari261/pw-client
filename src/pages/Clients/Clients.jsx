@@ -18,6 +18,18 @@ export const Clients = () => {
               <TableHeadData>Company</TableHeadData>
               <TableHeadData>Contact</TableHeadData>
               <TableHeadData>Country</TableHeadData>
+              <TableHeadData>Company</TableHeadData>
+              <TableHeadData>Contact</TableHeadData>
+              <TableHeadData>Country</TableHeadData>
+              <TableHeadData>Company</TableHeadData>
+              <TableHeadData>Contact</TableHeadData>
+              <TableHeadData>Country</TableHeadData>
+              <TableHeadData>Company</TableHeadData>
+              <TableHeadData>Contact</TableHeadData>
+              <TableHeadData>Country</TableHeadData>
+              <TableHeadData>Company</TableHeadData>
+              <TableHeadData>Contact</TableHeadData>
+              <TableHeadData>Country</TableHeadData>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -25,8 +37,32 @@ export const Clients = () => {
               <TableData>Alfreds Futterkiste</TableData>
               <TableData>Maria Anders</TableData>
               <TableData>Germany</TableData>
+              <TableData>Alfreds Futterkiste</TableData>
+              <TableData>Maria Anders</TableData>
+              <TableData>Germany</TableData>
+              <TableData>Alfreds Futterkiste</TableData>
+              <TableData>Maria Anders</TableData>
+              <TableData>Germany</TableData>
+              <TableData>Alfreds Futterkiste</TableData>
+              <TableData>Maria Anders</TableData>
+              <TableData>Germany</TableData>
+              <TableData>Alfreds Futterkiste</TableData>
+              <TableData>Maria Anders</TableData>
+              <TableData>Germany</TableData>
             </TableRow>
             <TableRow>
+              <TableData>Centro comercial Moctezuma</TableData>
+              <TableData>Francisco Chang</TableData>
+              <TableData>Mexico</TableData>
+              <TableData>Centro comercial Moctezuma</TableData>
+              <TableData>Francisco Chang</TableData>
+              <TableData>Mexico</TableData>
+              <TableData>Centro comercial Moctezuma</TableData>
+              <TableData>Francisco Chang</TableData>
+              <TableData>Mexico</TableData>
+              <TableData>Centro comercial Moctezuma</TableData>
+              <TableData>Francisco Chang</TableData>
+              <TableData>Mexico</TableData>
               <TableData>Centro comercial Moctezuma</TableData>
               <TableData>Francisco Chang</TableData>
               <TableData>Mexico</TableData>
@@ -79,7 +115,7 @@ const Table = styled.table`
   border-collapse: collapse;
   font-size: 14px;
   color: #333333;
-  overflow-x: auto;
+  overflow-x: scroll;
 `
 const TableHead = styled.thead`
   border-bottom: 2px solid var(--table-border-color);
