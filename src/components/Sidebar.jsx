@@ -1,4 +1,13 @@
-import * as Icon from 'react-feather'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  faGem,
+  faChartLine,
+  faUsers,
+  faBagShopping,
+  faReceipt,
+  faGears,
+  faArrowRightFromBracket,
+} from '@fortawesome/free-solid-svg-icons'
 import { Link, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 export const Sidebar = () => {
@@ -8,9 +17,9 @@ export const Sidebar = () => {
         <UnOrderedList>
           <Link to='/'>
             <LiFlexItemLogo>
-              <div>
-                <Icon.Zap />
-              </div>
+              <LogoWrapper>
+                <FontAwesomeIcon icon={faGem} />
+              </LogoWrapper>
               <div>Paperweight</div>
             </LiFlexItemLogo>
           </Link>
@@ -18,7 +27,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Dashboard</div>
               <div>
-                <Icon.Activity />
+                <FontAwesomeIcon icon={faChartLine} />
               </div>
             </LiFlexItem>
           </Link>
@@ -26,7 +35,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Clients</div>
               <div>
-                <Icon.Users />
+                <FontAwesomeIcon icon={faUsers} />
               </div>
             </LiFlexItem>
           </Link>
@@ -34,7 +43,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Products</div>
               <div>
-                <Icon.ShoppingBag />
+                <FontAwesomeIcon icon={faBagShopping} />
               </div>
             </LiFlexItem>
           </Link>
@@ -42,7 +51,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Invoices</div>
               <div>
-                <Icon.Book />
+                <FontAwesomeIcon icon={faReceipt} />
               </div>
             </LiFlexItem>
           </Link>
@@ -50,7 +59,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Settings</div>
               <div>
-                <Icon.Settings />
+                <FontAwesomeIcon icon={faGears} />
               </div>
             </LiFlexItem>
           </Link>
@@ -58,7 +67,7 @@ export const Sidebar = () => {
             <LiFlexItem>
               <div>Logout</div>
               <div>
-                <Icon.LogOut />
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
               </div>
             </LiFlexItem>
           </Link>
@@ -75,6 +84,9 @@ const Aside = styled.aside`
   top: 0;
   box-shadow: var(--sidebar-bs);
 `
+const LogoWrapper = styled.div`
+  font-size:2rem;
+`
 const UnOrderedList = styled.ul`
   margin: 0;
   padding: 0;
@@ -84,19 +96,22 @@ const UnOrderedList = styled.ul`
 const LiFlexItem = styled.li`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 0 auto;
-  padding: 0.75em;
+  padding: 0.75em 1em;
   border-bottom: 2px solid var(--primary-color-border);
   cursor: pointer;
   box-shadow: var(--sidebar-bs);
 `
 const LiFlexItemLogo = styled.li`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: start;
+  align-items:center;
+  gap :12px;
   margin: 0 auto;
-  padding: 0.75em;
+  padding: 8px 16px;
   border-bottom: 2px solid var(--primary-color-border);
   cursor: pointer;
-  font-size:1.25rem;
-  background-color:var(--secondary-color)
+  font-size: 1.5rem;
+  background-color: var(--secondary-color);
 `

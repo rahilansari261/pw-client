@@ -5,7 +5,7 @@ const buttonColor = {
   success: '#218838',
   danger: '#C82333',
   warning: '#E0A800',
-  info: ' #13849',
+  info: '#138496',
 }
 let colorCode = ''
 export const Button = (props) => {
@@ -19,6 +19,7 @@ const Btn = styled.div`
   padding 0.65em;
   border-radius:4px;
   cursor:pointer;
+  text-align:center;
   background-color:${(props) => buttonColor[colorCode]};
   
 `

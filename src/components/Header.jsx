@@ -1,11 +1,13 @@
-import * as Icon from 'react-feather'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 export const Header = () => {
   return (
     <TopHeader>
       <UserWrapper>
         <UserName>Rahil Ansari</UserName>
-        <Icon.User />
+        <FontAwesomeIcon icon={faUser} />
       </UserWrapper>
     </TopHeader>
   )
@@ -23,6 +25,7 @@ const UserWrapper = styled.div`
   display: flex;
   padding: 20px 32px;
   justify-content: end;
+  align-items:center;
   gap 16px;
 `
 const UserName = styled.div`

@@ -20,9 +20,10 @@
 }
 
 :root {
-  font-family: 'Cabin-Regular', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Cabin-Regular', Inter, system-ui, Avenir, Helvetica, Arial,
+    sans-serif;
 
-  line-height: 1.5;  
+  line-height: 1.5;
   color-scheme: light dark;
   color: #333;
   background-color: #ffffff;
@@ -37,16 +38,18 @@
   --third-color: #3c6562;
   --table-title-section: hsl(0, 0%, 90%);
   --white-color: #ffffff;
+  --black-color: #000000;
   --table-border-color: hsl(210, 14%, 89%);
   --table-cell-color: #f5f5f5;
-  --primary-button:#0069D9;
-  --secondary-button: #5A6268;
+  --primary-button: #0069d9;
+  --secondary-button: #5a6268;
   --success-button: #218838;
-  --danger-button: #C82333;
-  --warning-button: #E0A800;
+  --danger-button: #c82333;
+  --warning-button: #e0a800;
   --info-button: #138496;
   --header-bs: 0px 2px 4px 0px rgba(0, 0, 0, 1);
   --sidebar-bs: 0px 2px 0px 0px rgba(0, 0, 0, 1);
+  --input-bs:0px 0px 4px #4195fc;
 }
 * {
   margin: 0;
