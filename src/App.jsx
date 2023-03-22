@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import { Sidebar } from './components/Sidebar'
@@ -17,11 +17,17 @@ import styled from 'styled-components'
 function App() {
   const location = useLocation()
   const pathName = location.pathname.split('/')
+  const [open, setOpen] = useState()
+
+  const handleNav = (val) => {    
+    setOpen(val)
+  }
+
   return (
     <AppContainer>
-      <Sidebar title={`/${pathName[1]}`} />
+      <Sidebar title={`/${pathName[1]}`} open={open} />
       <PageWrapper>
-        <Header />
+        <Header handleNav={handleNav} />
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='clients' element={<Clients />}>

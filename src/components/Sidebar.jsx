@@ -11,8 +11,9 @@ import {
   faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-
+let openMenu
 export const Sidebar = (props) => {
+  openMenu = props.open
   const listItems = [
     {
       id: '1',
@@ -94,7 +95,8 @@ const Aside = styled.aside`
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
     position: absolute;
-    transform: translateX(-100%);
+    transform: ${(props) =>
+      openMenu ? 'translateX(0%)' : 'translateX(-100%)'};
     transition: transform 250ms;
   }
 `

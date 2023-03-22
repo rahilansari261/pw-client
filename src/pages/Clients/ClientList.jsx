@@ -50,7 +50,7 @@ export const ClientList = () => {
             <Button label='info'>Search</Button>
           </SearchBar>
 
-          <SearchDesc>Showing Page No 1 of 10 of search All</SearchDesc>
+          <SearchDesc></SearchDesc>
         </SearchWrapper>
         <Table>
           <TableHead>
@@ -118,6 +118,9 @@ const SearchBar = styled.div`
   width: 40%;
   gap: 12px;
   align-items: center;
+  @media (max-width: 550px) {
+    width: 70%;
+  }
 `
 const Input = styled.input`
   background-color: var(--white-color);

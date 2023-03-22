@@ -1,17 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import {
+  faClose,
   faHamburger,
   faNavicon,
   faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-export const Header = () => {
+import { useState } from 'react'
+export const Header = (props) => {
+  const [isActive, setIsActive] = useState(false)
+  const handleClick = () => {
+    setIsActive(!isActive)
+    props.handleNav(!isActive)
+  }
   return (
     <TopHeader>
-      <NavIcon>
+      <NavIcon onClick={handleClick}>
         <FontAwesomeIcon icon={faNavicon} />
       </NavIcon>
+
       <UserWrapper>
         <UserName>Rahil Ansari</UserName>
         <FontAwesomeIcon icon={faUser} />
@@ -39,6 +47,7 @@ const NavIcon = styled.div`
     opacity: 1;
   }
 `
+
 const UserWrapper = styled.div`
   display: flex;
   padding: 20px 32px;
