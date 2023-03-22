@@ -38,7 +38,6 @@ const SearchDesc = styled.div``
 
 const PaginIcons = styled.div`
   display: flex;
-  gap: 2px;
   align-items: center;
 `
 const PageIconWrapper = styled.div`

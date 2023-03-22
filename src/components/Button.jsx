@@ -16,7 +16,7 @@ export const Button = (props) => {
 const Btn = styled.div`
   font-size: 12px;
   color: var(--white-color);
-  padding 0.65em;
+  padding: 0.65em;
   border-radius:4px;
   cursor:pointer;
   text-align:center;

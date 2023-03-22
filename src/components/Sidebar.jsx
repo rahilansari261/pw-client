@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import * as Pallete from '../util/Constant'
 import {
   faGem,
   faChartLine,
@@ -8,9 +10,47 @@ import {
   faGears,
   faArrowRightFromBracket,
 } from '@fortawesome/free-solid-svg-icons'
-import { Link, Navigate } from 'react-router-dom'
 import styled from 'styled-components'
-export const Sidebar = () => {
+
+export const Sidebar = (props) => {
+  const listItems = [
+    {
+      id: '1',
+      title: 'Dashboard',
+      link: '/',
+      icon: <FontAwesomeIcon icon={faChartLine} />,
+    },
+    {
+      id: '2',
+      title: 'Clients',
+      link: '/clients',
+      icon: <FontAwesomeIcon icon={faUsers} />,
+    },
+    {
+      id: '3',
+      title: 'Products',
+      link: '/products',
+      icon: <FontAwesomeIcon icon={faBagShopping} />,
+    },
+    {
+      id: '4',
+      title: 'Invoices',
+      link: '/invoices',
+      icon: <FontAwesomeIcon icon={faReceipt} />,
+    },
+    {
+      id: '5',
+      title: 'Settings',
+      link: '/settings',
+      icon: <FontAwesomeIcon icon={faGears} />,
+    },
+    {
+      id: '6',
+      title: 'Logout',
+      link: '/logout',
+      icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
+    },
+  ]
   return (
     <Aside>
       <nav>
@@ -23,54 +63,23 @@ export const Sidebar = () => {
               <div>Paperweight</div>
             </LiFlexItemLogo>
           </Link>
-          <Link to='/'>
-            <LiFlexItem>
-              <div>Dashboard</div>
-              <div>
-                <FontAwesomeIcon icon={faChartLine} />
-              </div>
-            </LiFlexItem>
-          </Link>
-          <Link to='/clients'>
-            <LiFlexItem>
-              <div>Clients</div>
-              <div>
-                <FontAwesomeIcon icon={faUsers} />
-              </div>
-            </LiFlexItem>
-          </Link>
-          <Link to='/products'>
-            <LiFlexItem>
-              <div>Products</div>
-              <div>
-                <FontAwesomeIcon icon={faBagShopping} />
-              </div>
-            </LiFlexItem>
-          </Link>
-          <Link to='/invoices'>
-            <LiFlexItem>
-              <div>Invoices</div>
-              <div>
-                <FontAwesomeIcon icon={faReceipt} />
-              </div>
-            </LiFlexItem>
-          </Link>
-          <Link to='/settings'>
-            <LiFlexItem>
-              <div>Settings</div>
-              <div>
-                <FontAwesomeIcon icon={faGears} />
-              </div>
-            </LiFlexItem>
-          </Link>
-          <Link to='/logout'>
-            <LiFlexItem>
-              <div>Logout</div>
-              <div>
-                <FontAwesomeIcon icon={faArrowRightFromBracket} />
-              </div>
-            </LiFlexItem>
-          </Link>
+          {listItems.map((item) => {
+            return (
+              <Link to={item.link} key={item.id}>
+                <LiFlexItem
+                  style={{
+                    backgroundColor:
+                      item.link === props.title
+                        ? Pallete.secondaryColor
+                        : 'initial',
+                  }}
+                >
+                  <div>{item.title}</div>
+                  <div>{item.icon}</div>
+                </LiFlexItem>
+              </Link>
+            )
+          })}
         </UnOrderedList>
       </nav>
     </Aside>
@@ -83,9 +92,14 @@ const Aside = styled.aside`
   position: sticky;
   top: 0;
   box-shadow: var(--sidebar-bs);
+  @media (max-width: 550px) {
+    position: absolute;
+    transform: translateX(-100%);
+    transition: transform 250ms;
+  }
 `
 const LogoWrapper = styled.div`
-  font-size:2rem;
+  font-size: 2rem;
 `
 const UnOrderedList = styled.ul`
   margin: 0;
@@ -103,15 +117,11 @@ const LiFlexItem = styled.li`
   cursor: pointer;
   box-shadow: var(--sidebar-bs);
 `
-const LiFlexItemLogo = styled.li`
-  display: flex;
+const LiFlexItemLogo = styled(LiFlexItem)`
   justify-content: start;
-  align-items:center;
-  gap :12px;
-  margin: 0 auto;
+  gap: 12px;
   padding: 8px 16px;
-  border-bottom: 2px solid var(--primary-color-border);
-  cursor: pointer;
   font-size: 1.5rem;
   background-color: var(--secondary-color);
+  border-bottom: 1px solid black;
 `
