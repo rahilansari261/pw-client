@@ -56,6 +56,7 @@ const AppContainer = styled.div`
 
 const PageWrapper = styled.main`
   flex: 4;
+  min-height:100vh;
   background: linear-gradient(
     300deg,
     var(--primary-color) 0%,
