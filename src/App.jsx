@@ -7,7 +7,7 @@ import { ClientList } from './pages/Clients/ClientList'
 
 import { AddClient } from './pages/Clients/AddClient'
 import { ViewClient } from './pages/Clients/ViewClient'
-import { Products } from './pages/Products/Products'
+import { Products, ProductList } from './pages/Products/Index'
 import { Dashboard } from './pages/Dashboard'
 import { Invoices } from './pages/Invoices/Invoices'
 import { Settings } from './pages/Settings/Settings'
@@ -19,7 +19,7 @@ function App() {
   const pathName = location.pathname.split('/')
   const [open, setOpen] = useState()
 
-  const handleNav = (val) => {    
+  const handleNav = (val) => {
     setOpen(val)
   }
 
@@ -37,7 +37,12 @@ function App() {
             <Route path='viewclient/:id' element={<ViewClient />} />
           </Route>
 
-          <Route path='products' element={<Products />} />
+          <Route path='products' element={<Products />}>
+            <Route index element={<ProductList />} />
+            <Route path='productlist' element={<ProductList />} />
+            {/* <Route path='addproduct' element={<AddProduct />} />
+            <Route path='viewproduct/:id' element={<ViewProduct />} /> */}
+          </Route>
           <Route path='invoices' element={<Invoices />} />
           <Route path='settings' element={<Settings />} />
           <Route path='logout' element={<Logout />} />
@@ -56,7 +61,7 @@ const AppContainer = styled.div`
 
 const PageWrapper = styled.main`
   flex: 4;
-  min-height:100vh;
+  min-height: 100vh;
   background: linear-gradient(
     300deg,
     var(--primary-color) 0%,
