@@ -97,9 +97,9 @@ export const AddClient = () => {
             />
           </FormElement>
         </Form>
-          <FormElement>
-            <Button label='success'>Save</Button>
-          </FormElement>
+        <FormElement>
+          <Button label='success'>Save</Button>
+        </FormElement>
       </DetailSection>
     </Main>
   )
@@ -137,6 +137,24 @@ const DetailSection = styled.div`
   overflow-x: auto;
   margin: 0 auto;
 `
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+const FormElement = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2em;
+  margin-bottom: 1em;
+  min-width: 500px;
+`
+
+const Label = styled.label`
+  flex: 1;
+`
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -149,6 +167,7 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
+  flex: 2;
 `
 
 const TextArea = styled.textarea`
@@ -163,20 +182,5 @@ const TextArea = styled.textarea`
   &:focus {
     box-shadow: var(--input-bs);
   }
+  flex: 2;
 `
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-const FormElement = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 2em;
-  margin-bottom: 1em;
-  min-width: 500px;
-  
-`
-const Label = styled.label``
