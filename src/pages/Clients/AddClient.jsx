@@ -147,7 +147,7 @@ const FormElement = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2em;
+  /* gap: 2em; */
   margin-bottom: 1em;
   min-width: 500px;
 `
