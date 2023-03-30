@@ -6,9 +6,11 @@ import {
   faChartLine,
   faUsers,
   faBagShopping,
-  faReceipt,
   faGears,
   faArrowRightFromBracket,
+  faFileInvoiceDollar,
+  faFileInvoice,
+  faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 let openMenu
@@ -21,32 +23,47 @@ export const Sidebar = (props) => {
       link: '/',
       icon: <FontAwesomeIcon icon={faChartLine} />,
     },
+
     {
       id: '2',
-      title: 'Clients',
-      link: '/clients',
-      icon: <FontAwesomeIcon icon={faUsers} />,
-    },
-    {
-      id: '3',
       title: 'Products',
       link: '/products',
       icon: <FontAwesomeIcon icon={faBagShopping} />,
     },
     {
+      id: '3',
+      title: 'Clients',
+      link: '/clients',
+      icon: <FontAwesomeIcon icon={faUsers} />,
+    },
+
+    {
       id: '4',
       title: 'Invoices',
       link: '/invoices',
-      icon: <FontAwesomeIcon icon={faReceipt} />,
+      icon: <FontAwesomeIcon icon={faFileInvoiceDollar} />,
     },
     {
       id: '5',
+      title: 'Accounts',
+      link: '/accounts',
+      icon: <FontAwesomeIcon icon={faFileInvoice} />,
+    },
+
+    {
+      id: '6',
       title: 'Settings',
       link: '/settings',
       icon: <FontAwesomeIcon icon={faGears} />,
     },
     {
-      id: '6',
+      id: '7',
+      title: 'NeedHelp',
+      link: '/needhelp',
+      icon: <FontAwesomeIcon icon={faInfoCircle} />,
+    },
+    {
+      id: '8',
       title: 'Logout',
       link: '/logout',
       icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,

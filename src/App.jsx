@@ -2,15 +2,28 @@ import React, { useState } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { Header } from './components/Header'
 import { Sidebar } from './components/Sidebar'
-import { Clients } from './pages/Clients/Clients'
-import { ClientList } from './pages/Clients/ClientList'
-
-import { AddClient } from './pages/Clients/AddClient'
-import { ViewClient } from './pages/Clients/ViewClient'
-import { Products, ProductList } from './pages/Products/Index'
 import { Dashboard } from './pages/Dashboard'
+import {
+  Products,
+  ProductList,
+  AddProduct,
+  ViewProduct,
+} from './pages/Products/Index'
+import {
+  Clients,
+  ClientList,
+  AddClient,
+  ViewClient,
+} from './pages/Clients/Index'
 import { Invoices } from './pages/Invoices/Invoices'
-import { Settings } from './pages/Settings/Settings'
+import {
+  Accounts,
+  AccountList,
+  AddAccount,
+  ViewAccount,
+} from './pages/Accounts/Index'
+import { Settings } from './pages/Settings/Index'
+import { NeedHelp } from './pages/NeedHelp'
 import { Logout } from './pages/Logout'
 import styled from 'styled-components'
 
@@ -30,6 +43,12 @@ function App() {
         <Header handleNav={handleNav} />
         <Routes>
           <Route path='/' element={<Dashboard />} />
+          <Route path='products' element={<Products />}>
+            <Route index element={<ProductList />} />
+            <Route path='productlist' element={<ProductList />} />
+            <Route path='addproduct' element={<AddProduct />} />
+            <Route path='viewproduct/:id' element={<ViewProduct />} />
+          </Route>
           <Route path='clients' element={<Clients />}>
             <Route index element={<ClientList />} />
             <Route path='clientlist' element={<ClientList />} />
@@ -37,14 +56,16 @@ function App() {
             <Route path='viewclient/:id' element={<ViewClient />} />
           </Route>
 
-          <Route path='products' element={<Products />}>
-            <Route index element={<ProductList />} />
-            <Route path='productlist' element={<ProductList />} />
-            {/* <Route path='addproduct' element={<AddProduct />} />
-            <Route path='viewproduct/:id' element={<ViewProduct />} /> */}
-          </Route>
           <Route path='invoices' element={<Invoices />} />
+
+          <Route path='accounts' element={<Accounts />}>
+            <Route index element={<AccountList />} />
+            <Route path='accountlist' element={<AccountList />} />
+            <Route path='addaccount' element={<AddAccount />} />
+            <Route path='viewaccount/:id' element={<ViewAccount />} />
+          </Route>
           <Route path='settings' element={<Settings />} />
+          <Route path='needhelp' element={<NeedHelp />} />
           <Route path='logout' element={<Logout />} />
         </Routes>
       </PageWrapper>
