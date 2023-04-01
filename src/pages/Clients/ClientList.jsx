@@ -23,7 +23,7 @@ export const ClientList = () => {
   ]
 
   const tableHelperData = {
-    actionColumnSrc: '/clients/viewclient/1',
+    actionColumnSrc: '/clients/viewclient/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
     tableHeadRowData: Object.keys(clientData[0]),
@@ -48,7 +48,7 @@ export const ClientList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table clientData={clientData} tableHelperData={tableHelperData} />
+        <Table tableData={clientData} tableHelperData={tableHelperData} />
         <Pagination />
       </DetailSection>
       <Outlet />

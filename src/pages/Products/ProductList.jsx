@@ -2,36 +2,32 @@ import { Link, Outlet } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import { Button } from '../../components/Button'
-import { Pagination } from '../../components/Pagination'
+import { Button, Pagination, Table } from '../../components/Index'
 
 export const ProductList = () => {
-  const clientData = [
+  const productData = [
     {
       _id: '1',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
+      name: 'LG Monitor',
+      code: '13324',
+      price: 15000,
+      tax: 'gst@18',
     },
     {
       _id: '2',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
-    },
-    {
-      _id: '3',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
-    },
-    {
-      _id: '4',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
+      name: 'LG Monitor',
+      code: '13324',
+      price: 15000,
+      tax: 'gst@18',
     },
   ]
+
+  const tableHelperData = {
+    actionColumnSrc: '/products/viewproduct/',
+    actionColumnTitle: 'Action',
+    actionColumnValue: 'View',
+    tableHeadRowData: Object.keys(productData[0]),
+  }
   return (
     <Main>
       <TitleSection>
@@ -52,30 +48,7 @@ export const ProductList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableHeadData>Company</TableHeadData>
-              <TableHeadData>Name</TableHeadData>
-              <TableHeadData>Phone No.</TableHeadData>
-              <TableHeadData>Action</TableHeadData>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {clientData.map((client) => (
-              <TableRow key={client._id}>
-                <TableData>{client.comapny} </TableData>
-                <TableData>{client.name} </TableData>
-                <TableData>{client.phone}</TableData>
-                <TableData>
-                  <Link to='/clients/viewclient/1'>
-                    <Button label='info'>View</Button>
-                  </Link>
-                </TableData>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <Table tableData={productData} tableHelperData={tableHelperData} />
         <Pagination />
       </DetailSection>
       <Outlet />
@@ -143,32 +116,4 @@ const Title = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
-`
-
-const Table = styled.table`
-  width: 100%;
-  border: 1px solid var(--table-border-color);
-  border-collapse: collapse;
-  font-size: 14px;
-  color: #333333;
-`
-const TableHead = styled.thead`
-  border-bottom: 2px solid var(--table-border-color);
-`
-const TableRow = styled.tr``
-const TableBody = styled.tbody`
-  background-color: var(--table-cell-color);
-`
-const TableData = styled.td`
-  border-right: 1px solid var(--table-border-color);
-  border-bottom: 1px solid var(--table-border-color);
-  text-align: left;
-  padding: 8px;
-  font-family: 'Cabin-Regular';
-`
-const TableHeadData = styled.th`
-  border-right: 1px solid var(--table-border-color);
-  text-align: left;
-  padding: 8px;
-  font-family: 'Cabin-Bold';
 `

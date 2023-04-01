@@ -1,25 +1,27 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from './Button'
-export const Table = ({ clientData, tableHelperData }) => {
+export const Table = ({ tableData, tableHelperData }) => {
   return (
     <TableWrapper>
       <TableHead>
         <TableRow>
-          {tableHelperData.tableHeadRowData.slice(1).map((x) => (
-            <TableHeadData key={x}>{x}</TableHeadData>
+          {tableHelperData.tableHeadRowData.slice(1).map((item) => (
+            <TableHeadData key={item}>{item}</TableHeadData>
           ))}
           <TableHeadData>{tableHelperData.actionColumnTitle}</TableHeadData>
         </TableRow>
       </TableHead>
       <TableBody>
-        {clientData.map((client) => (
+        {tableData.map((client) => (
           <TableRow key={client._id}>
-            <TableData>{client.comapny} </TableData>
-            <TableData>{client.name} </TableData>
-            <TableData>{client.phone}</TableData>
+            {Object.values(client)
+              .slice(1)
+              .map((item) => (
+                <TableData key={item}>{item} </TableData>
+              ))}
             <TableData style={{ width: '100px' }}>
-              <Link to={tableHelperData.actionColumnSrc}>
+              <Link to={`${tableHelperData.actionColumnSrc}${client._id}`}>
                 <Button label='info'>
                   {tableHelperData.actionColumnValue}
                 </Button>
