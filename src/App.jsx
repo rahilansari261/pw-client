@@ -15,7 +15,13 @@ import {
   AddClient,
   ViewClient,
 } from './pages/Clients/Index'
-import { Invoices } from './pages/Invoices/Invoices'
+import {
+  Invoices,
+  InvoiceList,
+  AddInvoice,
+  ViewInvoice,
+  InvoiceReport,
+} from './pages/Invoices/Index'
 import {
   Accounts,
   AccountList,
@@ -56,7 +62,13 @@ function App() {
             <Route path='viewclient/:id' element={<ViewClient />} />
           </Route>
 
-          <Route path='invoices' element={<Invoices />} />
+          <Route path='invoices' element={<Invoices />}>
+            <Route index element={<InvoiceList />} />
+            <Route path='invoicelist' element={<InvoiceList />} />
+            <Route path='addinvoice' element={<AddInvoice />} />
+            <Route path='viewinvoice/:id' element={<ViewInvoice />} />
+            <Route path='invoicereport' element={<InvoiceReport />} />
+          </Route>
 
           <Route path='accounts' element={<Accounts />}>
             <Route index element={<AccountList />} />

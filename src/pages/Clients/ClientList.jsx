@@ -36,13 +36,13 @@ export const ClientList = () => {
           <Title>Clients</Title>
         </TitleWrapper>
         <Link to='/clients/addclient'>
-          <Button label='primary'>Add New Client</Button>
+          <Button label='success'>Add New Client</Button>
         </Link>
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' />
+            <Input type='text' placeholder='Search' />
             <Button label='info'>Search</Button>
           </SearchBar>
 

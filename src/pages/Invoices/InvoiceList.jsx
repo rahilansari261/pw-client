@@ -1,43 +1,66 @@
 import { Link, Outlet } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping } from '@fortawesome/free-solid-svg-icons'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import { Button, Pagination, Table } from '../../components/Index'
+import { Button } from '../../components/Button'
+import { Pagination } from '../../components/Pagination'
+import { Table } from '../../components/Table'
 
-export const ProductList = () => {
-  const productData = [
+export const InvoiceList = () => {
+  const invoiceData = [
     {
       _id: '1',
-      name: 'LG Monitor',
-      code: '13324',
-      price: 15000,
-      tax: 'gst@18',
+      No: '23',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      client: 'Rahil',
+      comapny: 'Rahil Communications',
+      amount: 17700,
+      due: 17700,
     },
     {
       _id: '2',
-      name: 'LG Monitor',
-      code: '13324',
-      price: 15000,
-      tax: 'gst@18',
+      No: '23',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      client: 'Rahil',
+      comapny: 'Rahil Communications',
+      amount: 17700,
+      due: 17700,
+    },
+    {
+      _id: '3',
+      No: '23',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      client: 'Rahil',
+      comapny: 'Rahil Communications',
+      amount: 17700,
+      due: 17700,
     },
   ]
 
   const tableHelperData = {
-    actionColumnSrc: '/products/viewproduct/',
+    actionColumnSrc: '/invoices/viewinvoice/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
-    tableHeadRowData: Object.keys(productData[0]),
+    tableHeadRowData: Object.keys(invoiceData[0]),
   }
   return (
     <Main>
       <TitleSection>
         <TitleWrapper>
-          <FontAwesomeIcon icon={faBagShopping} />
-          <Title>Products</Title>
+          <FontAwesomeIcon icon={faUsers} />
+          <Title>Invoices</Title>
         </TitleWrapper>
-        <Link to='/products/addproduct'>
-          <Button label='success'>Add New Product</Button>
-        </Link>
+        <div className='buttonwrapper'>
+          <Link to='/invoices/addinvoice'>
+            <Button label='success'>Add New Invoice</Button>
+          </Link>
+          <Link to='/invoices/invoicereport'>
+            <Button label='primary'>Invoice Report</Button>
+          </Link>
+        </div>
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
@@ -48,7 +71,7 @@ export const ProductList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table tableData={productData} tableHelperData={tableHelperData} />
+        <Table tableData={invoiceData} tableHelperData={tableHelperData} />
         <Pagination />
       </DetailSection>
       <Outlet />

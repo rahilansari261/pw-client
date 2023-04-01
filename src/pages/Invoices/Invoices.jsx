@@ -1,14 +1,5 @@
-
-import styled from 'styled-components'
+import { Outlet } from 'react-router-dom'
 
 export const Invoices = () => {
-  return <Main>Invoices</Main>
+  return <Outlet />
 }
-
-const Main = styled.div`
-  margin: 2em;
-  background-color: white;
-  color: black;
-  border-radius: 4px;
-  padding: 1em;
-`

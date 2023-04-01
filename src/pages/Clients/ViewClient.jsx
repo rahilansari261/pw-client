@@ -98,7 +98,7 @@ export const ViewClient = () => {
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success'>Save</Button>
+          <Button label='success'>Update</Button>
         </FormElement>
       </DetailSection>
     </Main>

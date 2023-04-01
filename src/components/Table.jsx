@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { Button } from './Button'
+import { Button } from './Index'
 export const Table = ({ tableData, tableHelperData }) => {
   return (
     <TableWrapper>
@@ -9,24 +9,36 @@ export const Table = ({ tableData, tableHelperData }) => {
           {tableHelperData.tableHeadRowData.slice(1).map((item) => (
             <TableHeadData key={item}>{item}</TableHeadData>
           ))}
-          <TableHeadData>{tableHelperData.actionColumnTitle}</TableHeadData>
+          {tableHelperData.actionColumnTitle ? (
+            <TableHeadData style={{ width: '120px', textAlign: 'center' }}>
+              {tableHelperData.actionColumnTitle}
+            </TableHeadData>
+          ) : (
+            null
+          )}
         </TableRow>
       </TableHead>
       <TableBody>
-        {tableData.map((client) => (
-          <TableRow key={client._id}>
-            {Object.values(client)
+        {tableData.map((tableDataItem) => (
+          <TableRow key={tableDataItem._id}>
+            {Object.values(tableDataItem)
               .slice(1)
-              .map((item) => (
-                <TableData key={item}>{item} </TableData>
+              .map((item, index) => (
+                <TableData key={index}>{item} </TableData>
               ))}
-            <TableData style={{ width: '100px' }}>
-              <Link to={`${tableHelperData.actionColumnSrc}${client._id}`}>
-                <Button label='info'>
-                  {tableHelperData.actionColumnValue}
-                </Button>
-              </Link>
-            </TableData>
+            {tableHelperData.actionColumnSrc ? (
+              <TableData style={{ width: '120px', textAlign: 'center' }}>
+                <Link
+                  to={`${tableHelperData.actionColumnSrc}${tableDataItem._id}`}
+                >
+                  <Button label='info'>
+                    {tableHelperData.actionColumnValue}
+                  </Button>
+                </Link>
+              </TableData>
+            ) : (
+              null
+            )}
           </TableRow>
         ))}
       </TableBody>

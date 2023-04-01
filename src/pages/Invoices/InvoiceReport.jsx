@@ -1,54 +1,74 @@
 import { Link, Outlet } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping } from '@fortawesome/free-solid-svg-icons'
+import { faUsers } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
-import { Button, Pagination, Table } from '../../components/Index'
+import { Button } from '../../components/Button'
+import { Pagination } from '../../components/Pagination'
+import { Table } from '../../components/Table'
 
-export const ProductList = () => {
-  const productData = [
+export const InvoiceReport = () => {
+  const invoiceData = [
     {
       _id: '1',
-      name: 'LG Monitor',
-      code: '13324',
-      price: 15000,
-      tax: 'gst@18',
+      No: '25',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      comapny: 'Rahil Communications',
+      'gst@18': 2700,
+      tax: 2700,
+      amount: 17700,
     },
     {
       _id: '2',
-      name: 'LG Monitor',
-      code: '13324',
-      price: 15000,
-      tax: 'gst@18',
+      No: '24',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      comapny: 'Rahil Communications',
+      'gst@18': 2700,
+      tax: 2700,
+      amount: 17700,
+    },
+    {
+      _id: '3',
+      No: '23',
+      FY: '22-23',
+      date: '30-Mar-2023',
+      comapny: 'Rahil Communications',
+      'gst@18': 2700,
+      tax: 2700,
+      amount: 17700,
     },
   ]
 
   const tableHelperData = {
-    actionColumnSrc: '/products/viewproduct/',
-    actionColumnTitle: 'Action',
-    actionColumnValue: 'View',
-    tableHeadRowData: Object.keys(productData[0]),
+    tableHeadRowData: Object.keys(invoiceData[0]),
   }
   return (
     <Main>
       <TitleSection>
         <TitleWrapper>
-          <FontAwesomeIcon icon={faBagShopping} />
-          <Title>Products</Title>
+          <FontAwesomeIcon icon={faUsers} />
+          <Title>Invoices</Title>
         </TitleWrapper>
-        <Link to='/products/addproduct'>
-          <Button label='success'>Add New Product</Button>
-        </Link>
+        <div className='buttonwrapper'>
+          <Link to='/invoices/addinvoice'>
+            <Button label='success'>Add New Invoice</Button>
+          </Link>
+          <Link to='/invoices/invoicelist'>
+            <Button label='primary'>Invoice List</Button>
+          </Link>
+        </div>
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search' />
+            <Input type='text' />
             <Button label='info'>Search</Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table tableData={productData} tableHelperData={tableHelperData} />
+        <Table tableData={invoiceData} tableHelperData={tableHelperData} />
         <Pagination />
       </DetailSection>
       <Outlet />
