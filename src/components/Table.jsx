@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { Button } from './Index'
 export const Table = ({ tableData, tableHelperData }) => {
+  const clickHandle = () => {}
   return (
     <TableWrapper>
       <TableHead>
@@ -13,9 +14,7 @@ export const Table = ({ tableData, tableHelperData }) => {
             <TableHeadData style={{ width: '120px', textAlign: 'center' }}>
               {tableHelperData.actionColumnTitle}
             </TableHeadData>
-          ) : (
-            null
-          )}
+          ) : null}
         </TableRow>
       </TableHead>
       <TableBody>
@@ -31,14 +30,12 @@ export const Table = ({ tableData, tableHelperData }) => {
                 <Link
                   to={`${tableHelperData.actionColumnSrc}${tableDataItem._id}`}
                 >
-                  <Button label='info'>
+                  <Button label='info' clickHandle={() => clickHandle('')}>
                     {tableHelperData.actionColumnValue}
                   </Button>
                 </Link>
               </TableData>
-            ) : (
-              null
-            )}
+            ) : null}
           </TableRow>
         ))}
       </TableBody>

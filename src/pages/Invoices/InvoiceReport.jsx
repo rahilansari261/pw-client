@@ -43,6 +43,8 @@ export const InvoiceReport = () => {
   const tableHelperData = {
     tableHeadRowData: Object.keys(invoiceData[0]),
   }
+    const clickHandle = () => {}
+
   return (
     <Main>
       <TitleSection>
@@ -50,20 +52,26 @@ export const InvoiceReport = () => {
           <FontAwesomeIcon icon={faUsers} />
           <Title>Invoices</Title>
         </TitleWrapper>
-        <div className='buttonwrapper'>
+        <ButtonWrapper>
           <Link to='/invoices/addinvoice'>
-            <Button label='success'>Add New Invoice</Button>
+            <Button label='success' clickHandle={() => clickHandle('')}>
+              Add New Invoice
+            </Button>
           </Link>
           <Link to='/invoices/invoicelist'>
-            <Button label='primary'>Invoice List</Button>
+            <Button label='primary' clickHandle={() => clickHandle('')}>
+              Invoice List
+            </Button>
           </Link>
-        </div>
+        </ButtonWrapper>
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
             <Input type='text' />
-            <Button label='info'>Search</Button>
+            <Button label='info' clickHandle={() => clickHandle('')}>
+              Search
+            </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
@@ -136,4 +144,8 @@ const Title = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
+`
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 4px;
 `

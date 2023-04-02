@@ -10,17 +10,18 @@ const buttonColor = {
 let colorCode = ''
 export const Button = (props) => {
   colorCode = props.label
-  return <Btn>{props.children}</Btn>
+  const clickHandle2 = () => {
+    props.clickHandle()
+  }
+  return <Btn onClick={clickHandle2}>{props.children}</Btn>
 }
 
 const Btn = styled.div`
-  display: inline;
   font-size: 12px;
   color: var(--white-color);
   padding: 0.65em;
-  margin-left: 4px;
-  border-radius: 4px;
   cursor: pointer;
   text-align: center;
   background-color: ${(props) => buttonColor[colorCode]};
+  border-radius: 4px;
 `

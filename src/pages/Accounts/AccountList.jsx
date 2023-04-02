@@ -34,6 +34,8 @@ export const AccountList = () => {
     actionColumnValue: 'Account History',
     tableHeadRowData: Object.keys(accountData[0]),
   }
+  const clickHandle = () => {}
+
   return (
     <Main>
       <TitleSection>
@@ -41,13 +43,14 @@ export const AccountList = () => {
           <FontAwesomeIcon icon={faUsers} />
           <Title>Accounts</Title>
         </TitleWrapper>
-       
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search'/>
-            <Button label='info'>Search</Button>
+            <Input type='text' placeholder='Search' />
+            <Button label='info' clickHandle={() => clickHandle('')}>
+              Search
+            </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>

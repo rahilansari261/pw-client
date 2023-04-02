@@ -28,6 +28,8 @@ export const ClientList = () => {
     actionColumnValue: 'View',
     tableHeadRowData: Object.keys(clientData[0]),
   }
+  const clickHandle = () => {}
+
   return (
     <Main>
       <TitleSection>
@@ -36,7 +38,9 @@ export const ClientList = () => {
           <Title>Clients</Title>
         </TitleWrapper>
         <Link to='/clients/addclient'>
-          <Button label='success'>Add New Client</Button>
+          <Button label='success' clickHandle={() => clickHandle('')}>
+            Add New Client
+          </Button>
         </Link>
       </TitleSection>
       <DetailSection>

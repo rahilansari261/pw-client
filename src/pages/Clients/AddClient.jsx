@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 
 export const AddClient = () => {
+  const clickHandle = () => {}
+
   return (
     <Main>
       <TitleSection>
@@ -98,7 +100,9 @@ export const AddClient = () => {
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success'>Save</Button>
+          <Button label='success' clickHandle={() => clickHandle('')}>
+            Save
+          </Button>
         </FormElement>
       </DetailSection>
     </Main>

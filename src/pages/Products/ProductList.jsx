@@ -28,6 +28,8 @@ export const ProductList = () => {
     actionColumnValue: 'View',
     tableHeadRowData: Object.keys(productData[0]),
   }
+    const clickHandle = () => {}
+
   return (
     <Main>
       <TitleSection>
@@ -36,14 +38,18 @@ export const ProductList = () => {
           <Title>Products</Title>
         </TitleWrapper>
         <Link to='/products/addproduct'>
-          <Button label='success'>Add New Product</Button>
+          <Button label='success' clickHandle={() => clickHandle('')} >
+            Add New Product
+          </Button>
         </Link>
       </TitleSection>
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
             <Input type='text' placeholder='Search' />
-            <Button label='info'>Search</Button>
+            <Button label='info' clickHandle={() => clickHandle('')}>
+              Search
+            </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
