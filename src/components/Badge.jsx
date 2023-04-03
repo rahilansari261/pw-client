@@ -8,21 +8,17 @@ const buttonColor = {
   info: '#138496',
 }
 let colorCode = ''
-export const Button = (props) => {
+export const Badge = (props) => {
   colorCode = props.label
-  const clickHandle2 = () => {
-    props.clickHandle()
-  }
-  return <Btn onClick={clickHandle2}>{props.children}</Btn>
+
+  return <Btn>{props.children}</Btn>
 }
 
 const Btn = styled.div`
-  width: fit-content;
-  font-size: 12px;
+  font-size: 10px;
   color: var(--white-color);
-  padding: 0.65em;
-  cursor: pointer;
   text-align: center;
   background-color: ${(props) => buttonColor[colorCode]};
-  border-radius: 4px;
+  border-radius: 8px;
+  text-transform: uppercase;
 `

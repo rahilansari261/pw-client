@@ -26,6 +26,7 @@ export const ClientList = () => {
     actionColumnSrc: '/clients/viewclient/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
+    actionColumnColor: 'info',
     tableHeadRowData: Object.keys(clientData[0]),
   }
   const clickHandle = () => {}

@@ -58,7 +58,7 @@ export const Sidebar = (props) => {
     },
     {
       id: '7',
-      title: 'NeedHelp',
+      title: 'Need help',
       link: '/needhelp',
       icon: <FontAwesomeIcon icon={faInfoCircle} />,
     },

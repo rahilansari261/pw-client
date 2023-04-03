@@ -25,15 +25,27 @@ export const Table = ({ tableData, tableHelperData }) => {
               .map((item, index) => (
                 <TableData key={index}>{item} </TableData>
               ))}
-            {tableHelperData.actionColumnSrc ? (
+            {tableHelperData.actionColumnTitle ? (
               <TableData style={{ width: '120px', textAlign: 'center' }}>
-                <Link
-                  to={`${tableHelperData.actionColumnSrc}${tableDataItem._id}`}
-                >
-                  <Button label='info' clickHandle={() => clickHandle('')}>
+                {tableHelperData.actionColumnSrc === null ? (
+                  <Button
+                    label={tableHelperData.actionColumnColor}
+                    clickHandle={() => clickHandle('')}
+                  >
                     {tableHelperData.actionColumnValue}
                   </Button>
-                </Link>
+                ) : (
+                  <Link
+                    to={`${tableHelperData.actionColumnSrc}${tableDataItem._id}`}
+                  >
+                    <Button
+                      label={tableHelperData.actionColumnColor}
+                      clickHandle={() => clickHandle('')}
+                    >
+                      {tableHelperData.actionColumnValue}
+                    </Button>
+                  </Link>
+                )}
               </TableData>
             ) : null}
           </TableRow>

@@ -32,6 +32,7 @@ export const AccountList = () => {
     actionColumnSrc: '/accounts/viewaccount/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'Account History',
+    actionColumnColor:'info',
     tableHeadRowData: Object.keys(accountData[0]),
   }
   const clickHandle = () => {}

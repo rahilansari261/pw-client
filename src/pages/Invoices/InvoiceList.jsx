@@ -45,6 +45,7 @@ export const InvoiceList = () => {
     actionColumnSrc: '/invoices/viewinvoice/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
+    actionColumnColor: 'info',
     tableHeadRowData: Object.keys(invoiceData[0]),
   }
     const clickHandle = () => {}

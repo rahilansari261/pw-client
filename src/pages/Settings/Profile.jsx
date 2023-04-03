@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 
 export const Profile = () => {
+  const clickHandle = () => {}
   return (
     <>
       <Form>

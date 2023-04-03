@@ -26,6 +26,7 @@ export const ProductList = () => {
     actionColumnSrc: '/products/viewproduct/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
+    actionColumnColor: 'info',
     tableHeadRowData: Object.keys(productData[0]),
   }
     const clickHandle = () => {}

@@ -1,116 +1,139 @@
+import { useState } from 'react'
 import styled from 'styled-components'
-import { Button } from '../../components/Button'
+import { Button, Table } from '../../components/Index'
 
 export const TaxAndTerms = () => {
-  return (
-    <>
-      <Form>
-        <FormElement>
-          <Label htmlFor=''>Company Name </Label>
-          <div style={{ flex: 2 }}>Tax</div>
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>Name *</Label>
-          <Input
-            type='text'
-            name='name'
-            id='name'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>GST No. *</Label>
-          <Input
-            type='text'
-            name='gst'
-            id='gst'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>Sevice Tax No. *</Label>
-          <Input
-            type='text'
-            name='tax'
-            id='tax'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
+  const clickHandle = () => {
+    console.log('heyyyyyyyyy!!!!!!!1')
+  }
 
-        <FormElement>
-          <Label htmlFor=''>Phone *</Label>
+  const initTaxData = [
+    {
+      _id: '1',
+      tax: 'GST',
+      rate: '2',
+    },
+    {
+      _id: '2',
+      tax: 'GST',
+      rate: '8',
+    },
+    {
+      _id: '3',
+      tax: 'GST',
+      rate: '12',
+    },
+    {
+      _id: '4',
+      tax: 'GST',
+      rate: '18',
+    },
+  ]
+  const [taxData, setTaxData] = useState(initTaxData)
+
+  const tableHelperData = {
+    actionColumnSrc: null,
+    actionColumnTitle: 'Action',
+    actionColumnValue: 'Delete',
+    actionColumnColor: 'danger',
+    tableHeadRowData: Object.keys(taxData[0]),
+  }
+  let newTaxObj = {
+    _id: '',
+    tax: '',
+    rate: '',
+  }
+  const addTax = () => {
+    setTaxData((prev) => [...prev, { ...newTaxObj, _id: taxData.length + 1 }])
+    
+  }
+  return (
+    <Wrapper>
+      <TermsWrapper>
+        <TermsTitle>Terms & Conditions</TermsTitle>
+        <TextArea
+          type='text'
+          name='terms'
+          id='terms'
+          autoComplete='off'
+          placeholder='These are the terms and conditions you can change it for your invoice i you want.'
+          rows='7'
+        />
+        <Button label='success' clickHandle={clickHandle}>
+          Update Terms & Conditions
+        </Button>
+      </TermsWrapper>
+      <TaxWrapper>
+        <TaxTitle>Taxes</TaxTitle>
+        <InputTax>
+          <Input
+            type='text'
+            name='tax_name'
+            id='tax_name'
+            autoComplete='off'
+            placeholder='Tax name.'
+            onChange={(e) => {
+              e.preventDefault()
+              newTaxObj.tax = e.target.value
+            }}
+          />
           <Input
             type='number'
-            name='phone'
-            id='phone'
+            name='tax_rate'
+            id='tax_rate'
             autoComplete='off'
-            placeholder=''
+            placeholder='Tax rate.'
+            onChange={(e) => {
+              e.preventDefault()
+              newTaxObj.rate = e.target.value
+            }}
           />
-        </FormElement>
-
-        <FormElement>
-          <Label htmlFor=''> Address *</Label>
-          <TextArea
-            type='text'
-            name='address'
-            id='address'
-            autoComplete='off'
-            placeholder=''
-            rows='2'
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''> </Label>
-          <FootNote>
-            Please note these information will be used in invoices. <br />{' '}
-            Please check before saving them.
-          </FootNote>
-        </FormElement>
-      </Form>
-
-      <FormElement>
-        <Button label='success' clickHandle={() => clickHandle('')}>
-          Save My Profile
-        </Button>
-      </FormElement>
-    </>
+          <Button label='success' clickHandle={addTax}>
+            Add Tax
+          </Button>
+        </InputTax>
+        <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
+      </TaxWrapper>
+    </Wrapper>
   )
 }
 
-const Form = styled.form`
+const Wrapper = styled.div`
+  display: flex;
+  gap: 2em;
+`
+const TermsWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
-const FormElement = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* gap: 2em; */
-  margin-bottom: 1em;
-  min-width: 500px;
-`
-
-const Label = styled.label`
   flex: 1;
 `
+const TermsTitle = styled.div`
+  margin-bottom: 8px;
+`
+const TaxTitle = styled(TermsTitle)``
+const TaxWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+`
+const InputTax = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+`
+
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 40%;
   outline: none;
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
 `
 
 const TextArea = styled.textarea`
@@ -119,15 +142,10 @@ const TextArea = styled.textarea`
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 40%;
+  margin-bottom: 8px;
   outline: none;
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
-`
-const FootNote = styled.div`
-  flex: 2;
-  font-size: 12px;
 `

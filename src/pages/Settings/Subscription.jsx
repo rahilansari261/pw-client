@@ -1,133 +1,57 @@
 import styled from 'styled-components'
-import { Button } from '../../components/Button'
+import { Button, Table, Badge } from '../../components/Index'
 
 export const Subscription = () => {
+  const clickHandle = () => {}
+  const subsData = [
+    {
+      _id: '1',
+      date: '15-Jan-2023',
+      'transaction id': '985ZA37FFTS3223',
+      amount: 15500,
+      status: <Badge label='success'>success</Badge>,
+      remark: 'Your subscription is done through online payment.',
+    },
+    {
+      _id: '2',
+      date: '15-Jan-2022',
+      'transaction id': '455ZA37FFTS3223',
+      amount: 15500,
+      status: <Badge label='warning'>pending</Badge>,
+      remark: 'Your subscription is pending.',
+    },
+    {
+      _id: '3',
+      date: '15-Jan-2021',
+      'transaction id': '205ZA37FFTS3223',
+      amount: 23500,
+      status: <Badge label='danger'>cancelled</Badge>,
+      remark: 'Your subscription is cacelled due to error.',
+    },
+  ]
+
+  const tableHelperData = {
+    tableHeadRowData: Object.keys(subsData[0]),
+  }
   return (
     <>
-      <Form>
-        <FormElement>
-          <Label htmlFor=''>Company Name </Label>
-          <div style={{ flex: 2 }}>Subscription</div>
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>Name *</Label>
-          <Input
-            type='text'
-            name='name'
-            id='name'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>GST No. *</Label>
-          <Input
-            type='text'
-            name='gst'
-            id='gst'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>Sevice Tax No. *</Label>
-          <Input
-            type='text'
-            name='tax'
-            id='tax'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-
-        <FormElement>
-          <Label htmlFor=''>Phone *</Label>
-          <Input
-            type='number'
-            name='phone'
-            id='phone'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-
-        <FormElement>
-          <Label htmlFor=''> Address *</Label>
-          <TextArea
-            type='text'
-            name='address'
-            id='address'
-            autoComplete='off'
-            placeholder=''
-            rows='2'
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''> </Label>
-          <FootNote>
-            Please note these information will be used in invoices. <br />{' '}
-            Please check before saving them.
-          </FootNote>
-        </FormElement>
-      </Form>
-
-      <FormElement>
-        <Button label='success' clickHandle={() => clickHandle('')}>
-          Save My Profile
+      <RenewSubsciption>
+        <SubsNote>Your subscription ends on: 31-Dec-2023</SubsNote>
+        <Button label='success' clickHandle={() => clickHandle}>
+          Renew your subscription
         </Button>
-      </FormElement>
+      </RenewSubsciption>
+      <Table tableData={subsData} tableHelperData={tableHelperData}></Table>
     </>
   )
 }
 
-const Form = styled.form`
+const RenewSubsciption = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-`
-const FormElement = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* gap: 2em; */
   margin-bottom: 1em;
-  min-width: 500px;
 `
-
-const Label = styled.label`
-  flex: 1;
-`
-const Input = styled.input`
-  background-color: var(--white-color);
-  padding: 8px;
-  color: var(--black-color);
-  border: 1px solid var(--table-border-color);
-  border-radius: 4px;
-  width: 40%;
-  outline: none;
-  font-family: inherit;
-  &:focus {
-    box-shadow: var(--input-bs);
-  }
-  flex: 2;
-`
-
-const TextArea = styled.textarea`
-  background-color: var(--white-color);
-  padding: 8px;
-  color: var(--black-color);
-  border: 1px solid var(--table-border-color);
-  border-radius: 4px;
-  width: 40%;
-  outline: none;
-  font-family: inherit;
-  &:focus {
-    box-shadow: var(--input-bs);
-  }
-  flex: 2;
-`
-const FootNote = styled.div`
-  flex: 2;
-  font-size: 12px;
+const SubsNote = styled.div`
+  font-size: 14px;
 `

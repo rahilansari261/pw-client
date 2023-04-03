@@ -2,78 +2,45 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 
 export const ChangePassword = () => {
+  const clickHandle = () => {}
   return (
     <>
       <Form>
         <FormElement>
-          <Label htmlFor=''>Company Name </Label>
-          <div style={{ flex: 2 }}> Password</div>
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''>Name *</Label>
+          <Label htmlFor=''>Old Password *</Label>
           <Input
-            type='text'
-            name='name'
-            id='name'
+            type='password'
+            name='old_password'
+            id='old_password'
             autoComplete='off'
             placeholder=''
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor=''>GST No. *</Label>
+          <Label htmlFor=''>New Password *</Label>
           <Input
-            type='text'
-            name='gst'
-            id='gst'
+            type='password'
+            name='new_password'
+            id='new_password'
             autoComplete='off'
-            placeholder=''
+            placeholder='new password'
           />
         </FormElement>
         <FormElement>
-          <Label htmlFor=''>Sevice Tax No. *</Label>
+          <Label htmlFor=''>Confirm Password *</Label>
           <Input
-            type='text'
-            name='tax'
-            id='tax'
+            type='password'
+            name='confirm_password'
+            id='confirm_password'
             autoComplete='off'
-            placeholder=''
+            placeholder='confirm password'
           />
-        </FormElement>
-
-        <FormElement>
-          <Label htmlFor=''>Phone *</Label>
-          <Input
-            type='number'
-            name='phone'
-            id='phone'
-            autoComplete='off'
-            placeholder=''
-          />
-        </FormElement>
-
-        <FormElement>
-          <Label htmlFor=''> Address *</Label>
-          <TextArea
-            type='text'
-            name='address'
-            id='address'
-            autoComplete='off'
-            placeholder=''
-            rows='2'
-          />
-        </FormElement>
-        <FormElement>
-          <Label htmlFor=''> </Label>
-          <FootNote>
-            Please note these information will be used in invoices. <br />{' '}
-            Please check before saving them.
-          </FootNote>
         </FormElement>
       </Form>
 
       <FormElement>
         <Button label='success' clickHandle={() => clickHandle('')}>
-          Save My Profile
+          Update Password
         </Button>
       </FormElement>
     </>
