@@ -100,7 +100,7 @@ export const AddClient = () => {
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success' clickHandle={() => clickHandle('')}>
+          <Button label='success' clickHandle={clickHandle}>
             Save
           </Button>
         </FormElement>

@@ -43,7 +43,7 @@ export const InvoiceReport = () => {
   const tableHelperData = {
     tableHeadRowData: Object.keys(invoiceData[0]),
   }
-    const clickHandle = () => {}
+  const handleSearch = () => {}
 
   return (
     <Main>
@@ -54,12 +54,12 @@ export const InvoiceReport = () => {
         </TitleWrapper>
         <ButtonWrapper>
           <Link to='/invoices/addinvoice'>
-            <Button label='success' clickHandle={() => clickHandle('')}>
+            <Button label='success' clickHandle={() => {}}>
               Add New Invoice
             </Button>
           </Link>
           <Link to='/invoices/invoicelist'>
-            <Button label='primary' clickHandle={() => clickHandle('')}>
+            <Button label='primary' clickHandle={() => {}}>
               Invoice List
             </Button>
           </Link>
@@ -69,7 +69,7 @@ export const InvoiceReport = () => {
         <SearchWrapper>
           <SearchBar>
             <Input type='text' />
-            <Button label='info' clickHandle={() => clickHandle('')}>
+            <Button label='info' clickHandle={handleSearch}>
               Search
             </Button>
           </SearchBar>

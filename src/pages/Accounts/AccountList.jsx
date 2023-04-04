@@ -27,15 +27,17 @@ export const AccountList = () => {
       'current balance': 17700,
     },
   ]
-
+  const clickHandle = () => {}
+  const btnFunc = () => {}
   const tableHelperData = {
     actionColumnSrc: '/accounts/viewaccount/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'Account History',
-    actionColumnColor:'info',
+    actionColumnColor: 'info',
     tableHeadRowData: Object.keys(accountData[0]),
+    actionColumnButtonFunc: btnFunc,
   }
-  const clickHandle = () => {}
+  const handleSearch = () => {}
 
   return (
     <Main>
@@ -49,7 +51,7 @@ export const AccountList = () => {
         <SearchWrapper>
           <SearchBar>
             <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={() => clickHandle('')}>
+            <Button label='info' clickHandle={handleSearch}>
               Search
             </Button>
           </SearchBar>

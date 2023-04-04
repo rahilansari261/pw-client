@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button } from '../../components/Button'
 
 export const AddProduct = () => {
-    const clickHandle = () => {}
+  const clickHandle = () => {}
 
   return (
     <Main>
@@ -78,7 +78,7 @@ export const AddProduct = () => {
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success' clickHandle={() => clickHandle('')}>
+          <Button label='success' clickHandle={clickHandle}>
             Save
           </Button>
         </FormElement>

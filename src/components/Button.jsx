@@ -10,8 +10,9 @@ const buttonColor = {
 let colorCode = ''
 export const Button = (props) => {
   colorCode = props.label
+  const param = props.params
   const clickHandle2 = () => {
-    props.clickHandle()
+    param !== '' ? props.clickHandle(param) : props.clickHandle()
   }
   return <Btn onClick={clickHandle2}>{props.children}</Btn>
 }

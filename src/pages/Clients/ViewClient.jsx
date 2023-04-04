@@ -100,7 +100,7 @@ export const ViewClient = () => {
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success' clickHandle={() => clickHandle('')}>Update</Button>
+          <Button label='success' clickHandle={clickHandle}>Update</Button>
         </FormElement>
       </DetailSection>
     </Main>

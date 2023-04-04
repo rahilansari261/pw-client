@@ -21,15 +21,16 @@ export const ProductList = () => {
       tax: 'gst@18',
     },
   ]
-
+  const btnFunc = () => {}
   const tableHelperData = {
     actionColumnSrc: '/products/viewproduct/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
     actionColumnColor: 'info',
     tableHeadRowData: Object.keys(productData[0]),
+    actionColumnButtonFunc: btnFunc,
   }
-    const clickHandle = () => {}
+  const handleSearch = () => {}
 
   return (
     <Main>
@@ -39,7 +40,7 @@ export const ProductList = () => {
           <Title>Products</Title>
         </TitleWrapper>
         <Link to='/products/addproduct'>
-          <Button label='success' clickHandle={() => clickHandle('')} >
+          <Button label='success' clickHandle={() => {}}>
             Add New Product
           </Button>
         </Link>
@@ -48,7 +49,7 @@ export const ProductList = () => {
         <SearchWrapper>
           <SearchBar>
             <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={() => clickHandle('')}>
+            <Button label='info' clickHandle={handleSearch}>
               Search
             </Button>
           </SearchBar>

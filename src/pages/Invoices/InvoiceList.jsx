@@ -7,7 +7,6 @@ import { Pagination } from '../../components/Pagination'
 import { Table } from '../../components/Table'
 
 export const InvoiceList = () => {
-
   const invoiceData = [
     {
       _id: '1',
@@ -40,15 +39,16 @@ export const InvoiceList = () => {
       due: 17700,
     },
   ]
-
+  const clickHandle = () => {}
+  const btnFunc = () => {}
   const tableHelperData = {
     actionColumnSrc: '/invoices/viewinvoice/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
     actionColumnColor: 'info',
     tableHeadRowData: Object.keys(invoiceData[0]),
+    actionColumnButtonFunc: btnFunc,
   }
-    const clickHandle = () => {}
 
   return (
     <Main>
@@ -59,12 +59,12 @@ export const InvoiceList = () => {
         </TitleWrapper>
         <ButtonWrapper>
           <Link to='/invoices/addinvoice'>
-            <Button label='success' clickHandle={() => clickHandle('')}>
+            <Button label='success' clickHandle={() => {}}>
               Add New Invoice
             </Button>
           </Link>
           <Link to='/invoices/invoicereport'>
-            <Button label='primary' clickHandle={() => clickHandle('')}>
+            <Button label='primary' clickHandle={() => {}}>
               Invoice Report
             </Button>
           </Link>
@@ -74,7 +74,7 @@ export const InvoiceList = () => {
         <SearchWrapper>
           <SearchBar>
             <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={() => clickHandle('')}>
+            <Button label='info' clickHandle={clickHandle}>
               Search
             </Button>
           </SearchBar>

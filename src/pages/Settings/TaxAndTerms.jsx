@@ -18,35 +18,33 @@ export const TaxAndTerms = () => {
       tax: 'GST',
       rate: '8',
     },
-    {
-      _id: '3',
-      tax: 'GST',
-      rate: '12',
-    },
-    {
-      _id: '4',
-      tax: 'GST',
-      rate: '18',
-    },
-  ]
+  ] 
   const [taxData, setTaxData] = useState(initTaxData)
+  const [tax, setTax] = useState('')
+  const [rate, setRate] = useState('')
 
+  const addTax = () => {
+    if (tax == '' || rate == '') return
+    setTaxData((prev) => [
+      ...prev,
+      { _id: taxData.length + 1, tax: tax.toUpperCase(), rate: rate },
+    ])
+    setTax('')
+    setRate('')
+  }
+  const removeTax = (id) => {
+    console.log(taxData)
+    setTaxData((prev) => prev.filter((pre) => pre._id != id))
+  }
   const tableHelperData = {
     actionColumnSrc: null,
     actionColumnTitle: 'Action',
     actionColumnValue: 'Delete',
     actionColumnColor: 'danger',
-    tableHeadRowData: Object.keys(taxData[0]),
+    tableHeadRowData: taxData.length != 0 ? Object.keys(taxData[0]) : null,
+    actionColumnButtonFunc: removeTax,
   }
-  let newTaxObj = {
-    _id: '',
-    tax: '',
-    rate: '',
-  }
-  const addTax = () => {
-    setTaxData((prev) => [...prev, { ...newTaxObj, _id: taxData.length + 1 }])
-    
-  }
+
   return (
     <Wrapper>
       <TermsWrapper>
@@ -68,31 +66,29 @@ export const TaxAndTerms = () => {
         <InputTax>
           <Input
             type='text'
-            name='tax_name'
-            id='tax_name'
+            name='tax'
+            id='tax'
             autoComplete='off'
             placeholder='Tax name.'
-            onChange={(e) => {
-              e.preventDefault()
-              newTaxObj.tax = e.target.value
-            }}
+            value={tax}
+            onChange={(e) => setTax(e.target.value)}
           />
           <Input
             type='number'
-            name='tax_rate'
-            id='tax_rate'
+            name='rate'
+            id='rate'
             autoComplete='off'
             placeholder='Tax rate.'
-            onChange={(e) => {
-              e.preventDefault()
-              newTaxObj.rate = e.target.value
-            }}
+            value={rate}
+            onChange={(e) => setRate(e.target.value)}
           />
           <Button label='success' clickHandle={addTax}>
             Add Tax
           </Button>
         </InputTax>
-        <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
+        {taxData.length != 0 ? (
+          <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
+        ) : null}
       </TaxWrapper>
     </Wrapper>
   )
@@ -125,6 +121,7 @@ const InputTax = styled.div`
 
 const Input = styled.input`
   background-color: var(--white-color);
+
   padding: 8px;
   color: var(--black-color);
   border: 1px solid var(--table-border-color);

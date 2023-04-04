@@ -21,15 +21,16 @@ export const ClientList = () => {
       phone: '9878642748',
     },
   ]
-
+  const clickHandle = () => {}
+  const btnFunc = () => {}
   const tableHelperData = {
     actionColumnSrc: '/clients/viewclient/',
     actionColumnTitle: 'Action',
     actionColumnValue: 'View',
     actionColumnColor: 'info',
     tableHeadRowData: Object.keys(clientData[0]),
+    actionColumnButtonFunc: btnFunc,
   }
-  const clickHandle = () => {}
 
   return (
     <Main>
@@ -39,7 +40,7 @@ export const ClientList = () => {
           <Title>Clients</Title>
         </TitleWrapper>
         <Link to='/clients/addclient'>
-          <Button label='success' clickHandle={() => clickHandle('')}>
+          <Button label='success' clickHandle={() => {}}>
             Add New Client
           </Button>
         </Link>
@@ -48,7 +49,9 @@ export const ClientList = () => {
         <SearchWrapper>
           <SearchBar>
             <Input type='text' placeholder='Search' />
-            <Button label='info'>Search</Button>
+            <Button label='info' clickHandle={() => {}}>
+              Search
+            </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
