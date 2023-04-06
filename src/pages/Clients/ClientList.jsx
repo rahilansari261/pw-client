@@ -59,7 +59,7 @@ export const ClientList = () => {
         <Table tableData={clientData} tableHelperData={tableHelperData} />
         <Pagination />
       </DetailSection>
-      <Outlet />
+      <Outlet/>
     </Main>
   )
 }

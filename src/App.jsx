@@ -27,6 +27,7 @@ import {
   AccountList,
   AddAccount,
   ViewAccount,
+  AccountEntry,
 } from './pages/Accounts/Index'
 import { Settings } from './pages/Settings/Index'
 import { NeedHelp } from './pages/NeedHelp'
@@ -75,6 +76,7 @@ function App() {
             <Route path='accountlist' element={<AccountList />} />
             <Route path='addaccount' element={<AddAccount />} />
             <Route path='viewaccount/:id' element={<ViewAccount />} />
+            <Route path='accountentry/:id' element={<AccountEntry />} />
           </Route>
           <Route path='settings' element={<Settings />} />
           <Route path='needhelp' element={<NeedHelp />} />
