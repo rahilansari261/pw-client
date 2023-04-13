@@ -7,6 +7,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
+import { cabinBold, cabinRegular } from "../../util/Constant";
 
 export const AddInvoice = () => {
   const clickHandle = () => {};
@@ -130,7 +131,7 @@ export const AddInvoice = () => {
           </TwoColumn>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Desc. :</ItemTitle>
+              <ItemTitle>Product Description :</ItemTitle>
               <ItemValue>
                 LG Monitor with retina display high quality build{" "}
               </ItemValue>
@@ -171,7 +172,7 @@ export const AddInvoice = () => {
           </TwoColumn>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Desc. :</ItemTitle>
+              <ItemTitle>Product Description :</ItemTitle>
               <ItemValue>
                 LG Monitor with retina display high quality build{" "}
               </ItemValue>
@@ -182,89 +183,50 @@ export const AddInvoice = () => {
             </ItemInfo>
           </TwoColumn>
         </ItemWrapper>
-        <ItemWrapper>
-          <DeleteButton>
-            <FontAwesomeIcon icon={faTrashCan} />
-          </DeleteButton>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Product Name :</ItemTitle>
-              <ItemValue>LG Monitor</ItemValue>
-            </ItemInfo>
+        <TermsAndSummary>
+          <Terms>
+            <TermsTitle>Terms</TermsTitle>
+            <TermsDetail
+              name="terms"
+              id="terms"
+              cols="30"
+              rows="10"
+              placeholder="These are the terms and conditions you can change it for your invoice if you want."
+            ></TermsDetail>
+          </Terms>
+          <Summary>
+            <SingleColumn>
+              <SummaryInfo>
+                <ItemTitle>Sub Total :</ItemTitle>
+                <ItemValue>46500</ItemValue>
+              </SummaryInfo>
 
-            <ItemInfo>
-              <ItemTitle>Quantity :</ItemTitle>
-              <ItemValue>
-                <ProductInput type="number" placeholder="0" />
-              </ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Price :</ItemTitle>
-              <ItemValue>15,500</ItemValue>
-            </ItemInfo>
+              <SummaryInfo>
+                <ItemTitle>Tax Summary :</ItemTitle>
+                <ItemValue>4500</ItemValue>
+              </SummaryInfo>
+              <SummaryInfo>
+                <ItemTitle>GST :</ItemTitle>
+                <ItemValue>4500</ItemValue>
+              </SummaryInfo>
 
-            <ItemInfo>
-              <ItemTitle>GST :</ItemTitle>
-              <ItemValue>18%</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Product Desc. :</ItemTitle>
-              <ItemValue>
-                LG Monitor with retina display high quality build{" "}
-              </ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>Total :</ItemTitle>
-              <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-        </ItemWrapper>
-        <ItemWrapper>
-          <DeleteButton>
-            <FontAwesomeIcon icon={faTrashCan} />
-          </DeleteButton>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Product Name :</ItemTitle>
-              <ItemValue>LG Monitor</ItemValue>
-            </ItemInfo>
-
-            <ItemInfo>
-              <ItemTitle>Quantity :</ItemTitle>
-              <ItemValue>
-                <ProductInput type="number" placeholder="0" />
-              </ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Price :</ItemTitle>
-              <ItemValue>15,500</ItemValue>
-            </ItemInfo>
-
-            <ItemInfo>
-              <ItemTitle>GST :</ItemTitle>
-              <ItemValue>18%</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Product Desc. :</ItemTitle>
-              <ItemValue>
-                LG Monitor with retina display high quality build{" "}
-              </ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>Total :</ItemTitle>
-              <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-        </ItemWrapper>
+              <SummaryInfo>
+                <ItemTitle>Discount :</ItemTitle>
+                <ItemValue>
+                  <ProductInput type="number" placeholder="0" />
+                </ItemValue>
+              </SummaryInfo>
+              <SummaryInfo>
+                <ItemTitle>Grand Total :</ItemTitle>
+                <ItemValue>51000</ItemValue>
+              </SummaryInfo>
+            </SingleColumn>
+          </Summary>
+        </TermsAndSummary>
       </DetailSection>
+      <ButtonWrapper>
+        <Button label="success">Create Invoice</Button>
+      </ButtonWrapper>
     </Main>
   );
 };
@@ -301,6 +263,7 @@ const ItemWrapper = styled.div`
   margin-bottom: 1em;
   position: relative;
 `;
+
 const DeleteButton = styled.div`
   position: absolute;
   top: 4px;
@@ -320,14 +283,19 @@ const ItemInfo = styled.div`
   flex: 1;
   align-items: center;
 `;
+
 const ItemTitle = styled.div`
   text-align: end;
   flex: 1;
+  font-family: ${cabinBold};
+  font-size: 14px;
 `;
 const ItemValue = styled.div`
   text-align: left;
   margin-left: 20px;
   flex: 1;
+  font-family: ${cabinRegular};
+  font-size: 14px;
 `;
 const ItemSearch = styled.div`
   display: flex;
@@ -372,4 +340,53 @@ const ProductInput = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
+`;
+
+const TermsAndSummary = styled.div`
+  display: flex;
+
+  padding: 1em;
+  background-color: var(--table-title-section);
+  border-radius: 6px;
+  border: 1px solid #808080;
+  box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
+  margin-bottom: 1em;
+`;
+const Terms = styled.div`
+  flex: 3;
+`;
+const TermsTitle = styled.div`
+  font-family: ${cabinBold};
+`;
+const TermsDetail = styled.textarea`
+  background-color: var(--white-color);
+  padding: 8px;
+  color: var(--black-color);
+  border: 1px solid #808080;
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  font-family: inherit;
+  &:focus {
+    box-shadow: var(--input-bs);
+  }
+`;
+const Summary = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 1em;
+`;
+const SingleColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const SummaryInfo = styled(ItemInfo)`
+  padding: 4px 0;
+`;
+const ButtonWrapper = styled.div`
+  display: grid;
+  place-items: center;
+  padding-bottom: 1em;
 `;

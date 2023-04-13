@@ -54,7 +54,7 @@ export const TaxAndTerms = () => {
           name='terms'
           id='terms'
           autoComplete='off'
-          placeholder='These are the terms and conditions you can change it for your invoice i you want.'
+          placeholder='These are the terms and conditions you can change it for your invoice if you want.'
           rows='7'
         />
         <Button label='success' clickHandle={clickHandle}>
