@@ -256,7 +256,7 @@ const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1em;
-  background-color: var(--table-title-section);
+  background-color: var(--table-cell-color);
   border-radius: 6px;
   border: 1px solid #808080;
   box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
@@ -346,7 +346,7 @@ const TermsAndSummary = styled.div`
   display: flex;
 
   padding: 1em;
-  background-color: var(--table-title-section);
+  background-color: var(--table-cell-color);
   border-radius: 6px;
   border: 1px solid #808080;
   box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
