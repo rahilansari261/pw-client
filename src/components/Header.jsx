@@ -38,6 +38,7 @@ const TopHeader = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  z-index: 1;
 `
 const NavIcon = styled.div`
   padding-left: 32px;
