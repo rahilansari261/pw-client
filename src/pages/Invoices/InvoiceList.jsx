@@ -1,6 +1,6 @@
 import { Link, Outlet } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons'
 import styled from 'styled-components'
 import { Button } from '../../components/Button'
 import { Pagination } from '../../components/Pagination'
@@ -54,7 +54,7 @@ export const InvoiceList = () => {
     <Main>
       <TitleSection>
         <TitleWrapper>
-          <FontAwesomeIcon icon={faUsers} />
+          <FontAwesomeIcon icon={faFileInvoiceDollar} />
           <Title>Invoices</Title>
         </TitleWrapper>
         <ButtonWrapper>

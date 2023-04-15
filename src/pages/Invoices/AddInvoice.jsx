@@ -325,6 +325,7 @@ const Title = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 const ProductInput = styled.input`
   background-color: var(--white-color);
