@@ -1,8 +1,92 @@
-import styled from 'styled-components'
+import styled from "styled-components";
+import Chart from "chart.js/auto";
+import { CategoryScale } from "chart.js";
+import { useState } from "react";
+import { Data } from "../util/Data";
+import { BarChart, Table } from "../components/Index";
+
+Chart.register(CategoryScale);
 
 export const Dashboard = () => {
-  return <Main>Dashboard</Main>
-}
+  const [chartData, setChartData] = useState({
+    labels: Data.map((data) => data.year),
+    datasets: [
+      {
+        label: "Users Gained ",
+        data: Data.map((data) => data.userGain),
+        backgroundColor: [
+          "rgba(75,192,192,1)",
+          "#ecf0f1",
+          "#50AF95",
+          "#f3ba2f",
+          "#2a71d0",
+        ],
+        borderColor: "black",
+        borderWidth: 2,
+      },
+    ],
+  });
+  const clientData = [
+    {
+      _id: "1",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+    {
+      _id: "2",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+    {
+      _id: "3",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+    {
+      _id: "4",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+    {
+      _id: "5",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+    {
+      _id: "6",
+      comapny: "Satyam Computers",
+      name: "Satyam Kumar",
+      phone: "9878642748",
+    },
+  ];
+  const clickHandle = () => {};
+  const btnFunc = () => {};
+  const tableHelperData = {
+    actionColumnSrc: "/clients/viewclient/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "View",
+    actionColumnColor: "info",
+    tableHeadRowData: Object.keys(clientData[0]),
+    actionColumnButtonFunc: btnFunc,
+  };
+
+  return (
+    <Main>
+      <ChartWrapper>
+        <BarChart chartData={chartData}></BarChart>
+      </ChartWrapper>
+      <TwoTableWrapper>
+        <Table tableData={clientData} tableHelperData={tableHelperData} />
+        <Table tableData={clientData} tableHelperData={tableHelperData} />
+      </TwoTableWrapper>
+    </Main>
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
@@ -10,4 +94,12 @@ const Main = styled.div`
   color: black;
   border-radius: 4px;
   padding: 1em;
-`
+`;
+const ChartWrapper = styled.div`
+  max-width: 450px;
+  margin: 0 auto;
+`;
+const TwoTableWrapper = styled.div`
+  display: flex;
+  gap: 2em;
+`;

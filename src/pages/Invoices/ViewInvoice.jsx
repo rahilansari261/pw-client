@@ -1,6 +1,10 @@
 import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faFileInvoiceDollar,
+  faPrint,
+} from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button } from "../../components/Button";
 import { Pagination } from "../../components/Pagination";
@@ -39,6 +43,26 @@ export const ViewInvoice = () => {
           <FontAwesomeIcon icon={faFileInvoiceDollar} />
           <Title>Invoice</Title>
         </TitleWrapper>
+        <ButtonWrapper>
+          <Link to="/invoices/invoicelist">
+            <Button label="warning" clickHandle={() => {}}>
+              <FontAwesomeIcon
+                icon={faArrowLeft}
+                style={{ fontSize: "14px", marginRight: "4px" }}
+              />
+              Back
+            </Button>
+          </Link>
+          <Link to="/invoices/invoicereport">
+            <Button label="secondary" clickHandle={() => {}}>
+              <FontAwesomeIcon
+                icon={faPrint}
+                style={{ fontSize: "14px", marginRight: "4px" }}
+              />
+              Print
+            </Button>
+          </Link>
+        </ButtonWrapper>
       </TitleSection>
       <DetailSection>
         <InvoiceWrapper>
@@ -121,6 +145,9 @@ export const ViewInvoice = () => {
             <RightNote>Paper Weight | Roaring Studios Product</RightNote>
           </BottomLine>
         </InvoiceWrapper>
+        <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
+          <Button label="danger">Delete Invoice</Button>
+        </div>
       </DetailSection>
     </Main>
   );
@@ -153,6 +180,7 @@ const InvoiceWrapper = styled.div`
   max-width: 700px;
   padding: 1em 1em 0 1em;
   border: 1px solid var(--table-border-color);
+  margin: 0 auto;
 `;
 const Title = styled.div`
   padding-left: 8px;
@@ -163,6 +191,11 @@ const TitleWrapper = styled.div`
   display: flex;
   align-items: center;
 `;
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 4px;
+`;
+
 const InvoiceRow = styled.div`
   display: flex;
   justify-content: space-between;

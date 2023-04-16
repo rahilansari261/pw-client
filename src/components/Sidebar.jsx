@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as Pallete from '../util/Constant'
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as Pallete from "../util/Constant";
 import {
   faGem,
   faChartLine,
@@ -11,69 +11,69 @@ import {
   faFileInvoiceDollar,
   faFileInvoice,
   faInfoCircle,
-} from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-let openMenu
+} from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+let openMenu;
 export const Sidebar = (props) => {
-  openMenu = props.open
+  openMenu = props.open;
   const listItems = [
     {
-      id: '1',
-      title: 'Dashboard',
-      link: '/',
+      id: "1",
+      title: "Dashboard",
+      link: "/",
       icon: <FontAwesomeIcon icon={faChartLine} />,
     },
 
     {
-      id: '2',
-      title: 'Products',
-      link: '/products',
+      id: "2",
+      title: "Products",
+      link: "/products",
       icon: <FontAwesomeIcon icon={faBagShopping} />,
     },
     {
-      id: '3',
-      title: 'Clients',
-      link: '/clients',
+      id: "3",
+      title: "Clients",
+      link: "/clients",
       icon: <FontAwesomeIcon icon={faUsers} />,
     },
 
     {
-      id: '4',
-      title: 'Invoices',
-      link: '/invoices',
+      id: "4",
+      title: "Invoices",
+      link: "/invoices",
       icon: <FontAwesomeIcon icon={faFileInvoiceDollar} />,
     },
     {
-      id: '5',
-      title: 'Accounts',
-      link: '/accounts',
+      id: "5",
+      title: "Accounts",
+      link: "/accounts",
       icon: <FontAwesomeIcon icon={faFileInvoice} />,
     },
 
     {
-      id: '6',
-      title: 'Settings',
-      link: '/settings',
+      id: "6",
+      title: "Settings",
+      link: "/settings",
       icon: <FontAwesomeIcon icon={faGears} />,
     },
     {
-      id: '7',
-      title: 'Need help',
-      link: '/needhelp',
+      id: "7",
+      title: "Need help",
+      link: "/needhelp",
       icon: <FontAwesomeIcon icon={faInfoCircle} />,
     },
     {
-      id: '8',
-      title: 'Logout',
-      link: '/logout',
+      id: "8",
+      title: "Logout",
+      link: "/logout",
       icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
     },
-  ]
+  ];
   return (
     <Aside>
       <nav>
         <UnOrderedList>
-          <Link to='/'>
+          <Link to="/">
             <LiFlexItemLogo>
               <LogoWrapper>
                 <FontAwesomeIcon icon={faGem} />
@@ -89,43 +89,44 @@ export const Sidebar = (props) => {
                     backgroundColor:
                       item.link === props.title
                         ? Pallete.secondaryColor
-                        : 'initial',
+                        : "initial",
                   }}
                 >
                   <div>{item.title}</div>
                   <div>{item.icon}</div>
                 </LiFlexItem>
               </Link>
-            )
+            );
           })}
         </UnOrderedList>
       </nav>
     </Aside>
-  )
-}
+  );
+};
 const Aside = styled.aside`
   flex: 1;
   height: 100vh;
   background-color: var(--primary-color);
   position: sticky;
   top: 0;
+  z-index: 1;
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
     position: absolute;
     transform: ${(props) =>
-      openMenu ? 'translateX(0%)' : 'translateX(-100%)'};
+      openMenu ? "translateX(0%)" : "translateX(-100%)"};
     transition: transform 250ms;
   }
-`
+`;
 const LogoWrapper = styled.div`
   font-size: 2rem;
-`
+`;
 const UnOrderedList = styled.ul`
   margin: 0;
   padding: 0;
   list-style: none;
   color: white;
-`
+`;
 const LiFlexItem = styled.li`
   display: flex;
   justify-content: space-between;
@@ -135,7 +136,7 @@ const LiFlexItem = styled.li`
   border-bottom: 2px solid var(--primary-color-border);
   cursor: pointer;
   box-shadow: var(--sidebar-bs);
-`
+`;
 const LiFlexItemLogo = styled(LiFlexItem)`
   justify-content: start;
   gap: 12px;
@@ -143,4 +144,4 @@ const LiFlexItemLogo = styled(LiFlexItem)`
   font-size: 1.5rem;
   background-color: var(--secondary-color);
   border-bottom: 1px solid black;
-`
+`;
