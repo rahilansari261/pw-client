@@ -4,10 +4,16 @@ import { CategoryScale } from "chart.js";
 import { useState } from "react";
 import { Data } from "../util/Data";
 import { BarChart, Table } from "../components/Index";
+import useFetch from "../hooks/useFetch";
 
 Chart.register(CategoryScale);
 
 export const Dashboard = () => {
+  const { data, isLoading, error } = useFetch(
+    "https://pw-backend.onrender.com/api/v1/users/hello"
+  );
+
+  console.log(data);
   const [chartData, setChartData] = useState({
     labels: Data.map((data) => data.year),
     datasets: [
