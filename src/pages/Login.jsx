@@ -3,9 +3,8 @@ import { useState } from "react";
 import styled from "styled-components";
 
 export const Login = () => {
-  const [username, setUsername] = useState("subayan@roaring.com");
-  const [password, setPassword] = useState("subayan@123");
-  const [token, setToken] = useState(null);
+  const [user_email, setUsername] = useState("subayan@roaring.com");
+  const [user_password, setPassword] = useState("subayan@123");
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -15,14 +14,14 @@ export const Login = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
+          body: JSON.stringify({ user_email, user_password }),
         }
       );
 
       if (response.ok) {
         const { token } = await response.json();
-        localStorage.setItem({ token: token });
-        setToken(token);
+        localStorage.setItem("token", token);
+        window.location.href = '/';
       } else {
         console.log("Login failed");
       }
@@ -39,7 +38,7 @@ export const Login = () => {
           <Input
             type="text"
             placeholder="Username"
-            value={username}
+            value={user_email}
             onChange={(e) => setUsername(e.target.value)}
           />
         </div>
@@ -48,7 +47,7 @@ export const Login = () => {
           <Input
             type="password"
             placeholder="Password"
-            value={password}
+            value={user_password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>

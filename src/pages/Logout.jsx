@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Logout = () => {
-  return <Main>Logout</Main>
-}
+  window.location.href = "/login";
+  localStorage.setItem("token", "");
+  return <Main>You are logging out...</Main>;
+};
 
 const Main = styled.div`
   margin: 2em;
@@ -10,4 +12,4 @@ const Main = styled.div`
   color: black;
   border-radius: 4px;
   padding: 1em;
-`
+`;

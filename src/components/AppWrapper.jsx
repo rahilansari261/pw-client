@@ -32,6 +32,7 @@ import { Settings } from "../pages/Settings/Index";
 import { NeedHelp } from "../pages/NeedHelp";
 import { Dashboard } from "../pages/Dashboard";
 import { Logout } from "../pages/Logout";
+import { Login } from "../pages/Login";
 import styled from "styled-components";
 export const AppWrapper = () => {
   const location = useLocation();
@@ -79,6 +80,7 @@ export const AppWrapper = () => {
           <Route path="settings" element={<Settings />} />
           <Route path="needhelp" element={<NeedHelp />} />
           <Route path="logout" element={<Logout />} />
+          <Route path="login" element={<Login />} />
         </Routes>
       </PageWrapper>
     </AppContainer>
