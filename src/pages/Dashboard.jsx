@@ -10,8 +10,15 @@ Chart.register(CategoryScale);
 
 export const Dashboard = () => {
   const { data, isLoading, error } = useFetch(
-    "https://pw-backend.onrender.com/api/v1/users/hello"
+    "https://pw-backend.onrender.com/api/v1/invoices/"
   );
+  // const { data, isLoading, error } = useFetch(
+  //   "https://pw-backend.onrender.com/api/v1/users/hello"
+  // );
+  // const { data, isLoading, error } = useFetch(
+  //   "https://pw-backend.onrender.com/api/v1/users/hello"
+  // );
+
 
   console.log(data);
   const [chartData, setChartData] = useState({
