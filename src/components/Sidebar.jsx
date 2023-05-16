@@ -1,6 +1,9 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Pallete from "../util/Constant";
+import FAQpdf from "../assets/FAQ.pdf";
 import {
   faGem,
   faChartLine,
@@ -12,7 +15,7 @@ import {
   faFileInvoice,
   faInfoCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import styled from "styled-components";
+
 let openMenu;
 export const Sidebar = (props) => {
   openMenu = props.open;
@@ -56,19 +59,25 @@ export const Sidebar = (props) => {
       link: "/settings",
       icon: <FontAwesomeIcon icon={faGears} />,
     },
-    {
-      id: "7",
-      title: "Need help",
-      link: "/needhelp",
-      icon: <FontAwesomeIcon icon={faInfoCircle} />,
-    },
-    {
-      id: "8",
-      title: "Logout",
-      link: "/logout",
-      icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-    },
+    // {
+    //   id: "7",
+    //   title: "Need help",
+    //   link: "/needhelp",
+    //   icon: <FontAwesomeIcon icon={faInfoCircle} />,
+    // },
+    // {
+    //   id: "8",
+    //   title: "Logout",
+    //   link: "/logout",
+    //   icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
+    // },
   ];
+  const [isLogout, setLogout] = useState(false);
+  const handleLogout = () => {
+    setLogout(true);
+    localStorage.setItem("token", "");
+    window.location.reload();
+  };
   return (
     <Aside>
       <nav>
@@ -87,7 +96,7 @@ export const Sidebar = (props) => {
                 <LiFlexItem
                   style={{
                     backgroundColor:
-                      item.link === props.title
+                      item.link === props.title && !isLogout
                         ? Pallete.secondaryColor
                         : "initial",
                   }}
@@ -98,6 +107,32 @@ export const Sidebar = (props) => {
               </Link>
             );
           })}
+          <Link to={FAQpdf} target="_blank">
+            <LiFlexItem
+              style={{
+                backgroundColor:
+                  props.title === "/needhelp" && !isLogout
+                    ? Pallete.secondaryColor
+                    : "initial",
+              }}
+            >
+              <div>Need Help</div>
+              <div>
+                <FontAwesomeIcon icon={faInfoCircle} />
+              </div>
+            </LiFlexItem>
+          </Link>
+          <LiFlexItem
+            onClick={handleLogout}
+            style={{
+              backgroundColor: isLogout ? Pallete.secondaryColor : "initial",
+            }}
+          >
+            <div>Logout</div>
+            <div>
+              <FontAwesomeIcon icon={faArrowRightFromBracket} />
+            </div>
+          </LiFlexItem>
         </UnOrderedList>
       </nav>
     </Aside>

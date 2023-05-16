@@ -9,9 +9,9 @@ import useFetch from "../hooks/useFetch";
 Chart.register(CategoryScale);
 
 export const Dashboard = () => {
-  const { data, isLoading, error } = useFetch(
-    "https://pw-backend.onrender.com/api/v1/invoices/"
-  );
+  // const { data, isLoading, error } = useFetch(
+  //   "https://pw-backend.onrender.com/api/v1/invoices/"
+  // );
   // const { data, isLoading, error } = useFetch(
   //   "https://pw-backend.onrender.com/api/v1/users/hello"
   // );
@@ -20,7 +20,7 @@ export const Dashboard = () => {
   // );
 
 
-  console.log(data);
+  // console.log(data);
   const [chartData, setChartData] = useState({
     labels: Data.map((data) => data.year),
     datasets: [
