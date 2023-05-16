@@ -1,36 +1,44 @@
-import { Link, Outlet } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBagShopping } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { Button, Pagination, Table } from '../../components/Index'
+import { Link, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Button, Pagination, Table } from "../../components/Index";
+import useFetch from "../../hooks/useFetch";
 
 export const ProductList = () => {
+  // const { data, isLoading, error } = useFetch(
+  //   "https://pw-backend.onrender.com/api/v1/products/1/10/All"
+  // );
+  const { data, isLoading, error } = useFetch(
+    "http://localhost:3000/api/v1/products/1/10/All"
+  );
+  console.log(data);
   const productData = [
     {
-      _id: '1',
-      name: 'LG Monitor',
-      code: '13324',
+      _id: "1",
+      name: "LG Monitor",
+      code: "13324",
       price: 15000,
-      tax: 'gst@18',
+      tax: "gst@18",
     },
     {
-      _id: '2',
-      name: 'LG Monitor',
-      code: '13324',
+      _id: "2",
+      name: "LG Monitor",
+      code: "13324",
       price: 15000,
-      tax: 'gst@18',
+      tax: "gst@18",
     },
-  ]
-  const btnFunc = () => {}
+  ];
+  const btnFunc = () => {};
   const tableHelperData = {
-    actionColumnSrc: '/products/viewproduct/',
-    actionColumnTitle: 'Action',
-    actionColumnValue: 'View',
-    actionColumnColor: 'info',
+    actionColumnSrc: "/products/viewproduct/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "View",
+    actionColumnColor: "info",
     tableHeadRowData: Object.keys(productData[0]),
     actionColumnButtonFunc: btnFunc,
-  }
-  const handleSearch = () => {}
+  };
+  const handleSearch = () => {};
 
   return (
     <Main>
@@ -39,8 +47,8 @@ export const ProductList = () => {
           <FontAwesomeIcon icon={faBagShopping} />
           <Title>Products</Title>
         </TitleWrapper>
-        <Link to='/products/addproduct'>
-          <Button label='success' clickHandle={() => {}}>
+        <Link to="/products/addproduct">
+          <Button label="success" clickHandle={() => {}}>
             Add New Product
           </Button>
         </Link>
@@ -48,8 +56,8 @@ export const ProductList = () => {
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={handleSearch}>
+            <Input type="text" placeholder="Search" />
+            <Button label="info" clickHandle={handleSearch}>
               Search
             </Button>
           </SearchBar>
@@ -61,15 +69,15 @@ export const ProductList = () => {
       </DetailSection>
       <Outlet />
     </Main>
-  )
-}
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-`
+`;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
   padding: 0.75em 1em;
@@ -78,7 +86,7 @@ const TitleSection = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-`
+`;
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
@@ -86,13 +94,13 @@ const DetailSection = styled.div`
   max-width: 1000px;
   overflow-x: auto;
   margin: 0 auto;
-`
+`;
 const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-`
+`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -102,7 +110,7 @@ const SearchBar = styled.div`
   @media (max-width: 550px) {
     width: 70%;
   }
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -115,13 +123,13 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-`
-const SearchDesc = styled.div``
+`;
+const SearchDesc = styled.div``;
 const Title = styled.div`
   padding-left: 8px;
-  font-family: 'Cabin-bold';
-`
+  font-family: "Cabin-bold";
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
-`
+`;

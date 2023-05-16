@@ -9,7 +9,7 @@ function useFetch(url) {
     async function fetchData() {
       try {
         const response = await fetch(url, {
-          headers: { Authorization: `Bearer ${token}` },
+          headers: { Authorization: token },
         });
         if (!response.ok) {
           throw new Error("Request failed");
