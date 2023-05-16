@@ -6,13 +6,20 @@ import { Button, Pagination, Table } from "../../components/Index";
 import useFetch from "../../hooks/useFetch";
 
 export const ProductList = () => {
-  // const { data, isLoading, error } = useFetch(
-  //   "https://pw-backend.onrender.com/api/v1/products/1/10/All"
-  // );
   const { data, isLoading, error } = useFetch(
-    "http://localhost:3000/api/v1/products/1/10/All"
+    "https://pw-backend.onrender.com/api/v1/products/1/10/All"
   );
-  console.log(data);
+  // const { data, isLoading, error } = useFetch(
+  //   "http://localhost:3000/api/v1/products/1/10/All"
+  // );
+  console.log(isLoading);
+  if (!isLoading) {
+    const dataArr = data.data;
+    const filteredArr = dataArr.map(({ product_code, ...rest }) => rest);
+    console.log(filteredArr);
+  }
+
+  console.log(isLoading);
   const productData = [
     {
       _id: "1",
@@ -41,34 +48,36 @@ export const ProductList = () => {
   const handleSearch = () => {};
 
   return (
-    <Main>
-      <TitleSection>
-        <TitleWrapper>
-          <FontAwesomeIcon icon={faBagShopping} />
-          <Title>Products</Title>
-        </TitleWrapper>
-        <Link to="/products/addproduct">
-          <Button label="success" clickHandle={() => {}}>
-            Add New Product
-          </Button>
-        </Link>
-      </TitleSection>
-      <DetailSection>
-        <SearchWrapper>
-          <SearchBar>
-            <Input type="text" placeholder="Search" />
-            <Button label="info" clickHandle={handleSearch}>
-              Search
+    !isLoading && (
+      <Main>
+        <TitleSection>
+          <TitleWrapper>
+            <FontAwesomeIcon icon={faBagShopping} />
+            <Title>Products</Title>
+          </TitleWrapper>
+          <Link to="/products/addproduct">
+            <Button label="success" clickHandle={() => {}}>
+              Add New Product
             </Button>
-          </SearchBar>
+          </Link>
+        </TitleSection>
+        <DetailSection>
+          <SearchWrapper>
+            <SearchBar>
+              <Input type="text" placeholder="Search" />
+              <Button label="info" clickHandle={handleSearch}>
+                Search
+              </Button>
+            </SearchBar>
 
-          <SearchDesc></SearchDesc>
-        </SearchWrapper>
-        <Table tableData={productData} tableHelperData={tableHelperData} />
-        <Pagination />
-      </DetailSection>
-      <Outlet />
-    </Main>
+            <SearchDesc> </SearchDesc>
+          </SearchWrapper>
+          <Table tableData={productData} tableHelperData={tableHelperData} />
+          <Pagination />
+        </DetailSection>
+        <Outlet />
+      </Main>
+    )
   );
 };
 
