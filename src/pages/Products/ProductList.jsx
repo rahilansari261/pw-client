@@ -6,54 +6,19 @@ import { Button, Pagination, Table } from "../../components/Index";
 import useFetch from "../../hooks/useFetch";
 
 export const ProductList = () => {
-  // const productData = [
-  //   {
-  //     _id: "1",
-  //     name: "LG Monitor",
-  //     code: "13324",
-  //     price: 15000,
-  //     tax: "gst@18",
-  //   },
-  //   {
-  //     _id: "2",
-  //     name: "LG Monitor",
-  //     code: "13324",
-  //     price: 15000,
-  //     tax: "gst@18",
-  //   },
-  // ];
-
-  const { data, isLoading, error } = useFetch(
-    "https://pw-backend.onrender.com/api/v1/products/1/10/All"
-  );
+  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/products/1/10/All");
   let productData;
+  const sanitizeTableData = (pData) =>
+    pData.map((product) => {
+      const { product_description, product_status, product_unit, ...rest } = product;
+      const p_tax = `${product.product_tax.type}@${product.product_tax.rate}`;
+      const { _id, product_name, product_code, product_price, p_tax: product_tax } = { ...rest, p_tax };
+      return { _id, product_name, product_code, product_price, product_tax };
+    });
+
   if (!isLoading) {
     const { data: pData } = data;
-
-    productData = pData.map((product) => {
-      const { product_description, product_status, product_unit, ...rest } =
-        product;
-      const p_tax = `${product.product_tax.type}@${product.product_tax.rate}`;
-
-      const {
-        _id,
-        product_name,
-        product_code,
-        product_price,
-        p_tax: product_tax,
-      } = {
-        ...rest,
-        p_tax,
-      };
-
-      return {
-        _id,
-        product_name,
-        product_code,
-        product_price,
-        product_tax,
-      };
-    });
+    productData = sanitizeTableData(pData);
   }
 
   const btnFunc = () => {};
