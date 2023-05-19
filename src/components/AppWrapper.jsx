@@ -72,7 +72,7 @@ const AppContainer = styled.div`
 
 const PageWrapper = styled.main`
   flex: 4;
-  height: 100%;
+  min-height: 100vh;
   background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   @media (max-width: 550px) {
     flex: 1;
