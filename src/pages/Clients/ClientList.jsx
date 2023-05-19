@@ -1,36 +1,35 @@
-import { Link, Outlet } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { Button } from '../../components/Button'
-import { Pagination } from '../../components/Pagination'
-import { Table } from '../../components/Table'
+import { Link, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Button } from "../../components/Button";
+import { Pagination } from "../../components/Pagination";
+import { Table } from "../../components/Table";
+import useFetch from "../../hooks/useFetch";
 
 export const ClientList = () => {
-  const clientData = [
-    {
-      _id: '1',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
-    },
-    {
-      _id: '2',
-      comapny: 'Satyam Computers',
-      name: 'Satyam Kumar',
-      phone: '9878642748',
-    },
-  ]
-  const clickHandle = () => {}
-  const btnFunc = () => {}
-  const tableHelperData = {
-    actionColumnSrc: '/clients/viewclient/',
-    actionColumnTitle: 'Action',
-    actionColumnValue: 'View',
-    actionColumnColor: 'info',
-    tableHeadRowData: Object.keys(clientData[0]),
-    actionColumnButtonFunc: btnFunc,
+  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/clients/1/10/All");
+  let clientData;
+  const sanitizeTableData = (cData) =>
+    cData.map((client) => {
+      const { _id, client_company_name, client_name, client_phone } = client;
+      return { _id, client_company_name, client_name, client_phone };
+    });
+
+  if (!isLoading) {
+    const { data: cData } = data;
+    clientData = sanitizeTableData(cData);    
   }
+  const clickHandle = () => {};
+  const btnFunc = () => {};
+  const tableHelperData = {
+    actionColumnSrc: "/clients/viewclient/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "View",
+    actionColumnColor: "info",
+    tableHeadRowData: ["id", "company", "name", "phone"],
+    actionColumnButtonFunc: btnFunc,
+  };
 
   return (
     <Main>
@@ -39,8 +38,8 @@ export const ClientList = () => {
           <FontAwesomeIcon icon={faUsers} />
           <Title>Clients</Title>
         </TitleWrapper>
-        <Link to='/clients/addclient'>
-          <Button label='success' clickHandle={() => {}}>
+        <Link to="/clients/addclient">
+          <Button label="success" clickHandle={() => {}}>
             Add New Client
           </Button>
         </Link>
@@ -48,28 +47,28 @@ export const ClientList = () => {
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={() => {}}>
+            <Input type="text" placeholder="Search" />
+            <Button label="info" clickHandle={() => {}}>
               Search
             </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table tableData={clientData} tableHelperData={tableHelperData} />
+        {!isLoading && <Table tableData={clientData} tableHelperData={tableHelperData} />}
         <Pagination />
       </DetailSection>
-      <Outlet/>
+      <Outlet />
     </Main>
-  )
-}
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-`
+`;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
   padding: 0.75em 1em;
@@ -78,7 +77,7 @@ const TitleSection = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-`
+`;
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
@@ -86,13 +85,13 @@ const DetailSection = styled.div`
   max-width: 1000px;
   overflow-x: auto;
   margin: 0 auto;
-`
+`;
 const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-`
+`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -102,7 +101,7 @@ const SearchBar = styled.div`
   @media (max-width: 550px) {
     width: 70%;
   }
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -115,13 +114,13 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-`
-const SearchDesc = styled.div``
+`;
+const SearchDesc = styled.div``;
 const Title = styled.div`
   padding-left: 8px;
-  font-family: 'Cabin-bold';
-`
+  font-family: "Cabin-bold";
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
-`
+`;

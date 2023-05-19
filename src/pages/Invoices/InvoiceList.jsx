@@ -1,54 +1,49 @@
-import { Link, Outlet } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { Button } from '../../components/Button'
-import { Pagination } from '../../components/Pagination'
-import { Table } from '../../components/Table'
+import { Link, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Button } from "../../components/Button";
+import { Pagination } from "../../components/Pagination";
+import { Table } from "../../components/Table";
+import useFetch from "../../hooks/useFetch";
+import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 
 export const InvoiceList = () => {
-  const invoiceData = [
-    {
-      _id: '1',
-      No: '23',
-      FY: '22-23',
-      date: '30-Mar-2023',
-      client: 'Rahil',
-      comapny: 'Rahil Communications',
-      amount: 17700,
-      due: 17700,
-    },
-    {
-      _id: '2',
-      No: '23',
-      FY: '22-23',
-      date: '30-Mar-2023',
-      client: 'Rahil',
-      comapny: 'Rahil Communications',
-      amount: 17700,
-      due: 17700,
-    },
-    {
-      _id: '3',
-      No: '23',
-      FY: '22-23',
-      date: '30-Mar-2023',
-      client: 'Rahil',
-      comapny: 'Rahil Communications',
-      amount: 17700,
-      due: 17700,
-    },
-  ]
-  const clickHandle = () => {}
-  const btnFunc = () => {}
-  const tableHelperData = {
-    actionColumnSrc: '/invoices/viewinvoice/',
-    actionColumnTitle: 'Action',
-    actionColumnValue: 'View',
-    actionColumnColor: 'info',
-    tableHeadRowData: Object.keys(invoiceData[0]),
-    actionColumnButtonFunc: btnFunc,
+  
+
+  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/invoices/1/10/All");
+  let invoiceData;
+  const sanitizeTableData = (iData) =>
+    iData.map((invoice) => {
+      const FY = "22-23";
+
+      return {
+        _id: invoice._id,
+        no: invoice.invoice_data.number,
+        FY,
+        date: convertDate(invoice.invoice_data.date),
+        client: invoice.client_data.client_name,
+        company: invoice.client_data.client_company_name,
+        amount: convertCurrencyToIndian(invoice.invoice_data.grand_total),
+        due: convertCurrencyToIndian(invoice.invoice_data.balance),
+      };
+    });
+
+  if (!isLoading) {
+    const { data: iData } = data;
+    invoiceData = sanitizeTableData(iData);
   }
+
+  const clickHandle = () => {};
+  const btnFunc = () => {};
+  const tableHelperData = {
+    actionColumnSrc: "/invoices/viewinvoice/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "View",
+    actionColumnColor: "info",
+    tableHeadRowData: ["id", "No", "FY", "date", "client", "company", "amount", "due"],
+    actionColumnButtonFunc: btnFunc,
+  };
 
   return (
     <Main>
@@ -58,13 +53,13 @@ export const InvoiceList = () => {
           <Title>Invoices</Title>
         </TitleWrapper>
         <ButtonWrapper>
-          <Link to='/invoices/addinvoice'>
-            <Button label='success' clickHandle={() => {}}>
+          <Link to="/invoices/addinvoice">
+            <Button label="success" clickHandle={() => {}}>
               Add New Invoice
             </Button>
           </Link>
-          <Link to='/invoices/invoicereport'>
-            <Button label='primary' clickHandle={() => {}}>
+          <Link to="/invoices/invoicereport">
+            <Button label="primary" clickHandle={() => {}}>
               Invoice Report
             </Button>
           </Link>
@@ -73,28 +68,28 @@ export const InvoiceList = () => {
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={clickHandle}>
+            <Input type="text" placeholder="Search" />
+            <Button label="info" clickHandle={clickHandle}>
               Search
             </Button>
           </SearchBar>
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table tableData={invoiceData} tableHelperData={tableHelperData} />
+        {!isLoading && <Table tableData={invoiceData} tableHelperData={tableHelperData} />}
         <Pagination />
       </DetailSection>
       <Outlet />
     </Main>
-  )
-}
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-`
+`;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
   padding: 0.75em 1em;
@@ -103,7 +98,7 @@ const TitleSection = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-`
+`;
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
@@ -111,13 +106,13 @@ const DetailSection = styled.div`
   max-width: 1000px;
   overflow-x: auto;
   margin: 0 auto;
-`
+`;
 const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-`
+`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -127,7 +122,7 @@ const SearchBar = styled.div`
   @media (max-width: 550px) {
     width: 70%;
   }
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -140,17 +135,17 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-`
-const SearchDesc = styled.div``
+`;
+const SearchDesc = styled.div``;
 const Title = styled.div`
   padding-left: 8px;
-  font-family: 'Cabin-bold';
-`
+  font-family: "Cabin-bold";
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
-`
+`;
 const ButtonWrapper = styled.div`
   display: flex;
   gap: 4px;
-`
+`;

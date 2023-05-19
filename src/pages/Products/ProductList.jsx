@@ -10,10 +10,9 @@ export const ProductList = () => {
   let productData;
   const sanitizeTableData = (pData) =>
     pData.map((product) => {
-      const { product_description, product_status, product_unit, ...rest } = product;
       const p_tax = `${product.product_tax.type}@${product.product_tax.rate}`;
-      const { _id, product_name, product_code, product_price, p_tax: product_tax } = { ...rest, p_tax };
-      return { _id, product_name, product_code, product_price, product_tax };
+      const { _id, product_name, product_code, product_price } = product;
+      return { _id, product_name, product_code, product_price, product_tax: p_tax };
     });
 
   if (!isLoading) {
@@ -35,36 +34,34 @@ export const ProductList = () => {
   const handleSearch = () => {};
 
   return (
-    !isLoading && (
-      <Main>
-        <TitleSection>
-          <TitleWrapper>
-            <FontAwesomeIcon icon={faBagShopping} />
-            <Title>Products</Title>
-          </TitleWrapper>
-          <Link to="/products/addproduct">
-            <Button label="success" clickHandle={() => {}}>
-              Add New Product
+    <Main>
+      <TitleSection>
+        <TitleWrapper>
+          <FontAwesomeIcon icon={faBagShopping} />
+          <Title>Products</Title>
+        </TitleWrapper>
+        <Link to="/products/addproduct">
+          <Button label="success" clickHandle={() => {}}>
+            Add New Product
+          </Button>
+        </Link>
+      </TitleSection>
+      <DetailSection>
+        <SearchWrapper>
+          <SearchBar>
+            <Input type="text" placeholder="Search" />
+            <Button label="info" clickHandle={handleSearch}>
+              Search
             </Button>
-          </Link>
-        </TitleSection>
-        <DetailSection>
-          <SearchWrapper>
-            <SearchBar>
-              <Input type="text" placeholder="Search" />
-              <Button label="info" clickHandle={handleSearch}>
-                Search
-              </Button>
-            </SearchBar>
+          </SearchBar>
 
-            <SearchDesc> </SearchDesc>
-          </SearchWrapper>
-          <Table tableData={productData} tableHelperData={tableHelperData} />
-          <Pagination />
-        </DetailSection>
-        <Outlet />
-      </Main>
-    )
+          <SearchDesc> </SearchDesc>
+        </SearchWrapper>
+        {!isLoading && <Table tableData={productData} tableHelperData={tableHelperData} />}
+        <Pagination />
+      </DetailSection>
+      <Outlet />
+    </Main>
   );
 };
 

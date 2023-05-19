@@ -19,7 +19,6 @@ export const Dashboard = () => {
   //   "https://pw-backend.onrender.com/api/v1/users/hello"
   // );
 
-
   // console.log(data);
   const [chartData, setChartData] = useState({
     labels: Data.map((data) => data.year),
@@ -27,13 +26,7 @@ export const Dashboard = () => {
       {
         label: "Users Gained ",
         data: Data.map((data) => data.userGain),
-        backgroundColor: [
-          "rgba(75,192,192,1)",
-          "#ecf0f1",
-          "#50AF95",
-          "#f3ba2f",
-          "#2a71d0",
-        ],
+        backgroundColor: ["rgba(75,192,192,1)", "#ecf0f1", "#50AF95", "#f3ba2f", "#2a71d0"],
         borderColor: "black",
         borderWidth: 2,
       },
@@ -109,10 +102,14 @@ const Main = styled.div`
   padding: 1em;
 `;
 const ChartWrapper = styled.div`
-  max-width: 450px;
+  width: 100%;
   margin: 0 auto;
+  /* overflow-x: auto; */
 `;
 const TwoTableWrapper = styled.div`
   display: flex;
   gap: 2em;
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
