@@ -2,32 +2,10 @@ import React, { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Header, Sidebar } from "./Index";
 
-import {
-  Products,
-  ProductList,
-  AddProduct,
-  ViewProduct,
-} from "../pages/Products/Index";
-import {
-  Clients,
-  ClientList,
-  AddClient,
-  ViewClient,
-} from "../pages/Clients/Index";
-import {
-  Invoices,
-  InvoiceList,
-  AddInvoice,
-  ViewInvoice,
-  InvoiceReport,
-} from "../pages/Invoices/Index";
-import {
-  Accounts,
-  AccountList,
-  AddAccount,
-  ViewAccount,
-  AccountEntry,
-} from "../pages/Accounts/Index";
+import { Products, ProductList, AddProduct, ViewProduct } from "../pages/Products/Index";
+import { Clients, ClientList, AddClient, ViewClient } from "../pages/Clients/Index";
+import { Invoices, InvoiceList, AddInvoice, ViewInvoice, InvoiceReport } from "../pages/Invoices/Index";
+import { Accounts, AccountList, AddAccount, ViewAccount, AccountEntry } from "../pages/Accounts/Index";
 import { Settings } from "../pages/Settings/Index";
 import { NeedHelp } from "../pages/NeedHelp";
 import { Dashboard } from "../pages/Dashboard";
@@ -94,12 +72,8 @@ const AppContainer = styled.div`
 
 const PageWrapper = styled.main`
   flex: 4;
-  min-height: 100vh;
-  background: linear-gradient(
-    300deg,
-    var(--primary-color) 0%,
-    var(--secondary-color) 100%
-  );
+  height: 100%;
+  background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   @media (max-width: 550px) {
     flex: 1;
   }
