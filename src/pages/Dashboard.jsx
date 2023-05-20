@@ -101,7 +101,7 @@ const Main = styled.div`
   border-radius: 4px;
   padding: 1em;
   @media (max-width: 550px) {
-    margin: 0.5em;
+    margin: 0em;
     border-radius: 0px;
   }
 `;

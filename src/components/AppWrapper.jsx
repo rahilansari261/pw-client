@@ -77,5 +77,6 @@ const PageWrapper = styled.main`
   background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   @media (max-width: 550px) {
     flex: 1;
+    background: #fff;
   }
 `;
