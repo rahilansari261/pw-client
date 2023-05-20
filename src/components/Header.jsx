@@ -41,6 +41,7 @@ const TopHeader = styled.header`
   align-items: center;
   z-index: 1;
   width: 100%;
+  padding-top: 30px;
 `
 const NavIcon = styled.div`
   padding-left: 32px;
