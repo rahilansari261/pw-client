@@ -133,7 +133,7 @@ const Aside = styled.aside`
   z-index: 1;
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
-    position: absolute;
+    position: fixed;
     transform: ${(props) => (openMenu ? "translateX(0%)" : "translateX(-100%)")};
     transition: transform 250ms;
   }
