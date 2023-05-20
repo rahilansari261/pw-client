@@ -1,10 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowLeft,
-  faFileInvoiceDollar,
-  faPrint,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faFileInvoiceDollar, faPrint } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button } from "../../components/Button";
 import { Pagination } from "../../components/Pagination";
@@ -46,19 +42,13 @@ export const ViewInvoice = () => {
         <ButtonWrapper>
           <Link to="/invoices/invoicelist">
             <Button label="warning" clickHandle={() => {}}>
-              <FontAwesomeIcon
-                icon={faArrowLeft}
-                style={{ fontSize: "14px", marginRight: "4px" }}
-              />
+              <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "14px", marginRight: "4px" }} />
               Back
             </Button>
           </Link>
           <Link to="/invoices/invoicereport">
             <Button label="secondary" clickHandle={() => {}}>
-              <FontAwesomeIcon
-                icon={faPrint}
-                style={{ fontSize: "14px", marginRight: "4px" }}
-              />
+              <FontAwesomeIcon icon={faPrint} style={{ fontSize: "14px", marginRight: "4px" }} />
               Print
             </Button>
           </Link>
@@ -139,9 +129,7 @@ export const ViewInvoice = () => {
             </TableBody>
           </TableWrapper>
           <BottomLine>
-            <LeftNote>
-              This is a Computer Generated Document, No Signature Required.
-            </LeftNote>
+            <LeftNote>This is a Computer Generated Document, No Signature Required.</LeftNote>
             <RightNote>Paper Weight | Roaring Studios Product</RightNote>
           </BottomLine>
         </InvoiceWrapper>
@@ -172,7 +160,7 @@ const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
   border-radius: 0 0 4px 4px;
-  max-width: 1000px;
+  max-width: 100%;
   overflow-x: auto;
   margin: 0 auto;
 `;

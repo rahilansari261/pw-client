@@ -89,7 +89,7 @@ const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
   border-radius: 0 0 4px 4px;
-  max-width: 1000px;
+  min-width: 100%;
   overflow-x: auto;
   margin: 0 auto;
 `;

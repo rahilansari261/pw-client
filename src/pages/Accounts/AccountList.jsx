@@ -1,43 +1,43 @@
-import { Link, Outlet } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { Button } from '../../components/Button'
-import { Pagination } from '../../components/Pagination'
-import { Table } from '../../components/Table'
+import { Link, Outlet } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Button } from "../../components/Button";
+import { Pagination } from "../../components/Pagination";
+import { Table } from "../../components/Table";
 
 export const AccountList = () => {
   const accountData = [
     {
-      _id: '1',
-      'comapny name': 'Rahil Communications',
-      name: 'Rahil',
-      'current balance': 17700,
+      _id: "1",
+      "comapny name": "Rahil Communications",
+      name: "Rahil",
+      "current balance": 17700,
     },
     {
-      _id: '2',
-      'comapny name': 'Rahil Communications',
-      name: 'Rahil',
-      'current balance': 17700,
+      _id: "2",
+      "comapny name": "Rahil Communications",
+      name: "Rahil",
+      "current balance": 17700,
     },
     {
-      _id: '3',
-      'comapny name': 'Rahil Communications',
-      name: 'Rahil',
-      'current balance': 17700,
+      _id: "3",
+      "comapny name": "Rahil Communications",
+      name: "Rahil",
+      "current balance": 17700,
     },
-  ]
-  const clickHandle = () => {}
-  const btnFunc = () => {}
+  ];
+  const clickHandle = () => {};
+  const btnFunc = () => {};
   const tableHelperData = {
-    actionColumnSrc: '/accounts/viewaccount/',
-    actionColumnTitle: 'Action',
-    actionColumnValue: 'Account History',
-    actionColumnColor: 'info',
+    actionColumnSrc: "/accounts/viewaccount/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "Account History",
+    actionColumnColor: "info",
     tableHeadRowData: Object.keys(accountData[0]),
     actionColumnButtonFunc: btnFunc,
-  }
-  const handleSearch = () => {}
+  };
+  const handleSearch = () => {};
 
   return (
     <Main>
@@ -50,8 +50,8 @@ export const AccountList = () => {
       <DetailSection>
         <SearchWrapper>
           <SearchBar>
-            <Input type='text' placeholder='Search' />
-            <Button label='info' clickHandle={handleSearch}>
+            <Input type="text" placeholder="Search" />
+            <Button label="info" clickHandle={handleSearch}>
               Search
             </Button>
           </SearchBar>
@@ -63,15 +63,15 @@ export const AccountList = () => {
       </DetailSection>
       <Outlet />
     </Main>
-  )
-}
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-`
+`;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
   padding: 0.75em 1em;
@@ -80,21 +80,21 @@ const TitleSection = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-`
+`;
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
   border-radius: 0 0 4px 4px;
-  max-width: 1000px;
+  max-width: 100%;
   overflow-x: auto;
   margin: 0 auto;
-`
+`;
 const SearchWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 8px;
-`
+`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -104,7 +104,7 @@ const SearchBar = styled.div`
   @media (max-width: 550px) {
     width: 70%;
   }
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -117,13 +117,13 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-`
-const SearchDesc = styled.div``
+`;
+const SearchDesc = styled.div``;
 const Title = styled.div`
   padding-left: 8px;
-  font-family: 'Cabin-bold';
-`
+  font-family: "Cabin-bold";
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
-`
+`;

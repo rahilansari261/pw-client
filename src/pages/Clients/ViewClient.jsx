@@ -1,10 +1,10 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUsers } from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { Button } from '../../components/Button'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUsers } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { Button } from "../../components/Button";
 
 export const ViewClient = () => {
-    const clickHandle = () => {}
+  const clickHandle = () => {};
 
   return (
     <Main>
@@ -17,102 +17,54 @@ export const ViewClient = () => {
       <DetailSection>
         <Form>
           <FormElement>
-            <Label htmlFor=''>Company Name *</Label>
-            <Input
-              type='text'
-              name='company'
-              id='company'
-              autoComplete='off'
-              placeholder='Name of Company to be used in invoices'
-            />
+            <Label htmlFor="">Company Name *</Label>
+            <Input type="text" name="company" id="company" autoComplete="off" placeholder="Name of Company to be used in invoices" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Client Name *</Label>
-            <Input
-              type='text'
-              name='client_name'
-              id='client_name'
-              autoComplete='off'
-              placeholder=''
-            />
+            <Label htmlFor="">Client Name *</Label>
+            <Input type="text" name="client_name" id="client_name" autoComplete="off" placeholder="" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Client Address *</Label>
-            <TextArea
-              type='text'
-              name='address'
-              id='address'
-              autoComplete='off'
-              placeholder=''
-              rows='2'
-            />
+            <Label htmlFor="">Client Address *</Label>
+            <TextArea type="text" name="address" id="address" autoComplete="off" placeholder="" rows="2" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Phone *</Label>
-            <Input
-              type='number'
-              name='phone'
-              id='phone'
-              autoComplete='off'
-              placeholder=''
-            />
+            <Label htmlFor="">Phone *</Label>
+            <Input type="number" name="phone" id="phone" autoComplete="off" placeholder="" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Email *</Label>
-            <Input
-              type='email'
-              name='email'
-              id='email'
-              autoComplete='off'
-              placeholder=''
-            />
+            <Label htmlFor="">Email *</Label>
+            <Input type="email" name="email" id="email" autoComplete="off" placeholder="" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>GST No. *</Label>
-            <Input
-              type='text'
-              name='gst'
-              id='gst'
-              autoComplete='off'
-              placeholder=''
-            />
+            <Label htmlFor="">GST No. *</Label>
+            <Input type="text" name="gst" id="gst" autoComplete="off" placeholder="" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Sevice Tax No. *</Label>
-            <Input
-              type='text'
-              name='tax'
-              id='tax'
-              autoComplete='off'
-              placeholder=''
-            />
+            <Label htmlFor="">Sevice Tax No. *</Label>
+            <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="" />
           </FormElement>
           <FormElement>
-            <Label htmlFor=''>Client Notes </Label>
-            <TextArea
-              type='text'
-              name='notes'
-              id='notes'
-              autoComplete='off'
-              placeholder=''
-              rows='2'
-            />
+            <Label htmlFor="">Client Notes </Label>
+            <TextArea type="text" name="notes" id="notes" autoComplete="off" placeholder="" rows="2" />
           </FormElement>
         </Form>
         <FormElement>
-          <Button label='success' clickHandle={clickHandle}>Update</Button>
+          <Button label="success" clickHandle={clickHandle}>
+            Update
+          </Button>
         </FormElement>
       </DetailSection>
     </Main>
-  )
-}
+  );
+};
 
 const Main = styled.div`
   margin: 2em;
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-`
+`;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
   padding: 0.75em 1em;
@@ -121,30 +73,30 @@ const TitleSection = styled.div`
   justify-content: space-between;
   align-items: center;
   min-height: 60px;
-`
+`;
 
 const Title = styled.div`
   padding-left: 8px;
-  font-family: 'Cabin-bold';
-`
+  font-family: "Cabin-bold";
+`;
 
 const TitleWrapper = styled.div`
   display: flex;
-`
+`;
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
   border-radius: 0 0 4px 4px;
-  max-width: 1000px;
+  max-width: 100%;
   overflow-x: auto;
   margin: 0 auto;
-`
+`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 const FormElement = styled.div`
   display: flex;
   justify-content: center;
@@ -152,11 +104,11 @@ const FormElement = styled.div`
   /* gap: 2em; */
   margin-bottom: 1em;
   min-width: 500px;
-`
+`;
 
 const Label = styled.label`
   flex: 1;
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -170,7 +122,7 @@ const Input = styled.input`
     box-shadow: var(--input-bs);
   }
   flex: 2;
-`
+`;
 
 const TextArea = styled.textarea`
   background-color: var(--white-color);
@@ -185,4 +137,4 @@ const TextArea = styled.textarea`
     box-shadow: var(--input-bs);
   }
   flex: 2;
-`
+`;
