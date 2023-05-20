@@ -66,12 +66,12 @@ export const AppWrapper = () => {
 };
 
 const AppContainer = styled.div`
-  overflow-y: auto;
   display: flex;
   position: relative;
 `;
 
 const PageWrapper = styled.main`
+overflow-y: auto;
   min-height: 100vh;
   width: 100%;
   flex: 4;
