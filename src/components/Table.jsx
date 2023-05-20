@@ -8,7 +8,7 @@ export const Table = ({ tableData, tableHelperData }) => {
         <TableHead>
           <TableRow>
             {tableHelperData.tableHeadRowData.slice(1).map((item) => (
-              <TableHeadData key={item} style={{ minWidth: "80px" }}>
+              <TableHeadData key={item} style={{ minWidth: "110px" }}>
                 {item}
               </TableHeadData>
             ))}
