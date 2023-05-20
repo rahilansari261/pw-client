@@ -95,11 +95,13 @@ export const Dashboard = () => {
 };
 
 const Main = styled.div`
+overflow-y:auto;
   margin: 2em;
   background-color: white;
   color: black;
   border-radius: 4px;
   padding: 1em;
+  padding-top:3em;
   @media (max-width: 550px) {
     margin: 0em;
     border-radius: 0px;
