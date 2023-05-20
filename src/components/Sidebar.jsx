@@ -129,6 +129,7 @@ const Aside = styled.aside`
   position: fixed;
   top: 0;
   left:0;
+  bottom: 0;
   z-index: 1;
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
