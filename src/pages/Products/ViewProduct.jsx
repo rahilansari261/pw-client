@@ -104,7 +104,7 @@ const FormElement = styled.div`
   align-items: center;
   /* gap: 2em; */
   margin-bottom: 1em;
-  min-width: 500px;
+  min-width: 100%;
 `;
 
 const Label = styled.label`
