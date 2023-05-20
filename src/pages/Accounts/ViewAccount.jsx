@@ -129,6 +129,11 @@ const SearcAndClientInfoWrapper = styled.div`
   border-radius: 6px;
   box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
   margin-bottom: 3em;
+  @media (max-width: 550px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 `;
 const ClientWrapper = styled.div`
   display: flex;
