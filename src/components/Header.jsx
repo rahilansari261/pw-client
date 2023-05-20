@@ -32,13 +32,15 @@ const TopHeader = styled.header`
   background-color: var(--primary-color);
   color: white;
   align-items: center;
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
   box-shadow: var(--header-bs);
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1;
+  width: 100%;
 `
 const NavIcon = styled.div`
   padding-left: 32px;
