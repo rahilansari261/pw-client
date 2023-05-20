@@ -102,9 +102,7 @@ const TitleSection = styled.div`
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
-  border-radius: 0 0 4px 4px;
-  max-width: 1000px;
-  overflow-x: auto;
+  border-radius: 0 0 4px 4px;    
   margin: 0 auto;
 `;
 const SearchWrapper = styled.div`

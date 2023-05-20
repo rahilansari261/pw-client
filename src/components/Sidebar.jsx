@@ -4,17 +4,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Pallete from "../util/Constant";
 import FAQpdf from "../assets/FAQ.pdf";
-import {
-  faGem,
-  faChartLine,
-  faUsers,
-  faBagShopping,
-  faGears,
-  faArrowRightFromBracket,
-  faFileInvoiceDollar,
-  faFileInvoice,
-  faInfoCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faGem, faChartLine, faUsers, faBagShopping, faGears, faArrowRightFromBracket, faFileInvoiceDollar, faFileInvoice, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 let openMenu;
 export const Sidebar = (props) => {
@@ -95,10 +85,7 @@ export const Sidebar = (props) => {
               <Link to={item.link} key={item.id}>
                 <LiFlexItem
                   style={{
-                    backgroundColor:
-                      item.link === props.title && !isLogout
-                        ? Pallete.secondaryColor
-                        : "initial",
+                    backgroundColor: item.link === props.title && !isLogout ? Pallete.secondaryColor : "initial",
                   }}
                 >
                   <div>{item.title}</div>
@@ -110,10 +97,7 @@ export const Sidebar = (props) => {
           <Link to={FAQpdf} target="_blank">
             <LiFlexItem
               style={{
-                backgroundColor:
-                  props.title === "/needhelp" && !isLogout
-                    ? Pallete.secondaryColor
-                    : "initial",
+                backgroundColor: props.title === "/needhelp" && !isLogout ? Pallete.secondaryColor : "initial",
               }}
             >
               <div>Need Help</div>
@@ -148,8 +132,7 @@ const Aside = styled.aside`
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
     position: absolute;
-    transform: ${(props) =>
-      openMenu ? "translateX(0%)" : "translateX(-100%)"};
+    transform: ${(props) => (openMenu ? "translateX(0%)" : "translateX(-100%)")};
     transition: transform 250ms;
   }
 `;

@@ -4,7 +4,7 @@ import { Login } from "./pages/Login";
 function App() {
   const token = localStorage.getItem("token");
 
-  return <>{token ? <AppWrapper /> : <Login />}</>;th
+  return <>{token ? <AppWrapper /> : <Login />}</>;
 }
 
 export default App;
