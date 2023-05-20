@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button, Pagination, Table } from "../../components/Index";
+import { LineWave } from "react-loader-spinner";
 import useFetch from "../../hooks/useFetch";
 
 export const ProductList = () => {
@@ -57,7 +58,11 @@ export const ProductList = () => {
 
           <SearchDesc> </SearchDesc>
         </SearchWrapper>
-        {!isLoading && <Table tableData={productData} tableHelperData={tableHelperData} />}
+        {!isLoading ? (
+          <Table tableData={productData} tableHelperData={tableHelperData} />
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
         <Pagination />
       </DetailSection>
       <Outlet />

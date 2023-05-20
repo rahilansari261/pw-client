@@ -7,10 +7,9 @@ import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
+import { LineWave } from "react-loader-spinner";
 
 export const InvoiceList = () => {
-  
-
   const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/invoices/1/10/All");
   let invoiceData;
   const sanitizeTableData = (iData) =>
@@ -76,7 +75,11 @@ export const InvoiceList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        {!isLoading && <Table tableData={invoiceData} tableHelperData={tableHelperData} />}
+        {!isLoading ? (
+          <Table tableData={invoiceData} tableHelperData={tableHelperData} />
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
         <Pagination />
       </DetailSection>
       <Outlet />
@@ -102,7 +105,7 @@ const TitleSection = styled.div`
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 1em;
-  border-radius: 0 0 4px 4px;    
+  border-radius: 0 0 4px 4px;
   margin: 0 auto;
 `;
 const SearchWrapper = styled.div`

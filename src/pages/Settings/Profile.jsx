@@ -1,104 +1,77 @@
-import styled from 'styled-components'
-import { Button } from '../../components/Button'
+import styled from "styled-components";
+import { Button } from "../../components/Button";
 
 export const Profile = () => {
-  const clickHandle = () => {}
+  const clickHandle = () => {};
   return (
     <>
       <Form>
         <FormElement>
-          <Label htmlFor=''>Company Name </Label>
+          <Label htmlFor="">Company Name </Label>
           <div style={{ flex: 2 }}>Subuyan Enterprises</div>
         </FormElement>
         <FormElement>
-          <Label htmlFor=''>Name *</Label>
-          <Input
-            type='text'
-            name='name'
-            id='name'
-            autoComplete='off'
-            placeholder=''
-          />
+          <Label htmlFor="">Name *</Label>
+          <Input type="text" name="name" id="name" autoComplete="off" placeholder="" />
         </FormElement>
         <FormElement>
-          <Label htmlFor=''>GST No. *</Label>
-          <Input
-            type='text'
-            name='gst'
-            id='gst'
-            autoComplete='off'
-            placeholder=''
-          />
+          <Label htmlFor="">GST No. *</Label>
+          <Input type="text" name="gst" id="gst" autoComplete="off" placeholder="" />
         </FormElement>
         <FormElement>
-          <Label htmlFor=''>Sevice Tax No. *</Label>
-          <Input
-            type='text'
-            name='tax'
-            id='tax'
-            autoComplete='off'
-            placeholder=''
-          />
+          <Label htmlFor="">Sevice Tax No. *</Label>
+          <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="" />
         </FormElement>
 
         <FormElement>
-          <Label htmlFor=''>Phone *</Label>
-          <Input
-            type='number'
-            name='phone'
-            id='phone'
-            autoComplete='off'
-            placeholder=''
-          />
+          <Label htmlFor="">Phone *</Label>
+          <Input type="number" name="phone" id="phone" autoComplete="off" placeholder="" />
         </FormElement>
 
         <FormElement>
-          <Label htmlFor=''> Address *</Label>
-          <TextArea
-            type='text'
-            name='address'
-            id='address'
-            autoComplete='off'
-            placeholder=''
-            rows='2'
-          />
+          <Label htmlFor=""> Address *</Label>
+          <TextArea type="text" name="address" id="address" autoComplete="off" placeholder="" rows="2" />
         </FormElement>
         <FormElement>
-          <Label htmlFor=''> </Label>
+          <Label htmlFor=""> </Label>
           <FootNote>
-            Please note these information will be used in invoices. <br />{' '}
-            Please check before saving them.
+            Please note these information will be used in invoices. <br /> Please check before saving them.
           </FootNote>
         </FormElement>
       </Form>
 
       <FormElement>
-        <Button label='success' clickHandle={() => clickHandle('')}>
+        <Button label="success" clickHandle={() => clickHandle("")}>
           Save My Profile
         </Button>
       </FormElement>
     </>
-  )
-}
+  );
+};
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+`;
 const FormElement = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   /* gap: 2em; */
   margin-bottom: 1em;
-  min-width: 500px;
-`
+  min-width: 100%;
+  @media (max-width: 550px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+`;
 
 const Label = styled.label`
   flex: 1;
-`
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   padding: 8px;
@@ -112,7 +85,10 @@ const Input = styled.input`
     box-shadow: var(--input-bs);
   }
   flex: 2;
-`
+  @media (max-width: 550px) {
+    width: 100%;
+  }
+`;
 
 const TextArea = styled.textarea`
   background-color: var(--white-color);
@@ -127,8 +103,11 @@ const TextArea = styled.textarea`
     box-shadow: var(--input-bs);
   }
   flex: 2;
-`
+  @media (max-width: 550px) {
+    width: 100%;
+  }
+`;
 const FootNote = styled.div`
   flex: 2;
   font-size: 12px;
-`
+`;

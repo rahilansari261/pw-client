@@ -6,6 +6,7 @@ import { Button } from "../../components/Button";
 import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
+import { LineWave } from "react-loader-spinner";
 
 export const ClientList = () => {
   const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/clients/1/10/All");
@@ -18,7 +19,7 @@ export const ClientList = () => {
 
   if (!isLoading) {
     const { data: cData } = data;
-    clientData = sanitizeTableData(cData);    
+    clientData = sanitizeTableData(cData);
   }
   const clickHandle = () => {};
   const btnFunc = () => {};
@@ -55,7 +56,11 @@ export const ClientList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        {!isLoading && <Table tableData={clientData} tableHelperData={tableHelperData} />}
+        {!isLoading ? (
+          <Table tableData={clientData} tableHelperData={tableHelperData} />
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
         <Pagination />
       </DetailSection>
       <Outlet />
