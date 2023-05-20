@@ -74,7 +74,7 @@ export const AccountEntry = () => {
         </Form>
         <FormElement>
           <Button label="success" clickHandle={clickHandle}>
-            Save
+            Save Entry
           </Button>
         </FormElement>
       </DetailSection>
