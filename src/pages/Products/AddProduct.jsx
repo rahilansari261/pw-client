@@ -104,7 +104,11 @@ const FormElement = styled.div`
   align-items: center;
   /* gap: 2em; */
   margin-bottom: 1em;
-  min-width: 500px;
+  min-width: 100%;
+  /* @media (max-width: "550px") {
+    flex-direction: column;
+    align-items: flex-start;
+  } */
 `;
 
 const Label = styled.label`
