@@ -66,6 +66,7 @@ export const AppWrapper = () => {
 };
 
 const AppContainer = styled.div`
+  overflow-y: auto;
   display: flex;
   position: relative;
 `;
