@@ -100,6 +100,10 @@ const Main = styled.div`
   color: black;
   border-radius: 4px;
   padding: 1em;
+  @media (max-width: 550px) {
+    margin: 0em;
+    border-radius: 0px;
+  }
 `;
 const ChartWrapper = styled.div`
   width: 100%;

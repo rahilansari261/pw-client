@@ -80,6 +80,10 @@ const Main = styled.div`
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
+  @media (max-width: 550px) {
+    margin: 0em;
+    border-radius: 0px;
+  }
 `;
 const TitleSection = styled.div`
   background-color: var(--table-title-section);
