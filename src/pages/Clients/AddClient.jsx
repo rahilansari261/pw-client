@@ -51,7 +51,7 @@ export const AddClient = () => {
         </Form>
         <FormElement>
           <Button label="success" clickHandle={clickHandle}>
-            Save
+            Save Client
           </Button>
         </FormElement>
       </DetailSection>

@@ -48,7 +48,7 @@ export const AddProduct = () => {
         </Form>
         <FormElement>
           <Button label="success" clickHandle={clickHandle}>
-            Save
+            Save Product
           </Button>
         </FormElement>
       </DetailSection>
