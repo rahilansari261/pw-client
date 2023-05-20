@@ -126,8 +126,9 @@ const Aside = styled.aside`
   flex: 1;
   height: 100vh;
   background-color: var(--primary-color);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left:0;
   z-index: 1;
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
