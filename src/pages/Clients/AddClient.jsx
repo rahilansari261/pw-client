@@ -124,7 +124,7 @@ const Input = styled.input`
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 40%;
+  width: 100%
   outline: none;
   font-family: inherit;
   &:focus {
@@ -139,7 +139,7 @@ const TextArea = styled.textarea`
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 40%;
+  width: 100%
   outline: none;
   font-family: inherit;
   &:focus {
