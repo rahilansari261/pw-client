@@ -51,7 +51,7 @@ export const ViewClient = () => {
         </Form>
         <FormElement>
           <Button label="success" clickHandle={clickHandle}>
-            Update
+            Update Client
           </Button>
         </FormElement>
       </DetailSection>

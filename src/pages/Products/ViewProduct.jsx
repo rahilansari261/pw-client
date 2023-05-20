@@ -48,7 +48,7 @@ export const ViewProduct = () => {
         </Form>
         <FormElement>
           <Button label="success" clickHandle={() => clickHandle("")}>
-            Update
+            Update Product
           </Button>
         </FormElement>
       </DetailSection>
