@@ -71,7 +71,6 @@ const AppContainer = styled.div`
 `;
 
 const PageWrapper = styled.main`
-overflow-y: auto;
   min-height: 100vh;
   width: 100%;
   flex: 4;
