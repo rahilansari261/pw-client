@@ -68,12 +68,12 @@ export const AppWrapper = () => {
 const AppContainer = styled.div`
   display: flex;
   position: relative;
-  
 `;
 
 const PageWrapper = styled.main`
+  min-height: 100vh;
   width: 100%;
-  flex: 4;  
+  flex: 4;
   background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   @media (max-width: 550px) {
     flex: 1;
