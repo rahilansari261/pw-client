@@ -8,11 +8,11 @@ export const Table = ({ tableData, tableHelperData }) => {
         <TableHead>
           <TableRow>
             {tableHelperData.tableHeadRowData.slice(1).map((item) => (
-              <TableHeadData key={item} style={{ minWidth: "60px" }}>
+              <TableHeadData key={item} style={{ minWidth: "80px" }}>
                 {item}
               </TableHeadData>
             ))}
-            {tableHelperData.actionColumnTitle ? <TableHeadData style={{ minWidth: "120px", textAlign: "center" }}>{tableHelperData.actionColumnTitle}</TableHeadData> : null}
+            {tableHelperData.actionColumnTitle ? <TableHeadData style={{ minWidth: "60px", textAlign: "center" }}>{tableHelperData.actionColumnTitle}</TableHeadData> : null}
           </TableRow>
         </TableHead>
         <TableBody>
