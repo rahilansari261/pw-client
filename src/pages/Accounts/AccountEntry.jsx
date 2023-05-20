@@ -145,6 +145,9 @@ const FEValue = styled.div`
   flex: 2;
   text-align: left;
   margin-left: 20px;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const Input = styled.input`
   background-color: var(--white-color);
@@ -160,17 +163,29 @@ const Input = styled.input`
     box-shadow: var(--input-bs);
   }
   flex: 2;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const RadioWrapper = styled.div`
   flex: 2;
   text-align: left;
   margin-left: 12px;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const Radio = styled.input`
   margin-left: 8px;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const RadioLabel = styled.label`
   margin-left: 4px;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const TextArea = styled.textarea`
   background-color: var(--white-color);
@@ -186,6 +201,9 @@ const TextArea = styled.textarea`
     box-shadow: var(--input-bs);
   }
   flex: 2;
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const DateInput = styled.input`
   flex: 2;
@@ -205,6 +223,9 @@ const DateInput = styled.input`
   &::-webkit-calendar-picker-indicator {
     filter: invert(1);
   }
+  @media (max-width: 550px) {
+    margin-left: 0px;
+  }
 `;
 const Select = styled.select`
   flex: 2;
@@ -220,5 +241,8 @@ const Select = styled.select`
 
   &:focus {
     box-shadow: var(--input-bs);
+  }
+  @media (max-width: 550px) {
+    margin-left: 0px;
   }
 `;
