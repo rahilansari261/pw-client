@@ -49,6 +49,7 @@ const NavIcon = styled.div`
   opacity: 0;
   @media (max-width: 550px) {
     opacity: 1;
+    padding-left:16px;
   }
 `
 
