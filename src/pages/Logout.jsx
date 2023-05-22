@@ -12,6 +12,7 @@ const Main = styled.div`
   color: black;
   border-radius: 4px;
   padding: 1em;
+  padding-top:5em;
   @media (max-width: 550px) {
     margin: 0em;
     border-radius: 0px;

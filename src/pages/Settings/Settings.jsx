@@ -77,6 +77,7 @@ const Main = styled.div`
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
+  padding-top:5em;
   @media (max-width: 550px) {
     margin: 0em;
     border-radius: 0px;
