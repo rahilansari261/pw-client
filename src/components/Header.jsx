@@ -59,6 +59,9 @@ const UserWrapper = styled.div`
   justify-content: end;
   align-items: center;
   gap: 16px;
+  @media (max-width: 550px){
+    padding-right:16px;
+  }
 `
 const UserName = styled.div`
   padding-right: 1em 0;
