@@ -79,54 +79,56 @@ export const ViewInvoice = () => {
             </BuyerInfo>
           </AddressRow>
           <TableWrapper>
-            <TableHead>
-              <TableRow>
-                <TableHeadData>Product Name</TableHeadData>
-                <TableHeadData>Price(Rs)</TableHeadData>
-                <TableHeadData>Quantity</TableHeadData>
-                <TableHeadData>Tax(%)</TableHeadData>
-                <TableHeadData>Total(Rs)</TableHeadData>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {invoiceData.map((item) => (
-                <TableRow key={item._id}>
-                  <TableData>
-                    {item.name}
-                    <br />
-                    {item.desc}
-                  </TableData>
-                  <TableData>{item.price}</TableData>
-                  <TableData>{item.qty}</TableData>
-                  <TableData>
-                    {item.tax_amount}
-                    <br />
-                    {item.tax}
-                  </TableData>
-                  <TableData>{item.total}</TableData>
+            <TableContent>
+              <TableHead>
+                <TableRow>
+                  <TableHeadData>Product Name</TableHeadData>
+                  <TableHeadData>Price(Rs)</TableHeadData>
+                  <TableHeadData>Quantity</TableHeadData>
+                  <TableHeadData>Tax(%)</TableHeadData>
+                  <TableHeadData>Total(Rs)</TableHeadData>
                 </TableRow>
-              ))}
-              <TableRow>
-                <TermsTableData>Hello</TermsTableData>
-                <TableData>Sub Total</TableData>
-                <TableData>31000</TableData>
-              </TableRow>
-              <TableRow>
-                <TableData>
-                  Tax Summary <br />
-                  gst@18
-                </TableData>
-                <TableData>1000</TableData>
-              </TableRow>
-              <TableRow>
-                <TableData>Discount</TableData>
-                <TableData>1000</TableData>
-              </TableRow>
-              <TableRow>
-                <TableData>Grand Total</TableData>
-                <TableData>30000</TableData>
-              </TableRow>
-            </TableBody>
+              </TableHead>
+              <TableBody>
+                {invoiceData.map((item) => (
+                  <TableRow key={item._id}>
+                    <TableData>
+                      {item.name}
+                      <br />
+                      {item.desc}
+                    </TableData>
+                    <TableData>{item.price}</TableData>
+                    <TableData>{item.qty}</TableData>
+                    <TableData>
+                      {item.tax_amount}
+                      <br />
+                      {item.tax}
+                    </TableData>
+                    <TableData>{item.total}</TableData>
+                  </TableRow>
+                ))}
+                <TableRow>
+                  <TermsTableData>Hello</TermsTableData>
+                  <TableData>Sub Total</TableData>
+                  <TableData>31000</TableData>
+                </TableRow>
+                <TableRow>
+                  <TableData>
+                    Tax Summary <br />
+                    gst@18
+                  </TableData>
+                  <TableData>1000</TableData>
+                </TableRow>
+                <TableRow>
+                  <TableData>Discount</TableData>
+                  <TableData>1000</TableData>
+                </TableRow>
+                <TableRow>
+                  <TableData>Grand Total</TableData>
+                  <TableData>30000</TableData>
+                </TableRow>
+              </TableBody>
+            </TableContent>
           </TableWrapper>
           <BottomLine>
             <LeftNote>This is a Computer Generated Document, No Signature Required.</LeftNote>
@@ -205,11 +207,15 @@ const InvoiceDate = styled.div``;
 const RightSide = styled.h1`
   font-family: ${cabinRegular};
   font-size: 46px;
+  @media (max-width: 550px) {
+    font-size: 32px;
+  }
 `;
 const AddressRow = styled.div`
   display: flex;
   padding-bottom: 2em;
   font-family: ${cabinRegular};
+  gap: 2em;
 `;
 const SellerInfo = styled.div`
   display: flex;
@@ -242,7 +248,10 @@ const GST = styled.div`
   font-family: ${cabinRegular};
 `;
 
-const TableWrapper = styled.table`
+const TableWrapper = styled.div`
+  overflow-x: auto;
+`;
+const TableContent = styled.table`
   width: 100%;
   border: 1px solid var(--table-border-color);
   border-collapse: collapse;
