@@ -30,17 +30,6 @@ export const AppWrapper = () => {
       setOpen(!open);
     }
   };
-  const handleClick = (event) => {
-    const clickX = event.clientX;
-    const pageWidth = window.innerWidth;
-    if (open && clickX > 205) {
-      // console.log("Click X-coordinate:", clickX);
-      // console.log("Page Width:", pageWidth);
-      console.log(`inside open ${open}`);
-
-      setOpen(!open);
-    }
-  };
 
   return (
     <AppContainer onClick={handleClick}>
