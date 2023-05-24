@@ -231,7 +231,7 @@ const BuyerInfo = styled.div`
   flex: 1;
   &::before {
     content: "Clients Details:";
-    margin-top: -24px;
+    margin-top: -16px;
     font-size: 70%;
   }
 `;
