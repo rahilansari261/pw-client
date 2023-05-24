@@ -273,6 +273,7 @@ const ItemTitle = styled.div`
   flex: 1;
   font-family: ${cabinBold};
   font-size: 14px;
+  min-width: 85px;
 `;
 const ItemValue = styled.div`
   text-align: left;
