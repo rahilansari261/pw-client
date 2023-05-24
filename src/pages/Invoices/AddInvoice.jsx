@@ -320,8 +320,7 @@ const Input = styled.input`
     box-shadow: var(--input-bs);
   }
   @media (max-width: 550px) {
-    width: 100%;
-    padding-left: 0px;
+    width: 100%;    
     margin-left: 0px;
   }
 `;
