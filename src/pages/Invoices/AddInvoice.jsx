@@ -192,7 +192,7 @@ export const AddInvoice = () => {
               <SummaryInfo>
                 <ItemTitle>Discount :</ItemTitle>
                 <ItemValue>
-                  <ProductInput type="number" placeholder="0" />
+                  <DiscountInput type="number" placeholder="0" />
                 </ItemValue>
               </SummaryInfo>
               <SummaryInfo>
@@ -239,7 +239,7 @@ const DetailSection = styled.div`
 const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  padding: 2em;
   background-color: var(--table-cell-color);
   border-radius: 6px;
   border: 1px solid #808080;
@@ -329,12 +329,11 @@ const TitleWrapper = styled.div`
 `;
 const ProductInput = styled.input`
   background-color: var(--white-color);
-
   padding: 8px;
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 80%;
+  width: 100%;
   outline: none;
   border: 1px solid #808080;
   font-family: inherit;
@@ -342,13 +341,29 @@ const ProductInput = styled.input`
     box-shadow: var(--input-bs);
   }
   @media (max-width: 550px) {
-    width: 100%;
+    
   }
 `;
+const DiscountInput = styled.input`
+  background-color: var(--white-color);
+  padding: 8px;
+  color: var(--black-color);
+  border: 1px solid var(--table-border-color);
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  border: 1px solid #808080;
+  font-family: inherit;
+  &:focus {
+    box-shadow: var(--input-bs);
+  }
+  @media (max-width: 550px) {
+    
+  }
+`
 
 const TermsAndSummary = styled.div`
   display: flex;
-
   padding: 1em;
   background-color: var(--table-cell-color);
   border-radius: 6px;
