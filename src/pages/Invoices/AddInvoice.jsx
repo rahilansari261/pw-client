@@ -261,11 +261,17 @@ const DeleteButton = styled.div`
 `;
 const TwoColumn = styled.div`
   display: flex;
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
 const ItemInfo = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
+  @media (max-width: 550px) {
+    width: 100%;
+  }
 `;
 
 const ItemTitle = styled.div`
@@ -273,7 +279,10 @@ const ItemTitle = styled.div`
   flex: 1;
   font-family: ${cabinBold};
   font-size: 14px;
-  min-width: 85px;
+  @media (max-width: 550px) {
+    flex: 0;
+    /* min-w */
+  }
 `;
 const ItemValue = styled.div`
   text-align: left;
@@ -281,6 +290,10 @@ const ItemValue = styled.div`
   flex: 1;
   font-family: ${cabinRegular};
   font-size: 14px;
+  @media (max-width: 550px) {
+    flex: 0;
+    margin-left: 8px;
+  }
 `;
 const ItemSearch = styled.div`
   display: flex;
