@@ -96,7 +96,7 @@ export const AddInvoice = () => {
           </DeleteButton>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Name :</ItemTitle>
+              <ItemTitle>Name :</ItemTitle>
               <ItemValue>LG Monitor</ItemValue>
             </ItemInfo>
 
@@ -120,7 +120,7 @@ export const AddInvoice = () => {
           </TwoColumn>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Description :</ItemTitle>
+              <ItemTitle>Description :</ItemTitle>
               <ItemValue>LG Monitor with retina display high quality build </ItemValue>
             </ItemInfo>
             <ItemInfo>
@@ -135,7 +135,7 @@ export const AddInvoice = () => {
           </DeleteButton>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Name :</ItemTitle>
+              <ItemTitle>Name :</ItemTitle>
               <ItemValue>LG Monitor</ItemValue>
             </ItemInfo>
 
@@ -159,7 +159,7 @@ export const AddInvoice = () => {
           </TwoColumn>
           <TwoColumn>
             <ItemInfo>
-              <ItemTitle>Product Description :</ItemTitle>
+              <ItemTitle>Description :</ItemTitle>
               <ItemValue>LG Monitor with retina display high quality build </ItemValue>
             </ItemInfo>
             <ItemInfo>
@@ -280,8 +280,9 @@ const ItemTitle = styled.div`
   font-family: ${cabinBold};
   font-size: 14px;
   @media (max-width: 550px) {
-    flex: 0;
+    flex: none;
     min-width: 85px;
+    /* text-align: unset; */
   }
 `;
 const ItemValue = styled.div`
@@ -291,7 +292,7 @@ const ItemValue = styled.div`
   font-family: ${cabinRegular};
   font-size: 14px;
   @media (max-width: 550px) {
-    flex: 0;
+    flex: none;
     margin-left: 8px;
   }
 `;
@@ -338,6 +339,9 @@ const ProductInput = styled.input`
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
+  }
+  @media (max-width:550px){
+    width:100%
   }
 `;
 
