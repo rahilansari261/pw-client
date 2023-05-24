@@ -1,19 +1,14 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {
-  faClose,
-  faHamburger,
-  faNavicon,
-  faUser,
-} from '@fortawesome/free-solid-svg-icons'
-import styled from 'styled-components'
-import { useState } from 'react'
+import { faClose, faHamburger, faNavicon, faUser } from "@fortawesome/free-solid-svg-icons";
+import styled from "styled-components";
+import { useState } from "react";
 export const Header = (props) => {
-  const [isActive, setIsActive] = useState(false)
-  const handleClick = () => {
-    setIsActive(!isActive)
-    props.handleNav(!isActive)
-  }
+  const [isActive, setIsActive] = useState(false);
+  const handleClick = () => {    
+    props.handleNav(!isActive);
+    setIsActive(!isActive);
+  };
   return (
     <TopHeader>
       <NavIcon onClick={handleClick}>
@@ -25,8 +20,8 @@ export const Header = (props) => {
         <FontAwesomeIcon icon={faUser} />
       </UserWrapper>
     </TopHeader>
-  )
-}
+  );
+};
 
 const TopHeader = styled.header`
   background-color: var(--primary-color);
@@ -44,17 +39,16 @@ const TopHeader = styled.header`
   @media (max-width: 550px) {
     position: fixed;
   }
-
-`
+`;
 const NavIcon = styled.div`
   padding-left: 32px;
   font-size: 2rem;
   opacity: 0;
   @media (max-width: 550px) {
     opacity: 1;
-    padding-left:16px;
+    padding-left: 16px;
   }
-`
+`;
 
 const UserWrapper = styled.div`
   display: flex;
@@ -62,10 +56,10 @@ const UserWrapper = styled.div`
   justify-content: end;
   align-items: center;
   gap: 16px;
-  @media (max-width: 550px){
-    padding-right:16px;
+  @media (max-width: 550px) {
+    padding-right: 16px;
   }
-`
+`;
 const UserName = styled.div`
   padding-right: 1em 0;
-`
+`;
