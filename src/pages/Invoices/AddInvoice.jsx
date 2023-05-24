@@ -52,7 +52,7 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <Input type="text" placeholder="search from saved clients..." />
-          <Button label="success" width="185px">
+          <Button label="success" width="225px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Client
           </Button>
@@ -84,7 +84,7 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
           <Input type="text" placeholder="search from saved products..." />
-          <Button label="success" width="185px">
+          <Button label="success" width="225px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Product
           </Button>
