@@ -365,6 +365,9 @@ const TermsAndSummary = styled.div`
   border: 1px solid #808080;
   box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
   margin-bottom: 1em;
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
 const Terms = styled.div`
   flex: 3;
