@@ -32,7 +32,7 @@ const TopHeader = styled.header`
   background-color: var(--primary-color);
   color: white;
   align-items: center;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
   box-shadow: var(--header-bs);
@@ -41,6 +41,9 @@ const TopHeader = styled.header`
   align-items: center;
   z-index: 1;
   width: 100%;
+  @media (max-width: 550px) {
+    position: fixed;
+  }
 
 `
 const NavIcon = styled.div`

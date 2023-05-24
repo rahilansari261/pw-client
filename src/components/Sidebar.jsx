@@ -126,16 +126,16 @@ const Aside = styled.aside`
   flex: 1;
   height: 100vh;
   background-color: var(--primary-color);
-  position: fixed;
+  position: sticky;
   top: 0;
-  left:0;
+  left: 0;
   bottom: 0;
   z-index: 1;
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
     position: fixed;
     transform: ${(props) => (openMenu ? "translateX(0%)" : "translateX(-100%)")};
-    transition: transform 250ms;
+    transition: transform 250ms;    
   }
 `;
 const LogoWrapper = styled.div`

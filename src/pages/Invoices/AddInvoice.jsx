@@ -1,10 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faFileInvoiceDollar,
-  faPlus,
-  faPlusCircle,
-  faTrashCan,
-} from "@fortawesome/free-solid-svg-icons";
+import { faFileInvoiceDollar, faPlus, faPlusCircle, faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
 import { cabinBold, cabinRegular } from "../../util/Constant";
@@ -58,10 +53,7 @@ export const AddInvoice = () => {
           <div style={{ minWidth: "120px" }}>Search Clients :</div>
           <Input type="text" placeholder="search from saved clients..." />
           <Button label="success">
-            <FontAwesomeIcon
-              style={{ fontSize: "14px", marginRight: "4px" }}
-              icon={faPlusCircle}
-            />
+            <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Client
           </Button>
         </ItemSearch>
@@ -93,10 +85,7 @@ export const AddInvoice = () => {
           <div style={{ minWidth: "120px" }}>Search Products :</div>
           <Input type="text" placeholder="search from saved products..." />
           <Button label="success">
-            <FontAwesomeIcon
-              style={{ fontSize: "14px", marginRight: "4px" }}
-              icon={faPlusCircle}
-            />
+            <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Product
           </Button>
         </ItemSearch>
@@ -132,9 +121,7 @@ export const AddInvoice = () => {
           <TwoColumn>
             <ItemInfo>
               <ItemTitle>Product Description :</ItemTitle>
-              <ItemValue>
-                LG Monitor with retina display high quality build{" "}
-              </ItemValue>
+              <ItemValue>LG Monitor with retina display high quality build </ItemValue>
             </ItemInfo>
             <ItemInfo>
               <ItemTitle>Total :</ItemTitle>
@@ -173,9 +160,7 @@ export const AddInvoice = () => {
           <TwoColumn>
             <ItemInfo>
               <ItemTitle>Product Description :</ItemTitle>
-              <ItemValue>
-                LG Monitor with retina display high quality build{" "}
-              </ItemValue>
+              <ItemValue>LG Monitor with retina display high quality build </ItemValue>
             </ItemInfo>
             <ItemInfo>
               <ItemTitle>Total :</ItemTitle>
@@ -186,13 +171,7 @@ export const AddInvoice = () => {
         <TermsAndSummary>
           <Terms>
             <TermsTitle>Terms</TermsTitle>
-            <TermsDetail
-              name="terms"
-              id="terms"
-              cols="30"
-              rows="10"
-              placeholder="These are the terms and conditions you can change it for your invoice if you want."
-            ></TermsDetail>
+            <TermsDetail name="terms" id="terms" cols="30" rows="10" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
           </Terms>
           <Summary>
             <SingleColumn>
@@ -236,8 +215,8 @@ const Main = styled.div`
   background-color: var(--white-color);
   color: black;
   border-radius: 4px;
-  padding-top:4em;
   @media (max-width: 550px) {
+    padding-top: 4em;
     margin: 0em;
     border-radius: 0px;
   }
