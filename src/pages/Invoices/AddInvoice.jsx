@@ -50,9 +50,9 @@ export const AddInvoice = () => {
       </TitleSection>
       <DetailSection>
         <ItemSearch>
-          <div style={{ minWidth: "120px" }}>Search Clients :</div>
+          <SearchTitle>Search Clients :</SearchTitle>
           <Input type="text" placeholder="search from saved clients..." />
-          <Button label="success">
+          <Button label="success" width="185px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Client
           </Button>
@@ -82,9 +82,9 @@ export const AddInvoice = () => {
         </ItemWrapper>
 
         <ItemSearch>
-          <div style={{ minWidth: "120px" }}>Search Products :</div>
+          <SearchTitle>Search Products :</SearchTitle>
           <Input type="text" placeholder="search from saved products..." />
-          <Button label="success">
+          <Button label="success" width="185px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Product
           </Button>
@@ -300,6 +300,12 @@ const ItemSearch = styled.div`
   margin-bottom: 1em;
 `;
 
+const SearchTitle = styled.div`
+  min-width: 120px;
+  @media (max-width: 550px) {
+    display: none;
+  }
+`;
 const Input = styled.input`
   background-color: var(--white-color);
   margin: 0 1em;
@@ -312,6 +318,10 @@ const Input = styled.input`
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
+  }
+  @media (max-width: 550px) {
+    width: 100%;
+    padding-left: 0px;
   }
 `;
 
