@@ -16,14 +16,12 @@ export const AppWrapper = () => {
   const location = useLocation();
   const pathName = location.pathname.split("/");
   const [open, setOpen] = useState(false);
-  const handleNav = (val) => {
-    if ((!open && val) || (!open && !val) || (open && !val) || (open && val)) {
-      setOpen(!open);
-    }
-    // if (!open || val) {
-    //   setOpen(!open);
-    // }
-  };
+  // const handleNav = (val) => {
+  //   if ((!open && val) || (!open && !val) || (open && !val) || (open && val)) {
+  //     setOpen(!open);
+  //   }
+  // };
+  const handleNav = () => setOpen(!open);
   const handleClick = (event) => {
     const clickX = event.clientX;
     const pageWidth = window.innerWidth;
@@ -36,7 +34,7 @@ export const AppWrapper = () => {
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`} open={open} />
+      <Sidebar title={`/${pathName[1]}`} open={open} handleNav={handleNav} />
       <PageWrapper>
         <Header handleNav={handleNav} />
         <Routes>

@@ -3,15 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faHamburger, faNavicon, faUser } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useState } from "react";
-export const Header = (props) => {
-  const [isActive, setIsActive] = useState(false);
-  const handleClick = () => {    
-    props.handleNav(!isActive);
-    setIsActive(!isActive);
-  };
+export const Header = (props) => {  
   return (
     <TopHeader>
-      <NavIcon onClick={handleClick}>
+      <NavIcon onClick={props.handleNav}>
         <FontAwesomeIcon icon={faNavicon} />
       </NavIcon>
 
