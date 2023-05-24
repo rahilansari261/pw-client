@@ -281,7 +281,7 @@ const ItemTitle = styled.div`
   font-size: 14px;
   @media (max-width: 550px) {
     flex: 0;
-    /* min-w */
+    min-width: 85px;
   }
 `;
 const ItemValue = styled.div`
