@@ -64,7 +64,7 @@ export const Sidebar = (props) => {
   ];
   const [isLogout, setLogout] = useState(false);
   const handleLogout = () => {
-    props.handleNav();
+    props.closeNav();
     setLogout(true);
     localStorage.setItem("token", "");
     window.location.reload();
@@ -74,7 +74,7 @@ export const Sidebar = (props) => {
       <nav>
         <UnOrderedList>
           <Link to="/" >
-            <LiFlexItemLogo onClick={props.handleNav}>
+            <LiFlexItemLogo >
               <LogoWrapper>
                 <FontAwesomeIcon icon={faGem} />
               </LogoWrapper>
@@ -84,7 +84,7 @@ export const Sidebar = (props) => {
           {listItems.map((item) => {
             return (
               <Link to={item.link} key={item.id}>
-                <LiFlexItem
+                <LiFlexItem onClick={props.closeNav}
                   style={{
                     backgroundColor: item.link === props.title && !isLogout ? Pallete.secondaryColor : "initial",
                   }}
@@ -96,7 +96,7 @@ export const Sidebar = (props) => {
             );
           })}
           <Link to={FAQpdf} target="_blank" >
-            <LiFlexItem onClick={props.handleNav}
+            <LiFlexItem onClick={props.closeNav}
               style={{
                 backgroundColor: props.title === "/needhelp" && !isLogout ? Pallete.secondaryColor : "initial",
               }}

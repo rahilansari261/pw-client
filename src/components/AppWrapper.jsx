@@ -22,19 +22,21 @@ export const AppWrapper = () => {
   //   }
   // };
   const handleNav = () => setOpen(!open);
+  const closeNav = () => {
+    console.log(`hello ji`);
+    setOpen(false);
+  };
   const handleClick = (event) => {
     const clickX = event.clientX;
     const pageWidth = window.innerWidth;
     if (open && clickX > 205) {
-      // console.log("Click X-coordinate:", clickX);
-      // console.log("Page Width:", pageWidth);
       setOpen(false);
     }
   };
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`} open={open} handleNav={handleNav} />
+      <Sidebar title={`/${pathName[1]}`} open={open} closeNav={closeNav} />
       <PageWrapper>
         <Header handleNav={handleNav} />
         <Routes>
