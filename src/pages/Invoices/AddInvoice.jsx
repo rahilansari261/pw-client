@@ -171,7 +171,7 @@ export const AddInvoice = () => {
         <TermsAndSummary>
           <Terms>
             <TermsTitle>Terms</TermsTitle>
-            <TermsDetail name="terms" id="terms" cols="30" rows="10" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
+            <TermsDetail name="terms" id="terms" cols="30" rows="7" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
           </Terms>
           <Summary>
             <SingleColumn>
@@ -281,7 +281,7 @@ const ItemTitle = styled.div`
   font-size: 14px;
   @media (max-width: 550px) {
     flex: none;
-    min-width: 85px;
+    min-width: 90px;
     /* text-align: unset; */
   }
 `;
@@ -401,6 +401,7 @@ const SingleColumn = styled.div`
 
 const SummaryInfo = styled(ItemInfo)`
   padding: 4px 0;
+  gap: 4px;
 `;
 const ButtonWrapper = styled.div`
   display: grid;
