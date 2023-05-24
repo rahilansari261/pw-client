@@ -18,7 +18,18 @@ export const AppWrapper = () => {
   const [open, setOpen] = useState();
 
   const handleNav = (val) => {
-    setOpen(val);
+    if ((!open && val) || (!open && !val) || (open && !val)) {
+      setOpen(!open);
+    }
+  };
+  const handleClick = (event) => {
+    const clickX = event.clientX;
+    const pageWidth = window.innerWidth;
+    if (open && clickX > 205) {
+      // console.log("Click X-coordinate:", clickX);
+      // console.log("Page Width:", pageWidth);
+      setOpen(!open);
+    }
   };
   return (
     <AppContainer>
