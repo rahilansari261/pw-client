@@ -269,7 +269,7 @@ const ItemInfo = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-  @media (max-width: 550px) {
+  gap: 16px @media (max-width: 550px) {
     width: 100%;
   }
 `;
@@ -287,14 +287,11 @@ const ItemTitle = styled.div`
 `;
 const ItemValue = styled.div`
   text-align: left;
-  margin-left: 20px;
   flex: 1;
   font-family: ${cabinRegular};
   font-size: 14px;
   @media (max-width: 550px) {
-    flex: none;
     margin-left: 8px;
-    word-wrap: break-word;
   }
 `;
 const ItemSearch = styled.div`
@@ -341,7 +338,6 @@ const ProductInput = styled.input`
     box-shadow: var(--input-bs);
   }
   @media (max-width: 550px) {
-    
   }
 `;
 const DiscountInput = styled.input`
@@ -358,9 +354,8 @@ const DiscountInput = styled.input`
     box-shadow: var(--input-bs);
   }
   @media (max-width: 550px) {
-    
   }
-`
+`;
 
 const TermsAndSummary = styled.div`
   display: flex;
