@@ -17,7 +17,6 @@ export const AppWrapper = () => {
   const pathName = location.pathname.split("/");
   const [open, setOpen] = useState(false);
   const handleNav = (val) => {
-<<<<<<< HEAD
     if ((!open && val) || (!open && !val) || (open && !val)) {
       setOpen(!open);
     }
@@ -28,9 +27,6 @@ export const AppWrapper = () => {
     if (open && clickX > 205) {
       // console.log("Click X-coordinate:", clickX);
       // console.log("Page Width:", pageWidth);
-=======
-    if ((!open && val) || (!open && !val)) {
->>>>>>> de2100ce79360d67298f6a84cfd69545ff87ef5b
       setOpen(!open);
     }
   };
