@@ -294,6 +294,7 @@ const ItemValue = styled.div`
   @media (max-width: 550px) {
     flex: none;
     margin-left: 8px;
+    word-wrap: break-word;
   }
 `;
 const ItemSearch = styled.div`
@@ -340,8 +341,8 @@ const ProductInput = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-  @media (max-width:550px){
-    width:100%
+  @media (max-width: 550px) {
+    width: 100%;
   }
 `;
 
