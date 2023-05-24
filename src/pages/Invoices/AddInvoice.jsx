@@ -322,6 +322,7 @@ const Input = styled.input`
   @media (max-width: 550px) {
     width: 100%;
     padding-left: 0px;
+    margin-left: 0px;
   }
 `;
 
