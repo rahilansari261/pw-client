@@ -15,9 +15,9 @@ import styled from "styled-components";
 export const AppWrapper = () => {
   const location = useLocation();
   const pathName = location.pathname.split("/");
-  const [open, setOpen] = useState();
-
+  const [open, setOpen] = useState(false);
   const handleNav = (val) => {
+<<<<<<< HEAD
     if ((!open && val) || (!open && !val) || (open && !val)) {
       setOpen(!open);
     }
@@ -28,11 +28,26 @@ export const AppWrapper = () => {
     if (open && clickX > 205) {
       // console.log("Click X-coordinate:", clickX);
       // console.log("Page Width:", pageWidth);
+=======
+    if ((!open && val) || (!open && !val)) {
+>>>>>>> de2100ce79360d67298f6a84cfd69545ff87ef5b
       setOpen(!open);
     }
   };
+  const handleClick = (event) => {
+    const clickX = event.clientX;
+    const pageWidth = window.innerWidth;
+    if (open && clickX > 205) {
+      // console.log("Click X-coordinate:", clickX);
+      // console.log("Page Width:", pageWidth);
+      console.log(`inside open ${open}`);
+
+      setOpen(!open);
+    }
+  };
+
   return (
-    <AppContainer>
+    <AppContainer onClick={handleClick}>
       <Sidebar title={`/${pathName[1]}`} open={open} />
       <PageWrapper>
         <Header handleNav={handleNav} />
