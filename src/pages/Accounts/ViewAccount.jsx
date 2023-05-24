@@ -140,6 +140,10 @@ const ClientWrapper = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
+  @media (max-width: 550px) {
+    width: 100%;
+    padding-bottom: 16px;
+  }
 `;
 const ClientInfo = styled.div`
   display: flex;
@@ -153,12 +157,18 @@ const ClientValue = styled.div`
   flex: 1;
   padding-left: 3em;
   text-align: left;
+  @media (max-width: 550px) {
+    padding-left: 1em;
+  }
 `;
 
 const SearchOption = styled.div`
   display: flex;
   flex-direction: column;
   flex: 2;
+  @media (max-width: 550px) {
+    width: 100%;
+  }
 `;
 const SearchBar = styled.div`
   display: flex;
@@ -190,6 +200,7 @@ const Input = styled.input`
 const SearchTitle = styled.div`
   flex: 1;
   text-align: end;
+  min-width: 80px;
 `;
 const DateInput = styled.input`
   flex: 3;
