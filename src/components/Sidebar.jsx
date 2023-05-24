@@ -64,6 +64,7 @@ export const Sidebar = (props) => {
   ];
   const [isLogout, setLogout] = useState(false);
   const handleLogout = () => {
+    props.handleNav();
     setLogout(true);
     localStorage.setItem("token", "");
     window.location.reload();
@@ -72,8 +73,8 @@ export const Sidebar = (props) => {
     <Aside>
       <nav>
         <UnOrderedList>
-          <Link to="/">
-            <LiFlexItemLogo>
+          <Link to="/" >
+            <LiFlexItemLogo onClick={props.handleNav}>
               <LogoWrapper>
                 <FontAwesomeIcon icon={faGem} />
               </LogoWrapper>
@@ -94,8 +95,8 @@ export const Sidebar = (props) => {
               </Link>
             );
           })}
-          <Link to={FAQpdf} target="_blank">
-            <LiFlexItem
+          <Link to={FAQpdf} target="_blank" >
+            <LiFlexItem onClick={props.handleNav}
               style={{
                 backgroundColor: props.title === "/needhelp" && !isLogout ? Pallete.secondaryColor : "initial",
               }}
@@ -106,7 +107,7 @@ export const Sidebar = (props) => {
               </div>
             </LiFlexItem>
           </Link>
-          <LiFlexItem
+          <LiFlexItem 
             onClick={handleLogout}
             style={{
               backgroundColor: isLogout ? Pallete.secondaryColor : "initial",
@@ -135,7 +136,7 @@ const Aside = styled.aside`
   @media (max-width: 550px) {
     position: fixed;
     transform: ${(props) => (openMenu ? "translateX(0%)" : "translateX(-100%)")};
-    transition: transform 250ms;    
+    transition: transform 250ms;
   }
 `;
 const LogoWrapper = styled.div`
