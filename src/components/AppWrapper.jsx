@@ -17,12 +17,12 @@ export const AppWrapper = () => {
   const pathName = location.pathname.split("/");
   const [open, setOpen] = useState(false);
   const handleNav = (val) => {
-    // if ((!open && val) || (!open && !val) || (open && !val) || (open && val)) {
-    //   setOpen(!open);
-    // }
-    if (!open || val) {
+    if ((!open && val) || (!open && !val) || (open && !val) || (open && val)) {
       setOpen(!open);
     }
+    // if (!open || val) {
+    //   setOpen(!open);
+    // }
   };
   const handleClick = (event) => {
     const clickX = event.clientX;
