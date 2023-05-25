@@ -1,27 +1,27 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import { LineWave } from "react-loader-spinner";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("subayan@roaring.com");
   const [user_password, setPassword] = useState("subayan@123");
+  const [isLoading, setisLoading] = useState(false);
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setisLoading(true);
     try {
-      const response = await fetch(
-        "https://pw-backend.onrender.com/api/v1/users/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_email, user_password }),
-        }
-      );
+      const response = await fetch("https://pw-backend.onrender.com/api/v1/users/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_email, user_password }),
+      });
 
       if (response.ok) {
         const { token } = await response.json();
         localStorage.setItem("token", token);
-        window.location.href = '/';
+        window.location.href = "/";
+        // setisLoading(false);
       } else {
         console.log("Login failed");
       }
@@ -32,39 +32,29 @@ export const Login = () => {
 
   return (
     <LoginWrapper>
-      <FormWrapper onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Username</label>
-          <Input
-            type="text"
-            placeholder="Username"
-            value={user_email}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <Input
-            type="password"
-            placeholder="Password"
-            value={user_password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      {isLoading ? (
+        <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+      ) : (
+        <FormWrapper onSubmit={handleLogin}>
+          <div>
+            <label htmlFor="username">Username</label>
+            <Input type="text" placeholder="Username" value={user_email} onChange={(e) => setUsername(e.target.value)} />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <Input type="password" placeholder="Password" value={user_password} onChange={(e) => setPassword(e.target.value)} />
+          </div>
 
-        <Button type="submit">Login</Button>
-      </FormWrapper>
+          <Button type="submit">Login</Button>
+        </FormWrapper>
+      )}
     </LoginWrapper>
   );
 };
 
 const LoginWrapper = styled.div`
   height: 100vh;
-  background: linear-gradient(
-    300deg,
-    var(--primary-color) 0%,
-    var(--secondary-color) 100%
-  );
+  background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
