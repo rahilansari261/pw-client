@@ -5,28 +5,53 @@ function useFetch(url) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await fetch(url, {
-          headers: { Authorization: token },
-        });
-        if (!response.ok) {
-          throw new Error("Request failed");
-        }
-        const data = await response.json();
-        setData(data);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-        setIsLoading(false);
+
+  async function fetchData() {
+    try {
+      const response = await fetch(url, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!response.ok) {
+        throw new Error("Request failed");
       }
+      const data = await response.json();
+      setData(data);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
     }
+  }
 
+  useEffect(() => {
     fetchData();
-  }, [url]);
+  }, []);
 
-  return { data, isLoading, error };
+  const postData = async (formData) => {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        setData(responseData);
+        setIsLoading(false);
+      } else {
+        throw new Error("Failed to fetch data");
+      }
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, isLoading, error, fetchData, postData };
 }
 
 export default useFetch;
