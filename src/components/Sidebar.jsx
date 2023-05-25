@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,6 +8,19 @@ import { faGem, faChartLine, faUsers, faBagShopping, faGears, faArrowRightFromBr
 
 let openMenu;
 export const Sidebar = (props) => {
+  const sidebarRef = useRef(null);
+  useEffect(() => {
+    const calculateSidebarWidth = () => {
+      if (sidebarRef.current) {
+        const width = sidebarRef.current.offsetWidth;
+        props.onUpdateSidebarWidth(width);
+      }
+    };
+    calculateSidebarWidth();
+    window.addEventListener("resize", calculateSidebarWidth);
+    return () => window.removeEventListener("resize", calculateSidebarWidth);
+  }, [props.onUpdateSidebarWidth]);
+
   openMenu = props.open;
   const listItems = [
     {
@@ -70,11 +83,11 @@ export const Sidebar = (props) => {
     window.location.reload();
   };
   return (
-    <Aside>
+    <Aside ref={sidebarRef}>
       <nav>
         <UnOrderedList>
-          <Link to="/" >
-            <LiFlexItemLogo >
+          <Link to="/">
+            <LiFlexItemLogo>
               <LogoWrapper>
                 <FontAwesomeIcon icon={faGem} />
               </LogoWrapper>
@@ -84,7 +97,8 @@ export const Sidebar = (props) => {
           {listItems.map((item) => {
             return (
               <Link to={item.link} key={item.id}>
-                <LiFlexItem onClick={props.closeNav}
+                <LiFlexItem
+                  onClick={props.closeNav}
                   style={{
                     backgroundColor: item.link === props.title && !isLogout ? Pallete.secondaryColor : "initial",
                   }}
@@ -95,8 +109,9 @@ export const Sidebar = (props) => {
               </Link>
             );
           })}
-          <Link to={FAQpdf} target="_blank" >
-            <LiFlexItem onClick={props.closeNav}
+          <Link to={FAQpdf} target="_blank">
+            <LiFlexItem
+              onClick={props.closeNav}
               style={{
                 backgroundColor: props.title === "/needhelp" && !isLogout ? Pallete.secondaryColor : "initial",
               }}
@@ -107,7 +122,7 @@ export const Sidebar = (props) => {
               </div>
             </LiFlexItem>
           </Link>
-          <LiFlexItem 
+          <LiFlexItem
             onClick={handleLogout}
             style={{
               backgroundColor: isLogout ? Pallete.secondaryColor : "initial",

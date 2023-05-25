@@ -13,30 +13,24 @@ import { Logout } from "../pages/Logout";
 import { Login } from "../pages/Login";
 import styled from "styled-components";
 export const AppWrapper = () => {
+  const [sidebarWidth, setSidebarWidth] = useState(null);
+  const [open, setOpen] = useState(false);
   const location = useLocation();
   const pathName = location.pathname.split("/");
-  const [open, setOpen] = useState(false);
-  // const handleNav = (val) => {
-  //   if ((!open && val) || (!open && !val) || (open && !val) || (open && val)) {
-  //     setOpen(!open);
-  //   }
-  // };
+  const handleSidebarWidthUpdate = (width) => setSidebarWidth(width);
   const handleNav = () => setOpen(!open);
-  const closeNav = () => {
-    console.log(`hello ji`);
-    setOpen(false);
-  };
+  const closeNav = () => setOpen(false);
   const handleClick = (event) => {
     const clickX = event.clientX;
     const pageWidth = window.innerWidth;
-    if (open && clickX > 205) {
+    if (open && clickX > sidebarWidth) {
       setOpen(false);
     }
   };
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`} open={open} closeNav={closeNav} />
+      <Sidebar title={`/${pathName[1]}`} open={open} closeNav={closeNav} onUpdateSidebarWidth={handleSidebarWidthUpdate} />
       <PageWrapper>
         <Header handleNav={handleNav} />
         <Routes>
