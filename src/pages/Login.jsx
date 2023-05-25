@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import { LineWave } from "react-loader-spinner";
+import { LineWave, ColorRing } from "react-loader-spinner";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("subayan@roaring.com");
@@ -33,7 +33,16 @@ export const Login = () => {
   return (
     <LoginWrapper>
       {isLoading ? (
-        <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        <ColorRing
+          visible={true}
+          height="80"
+          width="80"
+          ariaLabel="blocks-loading"
+          wrapperStyle={{}}
+          wrapperClass="blocks-wrapper"
+          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+          // colors={["#0069D9", "#218838", "#C82333", "#E0A800", "#138496"]}
+        />
       ) : (
         <FormWrapper onSubmit={handleLogin}>
           <div>
