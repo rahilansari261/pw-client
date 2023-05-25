@@ -14,20 +14,20 @@ export const InvoiceReport = () => {
   const sanitizeTableData = (iData) =>
     iData.map((invoice) => {
       const FY = "22-23";
-
       return {
         _id: invoice._id,
         no: invoice.invoice_data.number,
         FY,
         date: convertDate(invoice.invoice_data.date),
         company: invoice.client_data.client_company_name,
-        tax: invoice.invoice_data,
+        tax: convertCurrencyToIndian(invoice.invoice_data.grand_total),
         amount: convertCurrencyToIndian(invoice.invoice_data.grand_total),
       };
     });
 
   if (!isLoading) {
     const { data: iData } = data;
+    console.log(iData);
     invoiceData = sanitizeTableData(iData);
   }
 
