@@ -17,6 +17,7 @@ export const Sidebar = (props) => {
       }
     };
     calculateSidebarWidth();
+    // dont need these two lines below as of now since Sidebar width if fixed but we'll keep it.
     window.addEventListener("resize", calculateSidebarWidth);
     return () => window.removeEventListener("resize", calculateSidebarWidth);
   }, [props.onUpdateSidebarWidth]);
