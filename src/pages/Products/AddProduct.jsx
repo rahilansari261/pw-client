@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 export const AddProduct = () => {
-  const { data, isLoading, error, postData } = useFetch("https://pw-backend.onrender.com/api/v1/products/add");
+  const { data, isLoading, error, postData } = useFetch("products/add");
   const winWidth = useWindowWidth();
 
   const handleSubmit = (values, { setSubmitting }) => {

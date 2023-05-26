@@ -9,7 +9,7 @@ import useFetch from "../../hooks/useFetch";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 
 export const InvoiceReport = () => {
-  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/invoices/1/10/All");
+  const { data, isLoading, error } = useFetch("invoices/1/10/All");
   let invoiceData;
   const sanitizeTableData = (iData) =>
     iData.map((invoice) => {

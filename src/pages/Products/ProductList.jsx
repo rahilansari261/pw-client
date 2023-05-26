@@ -7,7 +7,7 @@ import { LineWave } from "react-loader-spinner";
 import useFetch from "../../hooks/useFetch";
 
 export const ProductList = () => {
-  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/products/1/10/All");
+  const { data, isLoading, error } = useFetch("products/1/10/All");
   let productData;
   const sanitizeTableData = (pData) =>
     pData.map((product) => {

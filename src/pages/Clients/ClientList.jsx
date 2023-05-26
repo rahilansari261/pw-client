@@ -9,7 +9,7 @@ import useFetch from "../../hooks/useFetch";
 import { LineWave } from "react-loader-spinner";
 
 export const ClientList = () => {
-  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/clients/1/10/All");
+  const { data, isLoading, error } = useFetch("clients/1/10/All");
   let clientData;
   const sanitizeTableData = (cData) =>
     cData.map((client) => {
