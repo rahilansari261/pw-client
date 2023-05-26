@@ -6,11 +6,14 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  name: Yup.string().required("Product Name Must be filled"),
+  code: Yup.string().required("Product Code Must be filled"),  
 });
 
 const initialValues = {
   name: "",
+  code: "",
+  tax: "",
 };
 
 export const AddProduct = () => {
@@ -40,33 +43,30 @@ export const AddProduct = () => {
             <Container>
               <Label htmlFor="">Product Code *</Label>
               <Input type="text" name="code" id="code" autoComplete="off" placeholder="" />
-              <ErrorMsg name="name" component="div" className="error" />
+              <ErrorMsg name="code" component="div" className="error" />
             </Container>
             <Container>
               <Label htmlFor="">Product Description </Label>
               <TextArea as="textarea" type="text" name="desc" id="desc" autoComplete="off" placeholder="" rows="2" />
-              <ErrorMsg name="name" component="div" className="error" />
             </Container>
             <Container>
               <Label htmlFor="">Product Price *</Label>
 
               <Input type="number" name="price" id="price" autoComplete="off" placeholder="" />
-              <ErrorMsg name="name" component="div" className="error" />
             </Container>
             <Container>
               <Label htmlFor="">Product Tax *</Label>
-              <Select as="select" name="tax" id="tax">
+              <StyledSelect as="select" name="tax" id="tax">
+              <option value="">Select Tax</option>
                 <option value="gst@10">GST @ 10</option>
                 <option value="gst@12">GST @ 12</option>
                 <option value="gst@16">GST @ 16</option>
                 <option value="gst@18">GST @ 18</option>
-              </Select>
-              <ErrorMsg name="name" component="div" className="error" />
+              </StyledSelect>              
             </Container>
             <Container>
               <Label htmlFor="">Product Unit *</Label>
               <Input type="number" name="unit" id="unit" autoComplete="off" placeholder="" />
-              <ErrorMsg name="name" component="div" className="error" />
             </Container>
             <Container>
               <SubmitButton type="submit">Save Product</SubmitButton>
@@ -165,7 +165,7 @@ const TextArea = styled(Field)`
     box-shadow: var(--input-bs);
   }
 `;
-const Select = styled(Field)`
+const StyledSelect = styled(Field)`
   background-color: var(--white-color);
   padding: 8px;
   color: var(--black-color);
