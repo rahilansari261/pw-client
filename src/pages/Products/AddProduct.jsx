@@ -2,9 +2,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button } from "../../components/Button";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const validationSchema = Yup.object().shape({
+  name: Yup.string().required("Name is required"),
+});
+
+const initialValues = {
+  name: "",
+};
 
 export const AddProduct = () => {
-  const clickHandle = () => {};
+  const handleSubmit = (values, { setSubmitting }) => {
+    // Handle form submission logic here
+    console.log("submit called");
+    console.log(values);
+    setSubmitting(false);
+  };
 
   return (
     <Main>
@@ -15,42 +30,49 @@ export const AddProduct = () => {
         </TitleWrapper>
       </TitleSection>
       <DetailSection>
-        <Form>
-          <FormElement>
-            <Label htmlFor="">Product Name *</Label>
-            <Input type="text" name="name" id="name" autoComplete="off" placeholder="Name of your product" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Product Code *</Label>
-            <Input type="text" name="code" id="code" autoComplete="off" placeholder="" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Product Description </Label>
-            <TextArea type="text" name="desc" id="desc" autoComplete="off" placeholder="" rows="2" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Product Price *</Label>
-            <Input type="number" name="price" id="price" autoComplete="off" placeholder="" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Product Tax *</Label>
-            <Select name="tax" id="tax">
-              <option value="gst@10">GST @ 10</option>
-              <option value="gst@12">GST @ 12</option>
-              <option value="gst@16">GST @ 16</option>
-              <option value="gst@18">GST @ 18</option>
-            </Select>
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Product Unit *</Label>
-            <Input type="number" name="unit" id="unit" autoComplete="off" placeholder="" />
-          </FormElement>
-        </Form>
-        <FormElement>
-          <Button label="success" clickHandle={clickHandle}>
-            Save Product
-          </Button>
-        </FormElement>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <StyledForm>
+            <Container>
+              <Label htmlFor="">Product Name *</Label>
+              <Input type="text" name="name" id="name" autoComplete="off" placeholder="Name of your product" />
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Product Code *</Label>
+              <Input type="text" name="code" id="code" autoComplete="off" placeholder="" />
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Product Description </Label>
+              <TextArea as="textarea" type="text" name="desc" id="desc" autoComplete="off" placeholder="" rows="2" />
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Product Price *</Label>
+
+              <Input type="number" name="price" id="price" autoComplete="off" placeholder="" />
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Product Tax *</Label>
+              <Select as="select" name="tax" id="tax">
+                <option value="gst@10">GST @ 10</option>
+                <option value="gst@12">GST @ 12</option>
+                <option value="gst@16">GST @ 16</option>
+                <option value="gst@18">GST @ 18</option>
+              </Select>
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Product Unit *</Label>
+              <Input type="number" name="unit" id="unit" autoComplete="off" placeholder="" />
+              <ErrorMsg name="name" component="div" className="error" />
+            </Container>
+            <Container>
+              <SubmitButton type="submit">Save Product</SubmitButton>
+            </Container>
+          </StyledForm>
+        </Formik>
       </DetailSection>
     </Main>
   );
@@ -93,11 +115,11 @@ const DetailSection = styled.div`
   overflow-x: auto;
   margin: 0 auto;
 `;
-const Form = styled.form`
+const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 const FormElement = styled.div`
   display: flex;
@@ -114,9 +136,9 @@ const FormElement = styled.div`
 `;
 
 const Label = styled.label`
-  flex: 1;
+  /* flex: 1; */
 `;
-const Input = styled.input`
+const Input = styled(Field)`
   background-color: var(--white-color);
   padding: 8px;
   color: var(--black-color);
@@ -128,10 +150,9 @@ const Input = styled.input`
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled(Field)`
   background-color: var(--white-color);
   padding: 8px;
   color: var(--black-color);
@@ -143,9 +164,8 @@ const TextArea = styled.textarea`
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
 `;
-const Select = styled.select`
+const Select = styled(Field)`
   background-color: var(--white-color);
   padding: 8px;
   color: var(--black-color);
@@ -157,5 +177,31 @@ const Select = styled.select`
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
+`;
+
+const ErrorMsg = styled(ErrorMessage)`
+  color: #c82333;
+  font-size: 12px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* Add your custom styles here */
+`;
+
+const SubmitButton = styled.button`
+  width: fit-content;
+  font-size: 12px;
+  color: var(--white-color);
+  padding: 0.65em;
+  cursor: pointer;
+  text-align: center;
+  background-color: #218838;
+  border-radius: 4px;
+  border: none;
+`;
+
+const Container = styled.div`
+  position: relative;
+  padding-top: 20px;
+  width: 100%;
 `;
