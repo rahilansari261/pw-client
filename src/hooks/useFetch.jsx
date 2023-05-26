@@ -23,9 +23,9 @@ function useFetch(url) {
     }
   }
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
 
   const postData = async (formData) => {
     try {

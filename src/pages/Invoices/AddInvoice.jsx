@@ -269,7 +269,8 @@ const ItemInfo = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-  gap: 16px @media (max-width: 550px) {
+  gap: 16px;
+  @media (max-width: 550px) {
     width: 100%;
   }
 `;
@@ -320,7 +321,7 @@ const Input = styled.input`
     box-shadow: var(--input-bs);
   }
   @media (max-width: 550px) {
-    width: 100%;    
+    width: 100%;
     margin-left: 0px;
   }
 `;

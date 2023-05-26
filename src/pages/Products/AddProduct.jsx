@@ -48,6 +48,7 @@ export const AddProduct = () => {
           <Title>Add new product</Title>
         </TitleWrapper>
       </TitleSection>
+
       <DetailSection>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <StyledForm>
@@ -163,6 +164,7 @@ const Title = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
 `;
+
 const DetailSection = styled.div`
   background-color: var(--white-color);
   padding: 0em 1em 1em;

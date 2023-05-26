@@ -5,9 +5,14 @@ import styled from "styled-components";
 import { Button, Pagination, Table } from "../../components/Index";
 import { LineWave } from "react-loader-spinner";
 import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
 
 export const ProductList = () => {
-  const { data, isLoading, error } = useFetch("products/1/10/All");
+  const { data, isLoading, error, fetchData } = useFetch("products/1/10/All");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   let productData;
   const sanitizeTableData = (pData) =>
     pData.map((product) => {

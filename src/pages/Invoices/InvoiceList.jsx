@@ -10,7 +10,7 @@ import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 import { LineWave } from "react-loader-spinner";
 
 export const InvoiceList = () => {
-  const { data, isLoading, error } = useFetch("https://pw-backend.onrender.com/api/v1/invoices/1/10/All");
+  const { data, isLoading, error } = useFetch("invoices/1/10/All");
   let invoiceData;
   const sanitizeTableData = (iData) =>
     iData.map((invoice) => {
