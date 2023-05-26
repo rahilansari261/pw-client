@@ -17,9 +17,9 @@ const initialValues = {
   product_name: "",
   product_code: "",
   product_description: "",
-  product_price: 0,
+  product_price: "",
   product_tax: "",
-  product_unit: 0,
+  product_unit: "",
 };
 
 export const AddProduct = () => {
@@ -40,7 +40,6 @@ export const AddProduct = () => {
     postData(pData);
   };
 
-
   return (
     <Main>
       <TitleSection>
@@ -59,7 +58,7 @@ export const AddProduct = () => {
             </Container>
             <Container>
               <Label htmlFor="">Product Code *</Label>
-              <Input type="text" name="product_code" id="product_code" autoComplete="off" placeholder="" />
+              <Input type="text" name="product_code" id="product_code" autoComplete="off" placeholder="Unique code of your product" />
               <ErrorMsg name="product_code" component="div" className="error" />
             </Container>
             <Container>
@@ -89,7 +88,7 @@ export const AddProduct = () => {
             </Container>
             <Container>
               <Label htmlFor="">Product Price *</Label>
-              <Input type="number" name="product_price" id="product_price" autoComplete="off" placeholder="" />
+              <Input type="number" name="product_price" id="product_price" autoComplete="off" placeholder="0" />
             </Container>
             <Container>
               <Label htmlFor="">Product Tax *</Label>
@@ -114,6 +113,7 @@ export const AddProduct = () => {
                   }
                 }
               >
+                <option value="">Select tax</option>
                 <option value="gst@10">GST @ 10</option>
                 <option value="gst@12">GST @ 12</option>
                 <option value="gst@16">GST @ 16</option>
@@ -122,7 +122,7 @@ export const AddProduct = () => {
             </Container>
             <Container>
               <Label htmlFor="">Product Unit *</Label>
-              <Input type="number" name="product_unit" id="product_unit" autoComplete="off" placeholder="" />
+              <Input type="number" name="product_unit" id="product_unit" autoComplete="off" placeholder="0" />
             </Container>
             <Container>
               <SubmitButton type="submit">Save Product</SubmitButton>
