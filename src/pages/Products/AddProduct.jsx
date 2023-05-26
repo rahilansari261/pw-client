@@ -4,25 +4,42 @@ import styled from "styled-components";
 import { Button } from "../../components/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import useFetch from "../../hooks/useFetch";
+import { useEffect, useState } from "react";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Product Name Must be filled"),
-  code: Yup.string().required("Product Code Must be filled"),  
+  product_name: Yup.string().required("Product Name Must be filled"),
+  product_code: Yup.string().required("Product Code Must be filled"),
 });
 
 const initialValues = {
-  name: "",
-  code: "",
-  tax: "",
+  product_name: "",
+  product_code: "",
+  product_description: "",
+  product_price: 0,
+  product_tax: "",
+  product_unit: 0,
 };
 
 export const AddProduct = () => {
+  const { data, isLoading, error, postData } = useFetch("https://pw-backend.onrender.com/api/v1/products/add");
+  const winWidth = useWindowWidth();
+
   const handleSubmit = (values, { setSubmitting }) => {
     // Handle form submission logic here
-    console.log("submit called");
-    console.log(values);
+    // console.log("submit called");
+    // console.log(values);
     setSubmitting(false);
+    const pData = {
+      productData: {
+        ...values,
+      },
+    };
+    console.log(pData);
+    postData(pData);
   };
+
 
   return (
     <Main>
@@ -37,36 +54,75 @@ export const AddProduct = () => {
           <StyledForm>
             <Container>
               <Label htmlFor="">Product Name *</Label>
-              <Input type="text" name="name" id="name" autoComplete="off" placeholder="Name of your product" />
-              <ErrorMsg name="name" component="div" className="error" />
+              <Input type="text" name="product_name" id="product_name" autoComplete="off" placeholder="Name of your product" />
+              <ErrorMsg name="product_name" component="div" className="error" />
             </Container>
             <Container>
               <Label htmlFor="">Product Code *</Label>
-              <Input type="text" name="code" id="code" autoComplete="off" placeholder="" />
-              <ErrorMsg name="code" component="div" className="error" />
+              <Input type="text" name="product_code" id="product_code" autoComplete="off" placeholder="" />
+              <ErrorMsg name="product_code" component="div" className="error" />
             </Container>
             <Container>
               <Label htmlFor="">Product Description </Label>
-              <TextArea as="textarea" type="text" name="desc" id="desc" autoComplete="off" placeholder="" rows="2" />
+              <Field
+                as="textarea"
+                type="text"
+                name="product_description"
+                id="product_description"
+                autoComplete="off"
+                placeholder=""
+                rows="2"
+                style={{
+                  backgroundColor: "var(--white-color)",
+                  padding: "8px",
+                  color: "var(--black-color)",
+                  border: "1px solid var(--table-border-color)",
+                  borderRadius: "4px",
+                  outline: "none",
+                  width: winWidth < 550 ? "100%" : "60%",
+                  fontFamily: "inherit",
+                  ":focus": {
+                    boxshadow: "var(--input-bs)",
+                  },
+                }}
+              />
             </Container>
             <Container>
               <Label htmlFor="">Product Price *</Label>
-
-              <Input type="number" name="price" id="price" autoComplete="off" placeholder="" />
+              <Input type="number" name="product_price" id="product_price" autoComplete="off" placeholder="" />
             </Container>
             <Container>
               <Label htmlFor="">Product Tax *</Label>
-              <StyledSelect as="select" name="tax" id="tax">
-              <option value="">Select Tax</option>
+              <Field
+                as="select"
+                name="product_tax"
+                id="product_tax"
+                style={
+                  // (isMobile ? { width: "100%" } : { width: "60%" },
+                  {
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxShadow: "var(--input-bs)",
+                    },
+                  }
+                }
+              >
                 <option value="gst@10">GST @ 10</option>
                 <option value="gst@12">GST @ 12</option>
                 <option value="gst@16">GST @ 16</option>
                 <option value="gst@18">GST @ 18</option>
-              </StyledSelect>              
+              </Field>
             </Container>
             <Container>
               <Label htmlFor="">Product Unit *</Label>
-              <Input type="number" name="unit" id="unit" autoComplete="off" placeholder="" />
+              <Input type="number" name="product_unit" id="product_unit" autoComplete="off" placeholder="" />
             </Container>
             <Container>
               <SubmitButton type="submit">Save Product</SubmitButton>
@@ -144,40 +200,43 @@ const Input = styled(Field)`
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 100%;
+  width: 60%;
   outline: none;
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
+  }
+  @media (max-width: 550px) {
+    width: 100%;
   }
 `;
 
-const TextArea = styled(Field)`
-  background-color: var(--white-color);
-  padding: 8px;
-  color: var(--black-color);
-  border: 1px solid var(--table-border-color);
-  border-radius: 4px;
-  width: 100%;
-  outline: none;
-  font-family: inherit;
-  &:focus {
-    box-shadow: var(--input-bs);
-  }
-`;
-const StyledSelect = styled(Field)`
-  background-color: var(--white-color);
-  padding: 8px;
-  color: var(--black-color);
-  border: 1px solid var(--table-border-color);
-  border-radius: 4px;
-  width: 100%;
-  outline: none;
-  font-family: inherit;
-  &:focus {
-    box-shadow: var(--input-bs);
-  }
-`;
+// const TextArea = styled.Field`
+//   background-color: var(--white-color);
+//   padding: 8px;
+//   color: var(--black-color);
+//   border: 1px solid var(--table-border-color);
+//   border-radius: 4px;
+//   width: 100%;
+//   outline: none;
+//   font-family: inherit;
+//   &:focus {
+//     box-shadow: var(--input-bs);
+//   }
+// `;
+// const StyledSelect = styled(Field)`
+//   background-color: var(--white-color);
+//   padding: 8px;
+//   color: var(--black-color);
+//   border: 1px solid var(--table-border-color);
+//   border-radius: 4px;
+//   width: 100%;
+//   outline: none;
+//   font-family: inherit;
+//   &:focus {
+//     box-shadow: var(--input-bs);
+//   }
+// `;
 
 const ErrorMsg = styled(ErrorMessage)`
   color: #c82333;
@@ -205,4 +264,8 @@ const Container = styled.div`
   position: relative;
   padding-top: 20px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;

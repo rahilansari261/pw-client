@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faHamburger, faNavicon, faUser } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useState } from "react";
-export const Header = (props) => {  
+export const Header = (props) => {
   return (
     <TopHeader>
       <NavIcon onClick={props.handleNav}>
@@ -39,6 +39,7 @@ const NavIcon = styled.div`
   padding-left: 32px;
   font-size: 2rem;
   opacity: 0;
+  cursor: pointer;
   @media (max-width: 550px) {
     opacity: 1;
     padding-left: 16px;
