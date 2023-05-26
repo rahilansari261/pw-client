@@ -109,7 +109,7 @@ const TitleWrapper = styled.div`
 `;
 const DetailSection = styled.div`
   background-color: var(--white-color);
-  padding: 1em;
+  padding: 0em 1em 1em;
   border-radius: 0 0 4px 4px;
   max-width: 100%;
   overflow-x: auto;
@@ -198,6 +198,7 @@ const SubmitButton = styled.button`
   background-color: #218838;
   border-radius: 4px;
   border: none;
+  margin-top: 1em;
 `;
 
 const Container = styled.div`
