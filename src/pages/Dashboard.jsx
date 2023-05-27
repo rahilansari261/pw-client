@@ -132,7 +132,7 @@ const Main = styled.div`
   @media (max-width: 550px) {
     margin: 0em 0em 2em;
     border-radius: 0px;
-    padding: 8px;
+    padding: 1em;
   }
 `;
 const ChartWrapper = styled.div`
