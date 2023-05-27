@@ -8,9 +8,13 @@ import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 import { LineWave } from "react-loader-spinner";
+import { useEffect } from "react";
 
 export const InvoiceList = () => {
-  const { data, isLoading, error } = useFetch("invoices/1/10/All");
+  const { data, isLoading, error, fetchData } = useFetch();
+  useEffect(() => {
+    fetchData("invoices/1/10/All");
+  }, []);
   let invoiceData;
   const sanitizeTableData = (iData) =>
     iData.map((invoice) => {

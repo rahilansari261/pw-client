@@ -1,10 +1,13 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChartLine, faFileInvoice, faFileInvoiceDollar } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useState } from "react";
 import { Data } from "../util/Data";
-import { BarChart, Table } from "../components/Index";
+import { BarChart, Button, Table } from "../components/Index";
 import useFetch from "../hooks/useFetch";
+import { Link, Outlet } from "react-router-dom";
 
 Chart.register(CategoryScale);
 
@@ -51,24 +54,6 @@ export const Dashboard = () => {
       name: "Satyam Kumar",
       phone: "9878642748",
     },
-    {
-      _id: "4",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
-    {
-      _id: "5",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
-    {
-      _id: "6",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
   ];
   const clickHandle = () => {};
   const btnFunc = () => {};
@@ -82,40 +67,105 @@ export const Dashboard = () => {
   };
 
   return (
-    <Main>
-      <ChartWrapper>
-        <BarChart chartData={chartData}></BarChart>
-      </ChartWrapper>
+    <>
+      <Main>
+        <TitleSection>
+          <TitleWrapper>
+            <FontAwesomeIcon icon={faChartLine} />
+            <Title>Sales Report</Title>
+          </TitleWrapper>
+        </TitleSection>
+
+        <ChartWrapper>
+          <BarChart chartData={chartData}></BarChart>
+        </ChartWrapper>
+      </Main>
       <TwoTableWrapper>
-        <Table tableData={clientData} tableHelperData={tableHelperData} />
-        <Table tableData={clientData} tableHelperData={tableHelperData} />
+        <Main>
+          <TitleSection>
+            <TitleWrapper>
+              <FontAwesomeIcon icon={faFileInvoiceDollar} />
+              <Title>Recent Invoices</Title>
+            </TitleWrapper>
+            <ButtonWrapper>
+              <Link to="/invoices/addinvoice">
+                <Button label="success" clickHandle={() => {}}>
+                  Add New Invoice
+                </Button>
+              </Link>
+              <Link to="/invoices/invoicelist">
+                <Button label="primary" clickHandle={() => {}}>
+                  See All
+                </Button>
+              </Link>
+            </ButtonWrapper>
+          </TitleSection>
+          <Table tableData={clientData} tableHelperData={tableHelperData} />
+        </Main>
+        <Main>
+          <TitleSection>
+            <TitleWrapper>
+              <FontAwesomeIcon icon={faFileInvoice} />
+              <Title>Client Balances</Title>
+            </TitleWrapper>
+            <ButtonWrapper>
+             
+              <Link to="/accounts">
+                <Button label="primary" clickHandle={() => {}}>
+                  See All
+                </Button>
+              </Link>
+            </ButtonWrapper>
+          </TitleSection>
+          <Table tableData={clientData} tableHelperData={tableHelperData} />
+        </Main>
       </TwoTableWrapper>
-    </Main>
+    </>
   );
 };
 
 const Main = styled.div`
   overflow-y: auto;
-  margin: 2em;
+  margin: 2em 2em 0.5em 2em;
   background-color: white;
   color: black;
   border-radius: 4px;
-  padding: 1em;
-  padding-top: 4em;
   @media (max-width: 550px) {
     margin: 0em;
     border-radius: 0px;
   }
 `;
 const ChartWrapper = styled.div`
-  width: 100%;
+  width: 50%;
   margin: 0 auto;
   /* overflow-x: auto; */
 `;
 const TwoTableWrapper = styled.div`
   display: flex;
-  gap: 2em;
   @media (max-width: 550px) {
+    /* gap: 2em; */
     flex-direction: column;
   }
+`;
+
+const TitleSection = styled.div`
+  background-color: var(--table-title-section);
+  padding: 0.75em 1em;
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 60px;
+`;
+const Title = styled.div`
+  padding-left: 8px;
+  font-family: "Cabin-bold";
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+`;
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 4px;
 `;
