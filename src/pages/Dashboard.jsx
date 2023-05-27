@@ -135,9 +135,11 @@ const Main = styled.div`
   }
 `;
 const ChartWrapper = styled.div`
-  width: 50%;
+  width: 65%;
   margin: 0 auto;
-  /* overflow-x: auto; */
+  @media (max-width: 550px) {
+    width: 100%;
+  }
 `;
 const TwoTableWrapper = styled.div`
   display: flex;
