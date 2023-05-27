@@ -132,7 +132,7 @@ const Main = styled.div`
   @media (max-width: 550px) {
     margin: 0em 0em 2em;
     border-radius: 0px;
-    padding: 1em;
+    
   }
 `;
 const ChartWrapper = styled.div`
@@ -147,6 +147,7 @@ const TwoTableWrapper = styled.div`
   @media (max-width: 550px) {
     gap: 1em;
     flex-direction: column;
+    padding: 1em;
   }
 `;
 
