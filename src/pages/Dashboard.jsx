@@ -109,7 +109,6 @@ export const Dashboard = () => {
               <Title>Client Balances</Title>
             </TitleWrapper>
             <ButtonWrapper>
-             
               <Link to="/accounts">
                 <Button label="primary" clickHandle={() => {}}>
                   See All
@@ -131,7 +130,7 @@ const Main = styled.div`
   color: black;
   border-radius: 4px;
   @media (max-width: 550px) {
-    margin: 0em;
+    margin: 0em 0em 2em;
     border-radius: 0px;
   }
 `;
@@ -143,7 +142,7 @@ const ChartWrapper = styled.div`
 const TwoTableWrapper = styled.div`
   display: flex;
   @media (max-width: 550px) {
-    /* gap: 2em; */
+    gap: 2em;
     flex-direction: column;
   }
 `;
