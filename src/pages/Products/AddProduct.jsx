@@ -23,7 +23,7 @@ const initialValues = {
 };
 
 export const AddProduct = () => {
-  const { data, isLoading, error, postData } = useFetch("products/add");
+  const { data, isLoading, error, postData } = useFetch();
   const winWidth = useWindowWidth();
 
   const handleSubmit = (values, { setSubmitting }) => {
@@ -37,7 +37,7 @@ export const AddProduct = () => {
       },
     };
     console.log(pData);
-    postData(pData);
+    postData(pData, "products/add");
   };
 
   return (

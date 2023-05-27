@@ -7,9 +7,13 @@ import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
 import { LineWave } from "react-loader-spinner";
+import { useEffect } from "react";
 
 export const ClientList = () => {
-  const { data, isLoading, error } = useFetch("clients/1/10/All");
+  const { data, isLoading, error, fetchData } = useFetch();
+  useEffect(() => {
+    fetchData("clients/1/10/All");
+  }, []);
   let clientData;
   const sanitizeTableData = (cData) =>
     cData.map((client) => {

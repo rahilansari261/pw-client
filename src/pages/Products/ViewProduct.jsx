@@ -1,42 +1,41 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
-import { Button } from "../../components/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import useWindowWidth from "../../hooks/useWindowWidth";
-import { useParams } from "react-router-dom";
+import { json, useParams } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
 
 const validationSchema = Yup.object().shape({
   product_name: Yup.string().required("Product Name Must be filled"),
   product_code: Yup.string().required("Product Code Must be filled"),
 });
-
-let initialValues;
-//  = {
-//   product_name: "",
-//   product_code: "",
-//   product_description: "",
-//   product_price: "",
-//   product_tax: "",
-//   product_unit: "",
-// };
+const initialValues = {
+  product_name: "",
+  product_code: "",
+  product_description: "",
+  product_price: "",
+  product_tax: "",
+  product_unit: "",
+};
 export const ViewProduct = () => {
   const { id } = useParams();
   const winWidth = useWindowWidth();
-  const { data, isLoading, error, fetchData } = useFetch(`products/${id}`);
+  const { data, isLoading, error, fetchData, postData } = useFetch();
+  const [initialValuesFromAPI, setInitialValuesFromAPI] = useState(null);
 
   useEffect(() => {
-    fetchData();
+    fetchData(`products/${id}`);
   }, []);
 
-  if (!isLoading) {
-    initialValues = data.data;
-
-  }
+  useEffect(() => {
+    if (!isLoading && data) {
+      setInitialValuesFromAPI({ ...data.data });
+    }
+  }, [isLoading, data]);
 
   const handleSubmit = (values, { setSubmitting }) => {
     setSubmitting(false);
@@ -46,7 +45,7 @@ export const ViewProduct = () => {
       },
     };
     console.log(pData);
-    // postData(pData);
+    postData(pData, `products/update`);
   };
 
   return (
@@ -57,19 +56,19 @@ export const ViewProduct = () => {
           <Title>Update Product</Title>
         </TitleWrapper>
       </TitleSection>
-      {!isLoading ? (
+      {!isLoading && initialValuesFromAPI ? (
         <DetailSection>
-          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <Formik initialValues={{ ...initialValues, ...initialValuesFromAPI }} validationSchema={validationSchema} onSubmit={handleSubmit}>
             <StyledForm>
               <Container>
                 <Label htmlFor="">Product Name *</Label>
-                <Input type="text" name="product_name" id="product_name" value={initialValues.product_name} autoComplete="off" placeholder="Name of your product" />
+                <Input type="text" name="product_name" id="product_name" autoComplete="off" placeholder="Name of your product" />
                 <ErrorMsg name="product_name" component="div" className="error" />
               </Container>
 
               <Container>
                 <Label htmlFor="">Product Code *</Label>
-                <Input type="text" name="product_code" id="product_code" value={initialValues.product_code} autoComplete="off" placeholder="Unique code of your product" />
+                <Input type="text" name="product_code" id="product_code" autoComplete="off" placeholder="Unique code of your product" />
                 <ErrorMsg name="product_code" component="div" className="error" />
               </Container>
               <Container>
@@ -79,7 +78,6 @@ export const ViewProduct = () => {
                   type="text"
                   name="product_description"
                   id="product_description"
-                  value={initialValues.product_description}
                   autoComplete="off"
                   placeholder=""
                   rows="2"
@@ -100,7 +98,7 @@ export const ViewProduct = () => {
               </Container>
               <Container>
                 <Label htmlFor="">Product Price *</Label>
-                <Input type="number" name="product_price" id="product_price" value={initialValues.product_price} autoComplete="off" placeholder="0" />
+                <Input type="number" name="product_price" id="product_price" autoComplete="off" placeholder="0" />
               </Container>
               <Container>
                 <Label htmlFor="">Product Tax *</Label>
@@ -108,23 +106,19 @@ export const ViewProduct = () => {
                   as="select"
                   name="product_tax"
                   id="product_tax"
-                  value={initialValues.product_tax}
-                  style={
-                    // (isMobile ? { width: "100%" } : { width: "60%" },
-                    {
-                      backgroundColor: "var(--white-color)",
-                      padding: "8px",
-                      color: "var(--black-color)",
-                      border: "1px solid var(--table-border-color)",
-                      borderRadius: "4px",
-                      outline: "none",
-                      width: winWidth < 550 ? "100%" : "60%",
-                      fontFamily: "inherit",
-                      ":focus": {
-                        boxShadow: "var(--input-bs)",
-                      },
-                    }
-                  }
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxShadow: "var(--input-bs)",
+                    },
+                  }}
                 >
                   <option value="">Select tax</option>
                   <option value="gst@10">GST @ 10</option>
@@ -135,7 +129,7 @@ export const ViewProduct = () => {
               </Container>
               <Container>
                 <Label htmlFor="">Product Unit *</Label>
-                <Input type="number" name="product_unit" id="product_unit" value={initialValues.product_unit} autoComplete="off" placeholder="0" />
+                <Input type="number" name="product_unit" id="product_unit" autoComplete="off" placeholder="0" />
               </Container>
               <Container>
                 <SubmitButton type="submit">Update Product</SubmitButton>

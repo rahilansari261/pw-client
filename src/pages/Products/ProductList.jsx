@@ -8,10 +8,10 @@ import useFetch from "../../hooks/useFetch";
 import { useEffect } from "react";
 
 export const ProductList = () => {
-  const { data, isLoading, error, fetchData } = useFetch("products/1/10/All");
+  const { data, isLoading, error, fetchData } = useFetch();
 
   useEffect(() => {
-    fetchData();
+    fetchData("products/1/10/All");
   }, []);
   let productData;
   const sanitizeTableData = (pData) =>

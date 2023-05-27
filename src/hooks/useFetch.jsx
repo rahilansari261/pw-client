@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 const baseUrl = "https://pw-backend.onrender.com/api/v1";
-function useFetch(url) {
+function useFetch() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
-  async function fetchData() {
+  async function fetchData(url) {
     try {
       const response = await fetch(`${baseUrl}/${url}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -27,7 +27,7 @@ function useFetch(url) {
   //   fetchData();
   // }, []);
 
-  const postData = async (formData) => {
+  const postData = async (formData, url) => {
     try {
       const response = await fetch(`${baseUrl}/${url}`, {
         method: "POST",
