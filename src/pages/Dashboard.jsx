@@ -100,7 +100,9 @@ export const Dashboard = () => {
               </Link>
             </ButtonWrapper>
           </TitleSection>
-          <Table tableData={clientData} tableHelperData={tableHelperData} />
+          <DetailSection>
+            <Table tableData={clientData} tableHelperData={tableHelperData} sty />
+          </DetailSection>
         </Main>
         <Main>
           <TitleSection>
@@ -116,7 +118,9 @@ export const Dashboard = () => {
               </Link>
             </ButtonWrapper>
           </TitleSection>
-          <Table tableData={clientData} tableHelperData={tableHelperData} />
+          <DetailSection>
+            <Table tableData={clientData} tableHelperData={tableHelperData} />
+          </DetailSection>
         </Main>
       </TwoTableWrapper>
     </>
@@ -132,8 +136,15 @@ const Main = styled.div`
   @media (max-width: 550px) {
     margin: 0em 0em 2em;
     border-radius: 0px;
-    
   }
+`;
+const DetailSection = styled.div`
+  background-color: var(--white-color);
+  padding: 1em;
+  border-radius: 0 0 4px 4px;
+  min-width: 100%;
+  overflow-x: auto;
+  margin: 0 auto;
 `;
 const ChartWrapper = styled.div`
   width: 65%;
@@ -147,7 +158,6 @@ const TwoTableWrapper = styled.div`
   @media (max-width: 550px) {
     gap: 1em;
     flex-direction: column;
-    padding: 1em;
   }
 `;
 
