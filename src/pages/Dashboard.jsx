@@ -29,9 +29,9 @@ export const Dashboard = () => {
       {
         label: "Users Gained ",
         data: Data.map((data) => data.userGain),
-        backgroundColor: ["rgba(75,192,192,1)", "#ecf0f1", "#50AF95", "#f3ba2f", "#2a71d0"],
-        borderColor: "black",
-        borderWidth: 2,
+        backgroundColor: ["rgb(82, 152, 158, 0.6)"],
+        // borderColor: "black",
+        // borderWidth: 2,
       },
     ],
   });
