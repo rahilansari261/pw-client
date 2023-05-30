@@ -18,8 +18,9 @@ export const Login = () => {
       });
 
       if (response.ok) {
-        const { token } = await response.json();
+        const { token, data } = await response.json();
         localStorage.setItem("token", token);
+        localStorage.setItem("docs", JSON.stringify(data));
         window.location.href = "/";
         // setisLoading(false);
       } else {
