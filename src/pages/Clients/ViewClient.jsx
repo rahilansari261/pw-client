@@ -38,20 +38,18 @@ export const ViewClient = () => {
 
   useEffect(() => {
     if (!isLoading && data) {
-      console.log(data)
       setInitialValuesFromAPI({ ...data.data });
     }
   }, [isLoading, data]);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    setSubmitting(false);
-    const pData = {
-      productData: {
+    setSubmitting(false);    
+    const cData = {
+      clientData: {
         ...values,
       },
-    };
-    console.log(pData);
-    postData(pData, `products/update`);
+    };    
+    postData(cData, `clients/update`);
   };
 
   return (
@@ -62,91 +60,95 @@ export const ViewClient = () => {
           <Title>Update Client</Title>
         </TitleWrapper>
       </TitleSection>
-      <DetailSection>
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          <StyledForm>
-            <Container>
-              <Label htmlFor="">Company Name *</Label>
-              <Input type="text" name="client_company_name" id="client_company_name" autoComplete="off" placeholder="Name of Company to be used in invoices" />
-              <ErrorMsg name="client_company_name" component="div" className="error" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Client Name *</Label>
-              <Input type="text" name="client_name" id="client_name" autoComplete="off" placeholder="Name of Client to be used in invoices" />
-              <ErrorMsg name="client_name" component="div" className="error" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Client Address *</Label>
-              <Field
-                as="textarea"
-                type="text"
-                name="client_address"
-                id="client_address"
-                autoComplete="off"
-                placeholder=""
-                rows="2"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: winWidth < 550 ? "100%" : "60%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxshadow: "var(--input-bs)",
-                  },
-                }}
-              />
-            </Container>
-            <Container>
-              <Label htmlFor="">Phone *</Label>
-              <Input type="number" name="client_phone" id="client_phone" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Email *</Label>
-              <Input type="email" name="client_email" id="client_email" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">GST No. *</Label>
-              <Input type="text" name="client_tin" id="client_tin" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Sevice Tax No. *</Label>
-              <Input type="text" name="client_stn" id="client_stn" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Client Notes </Label>
-              <Field
-                as="textarea"
-                type="text"
-                name="client_notes"
-                id="client_notes"
-                autoComplete="off"
-                placeholder=""
-                rows="2"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: winWidth < 550 ? "100%" : "60%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxshadow: "var(--input-bs)",
-                  },
-                }}
-              />
-            </Container>
-            <Container>
-              <SubmitButton type="submit">Save Client</SubmitButton>
-            </Container>
-          </StyledForm>
-        </Formik>
-      </DetailSection>
+      {!isLoading && initialValuesFromAPI ? (
+        <DetailSection>
+          <Formik initialValues={{ ...initialValues, ...initialValuesFromAPI }} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            <StyledForm>
+              <Container>
+                <Label htmlFor="">Company Name *</Label>
+                <Input type="text" name="client_company_name" id="client_company_name" autoComplete="off" placeholder="Name of Company to be used in invoices" />
+                <ErrorMsg name="client_company_name" component="div" className="error" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Client Name *</Label>
+                <Input type="text" name="client_name" id="client_name" autoComplete="off" placeholder="Name of Client to be used in invoices" />
+                <ErrorMsg name="client_name" component="div" className="error" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Client Address *</Label>
+                <Field
+                  as="textarea"
+                  type="text"
+                  name="client_address"
+                  id="client_address"
+                  autoComplete="off"
+                  placeholder=""
+                  rows="2"
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxshadow: "var(--input-bs)",
+                    },
+                  }}
+                />
+              </Container>
+              <Container>
+                <Label htmlFor="">Phone *</Label>
+                <Input type="number" name="client_phone" id="client_phone" autoComplete="off" placeholder="" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Email *</Label>
+                <Input type="email" name="client_email" id="client_email" autoComplete="off" placeholder="" />
+              </Container>
+              <Container>
+                <Label htmlFor="">GST No. *</Label>
+                <Input type="text" name="client_tin" id="client_tin" autoComplete="off" placeholder="" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Sevice Tax No. *</Label>
+                <Input type="text" name="client_stn" id="client_stn" autoComplete="off" placeholder="" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Client Notes </Label>
+                <Field
+                  as="textarea"
+                  type="text"
+                  name="client_notes"
+                  id="client_notes"
+                  autoComplete="off"
+                  placeholder=""
+                  rows="2"
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxshadow: "var(--input-bs)",
+                    },
+                  }}
+                />
+              </Container>
+              <Container>
+                <SubmitButton type="submit">Save Client</SubmitButton>
+              </Container>
+            </StyledForm>
+          </Formik>
+        </DetailSection>
+      ) : (
+        <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+      )}
     </Main>
   );
 };

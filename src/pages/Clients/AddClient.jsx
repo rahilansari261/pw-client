@@ -39,7 +39,7 @@ export const AddClient = () => {
       },
     };
     console.log(cData);
-    // postData(pData, "clients/add");
+    postData(cData, "clients/add");
   };
 
   return (
