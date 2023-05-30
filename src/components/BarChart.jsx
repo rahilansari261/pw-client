@@ -7,12 +7,15 @@ export const BarChart = ({ chartData }) => {
         options={{
           plugins: {
             title: {
-              display: true,              
+              display: true,
             },
             legend: {
               display: true,
             },
           },
+          responsive: true,
+          // aspectRatio: 1 | 3,
+          // maintainAspectRatio: true,
         }}
       />
     </div>

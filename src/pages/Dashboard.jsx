@@ -3,26 +3,16 @@ import { faChartLine, faFileInvoice, faFileInvoiceDollar } from "@fortawesome/fr
 import styled from "styled-components";
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Data } from "../util/Data";
 import { BarChart, Button, Table } from "../components/Index";
 import useFetch from "../hooks/useFetch";
 import { Link, Outlet } from "react-router-dom";
+import { LineWave } from "react-loader-spinner";
 
 Chart.register(CategoryScale);
 
 export const Dashboard = () => {
-  // const { data, isLoading, error } = useFetch(
-  //   "https://pw-backend.onrender.com/api/v1/invoices/"
-  // );
-  // const { data, isLoading, error } = useFetch(
-  //   "https://pw-backend.onrender.com/api/v1/users/hello"
-  // );
-  // const { data, isLoading, error } = useFetch(
-  //   "https://pw-backend.onrender.com/api/v1/users/hello"
-  // );
-
-  // console.log(data);
   const [chartData, setChartData] = useState({
     labels: Data.map((data) => data.year),
     datasets: [
@@ -30,39 +20,55 @@ export const Dashboard = () => {
         label: "Users Gained ",
         data: Data.map((data) => data.userGain),
         backgroundColor: ["rgb(82, 152, 158, 0.6)"],
-        // borderColor: "black",
-        // borderWidth: 2,
       },
     ],
   });
-  const clientData = [
-    {
-      _id: "1",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
-    {
-      _id: "2",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
-    {
-      _id: "3",
-      comapny: "Satyam Computers",
-      name: "Satyam Kumar",
-      phone: "9878642748",
-    },
-  ];
+  const { data: invoiceData, isLoading: isInvoiceLoading, error: invoiceError, fetchData: fetchInvoiceData } = useFetch();
+  const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
+
+  useEffect(() => {
+    fetchInvoiceData(`invoices/1/3/All`);
+    fetchClientData(`clients/1/3/All`);
+  }, []);
+
+  const sanitizeTableDataForInvoice = (invoiceDataArray) =>
+    invoiceDataArray.map((invoice) => {
+      const { _id } = invoice;
+      const { number, grand_total } = invoice.invoice_data;
+      const { client_company_name } = invoice.client_data;
+      return { _id, number, client_company_name, grand_total };
+    });
+
+  const sanitizeTableDataForClientBalance = (clientDataArray) =>
+    clientDataArray.map((client) => {
+      const { _id, client_company_name, client_balance } = client;
+      return { _id, client_company_name, client_balance };
+    });
+
+  let invoiceTableData = null;
+  let clientTableData = null;
+  if (!isInvoiceLoading && !isClientLoading) {
+    invoiceTableData = sanitizeTableDataForInvoice(invoiceData.data);
+    clientTableData = sanitizeTableDataForClientBalance(clientData.data);
+  }
+
   const clickHandle = () => {};
   const btnFunc = () => {};
-  const tableHelperData = {
+  const tableHelperDataInvoice = {
     actionColumnSrc: "/clients/viewclient/",
     actionColumnTitle: "Action",
     actionColumnValue: "View",
     actionColumnColor: "info",
-    tableHeadRowData: Object.keys(clientData[0]),
+    tableHeadRowData: ["id", "no", "company", "amount"],
+    actionColumnButtonFunc: btnFunc,
+  };
+
+  const tableHelperDataClient = {
+    actionColumnSrc: "/clients/viewclient/",
+    actionColumnTitle: "Action",
+    actionColumnValue: "View",
+    actionColumnColor: "info",
+    tableHeadRowData: ["id", "company ", "balance"],
     actionColumnButtonFunc: btnFunc,
   };
 
@@ -81,7 +87,7 @@ export const Dashboard = () => {
         </ChartWrapper>
       </Main>
       <TwoTableWrapper>
-        <Main>
+        <Main style={{ width: "100%" }}>
           <TitleSection>
             <TitleWrapper>
               <FontAwesomeIcon icon={faFileInvoiceDollar} />
@@ -101,10 +107,14 @@ export const Dashboard = () => {
             </ButtonWrapper>
           </TitleSection>
           <DetailSection>
-            <Table tableData={clientData} tableHelperData={tableHelperData} sty />
+            {invoiceTableData !== null ? (
+              <Table tableData={invoiceTableData} tableHelperData={tableHelperDataInvoice} sty />
+            ) : (
+              <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+            )}
           </DetailSection>
         </Main>
-        <Main>
+        <Main style={{ width: "100%" }}>
           <TitleSection>
             <TitleWrapper>
               <FontAwesomeIcon icon={faFileInvoice} />
@@ -119,7 +129,11 @@ export const Dashboard = () => {
             </ButtonWrapper>
           </TitleSection>
           <DetailSection>
-            <Table tableData={clientData} tableHelperData={tableHelperData} />
+            {clientTableData !== null ? (
+              <Table tableData={clientTableData} tableHelperData={tableHelperDataClient} />
+            ) : (
+              <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+            )}
           </DetailSection>
         </Main>
       </TwoTableWrapper>
@@ -133,6 +147,7 @@ const Main = styled.div`
   background-color: white;
   color: black;
   border-radius: 4px;
+
   @media (max-width: 550px) {
     margin: 0em 0em 2em;
     border-radius: 0px;
@@ -147,10 +162,11 @@ const DetailSection = styled.div`
   margin: 0 auto;
 `;
 const ChartWrapper = styled.div`
-  width: 65%;
+  width: 100%;
+  padding: 16px;
   margin: 0 auto;
+  padding-top: 0px;
   @media (max-width: 550px) {
-    width: 100%;
   }
 `;
 const TwoTableWrapper = styled.div`
