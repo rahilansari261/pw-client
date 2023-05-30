@@ -43,12 +43,12 @@ export const ViewClient = () => {
   }, [isLoading, data]);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    setSubmitting(false);    
+    setSubmitting(false);
     const cData = {
       clientData: {
         ...values,
       },
-    };    
+    };
     postData(cData, `clients/update`);
   };
 
@@ -141,7 +141,7 @@ export const ViewClient = () => {
                 />
               </Container>
               <Container>
-                <SubmitButton type="submit">Save Client</SubmitButton>
+                <SubmitButton type="submit">Update Client</SubmitButton>
               </Container>
             </StyledForm>
           </Formik>
