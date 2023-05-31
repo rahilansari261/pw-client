@@ -18,8 +18,6 @@ export const AppWrapper = () => {
   const pathName = location.pathname.split("/");
   const isOpen = useSelector((state) => state.drawer.isOpen);
   const width = useSelector((state) => state.sidebarWidth.width);
-  // const [sidebarWidth, setSidebarWidth] = useState(null);
-  // const handleSidebarWidthUpdate = (width) => setSidebarWidth(width);
 
   const handleClick = (event) => {
     const clickX = event.clientX;
@@ -31,7 +29,7 @@ export const AppWrapper = () => {
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`}  />
+      <Sidebar title={`/${pathName[1]}`} />
       <PageWrapper>
         <Header />
         <Routes>
