@@ -1,52 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import axios from "axios";
 const baseUrl = "https://pw-backend.onrender.com/api/v1";
+
 function useFetch() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const token = localStorage.getItem("token");
 
-  async function fetchData(url) {
+  const fetchData = async (url) => {
     try {
-      const response = await fetch(`${baseUrl}/${url}`, {
+      const response = await axios.get(`${baseUrl}/${url}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!response.ok) {
-        throw new Error("Request failed");
-      }
-      const data = await response.json();
-      setData(data);
+      setData(response.data);
       setIsLoading(false);
     } catch (error) {
       setError(error);
       setIsLoading(false);
     }
-  }
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  };
 
   const postData = async (formData, url) => {
     try {
-      const response = await fetch(`${baseUrl}/${url}`, {
-        method: "POST",
+      const response = await axios.post(`${baseUrl}/${url}`, formData, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(formData),
       });
-
-      if (response.ok) {
-        const responseData = await response.json();
-        setData(responseData);
-        setIsLoading(false);
-      } else {
-        throw new Error("Failed to fetch data");
-      }
+      setData(response.data);
+      setIsLoading(false);
     } catch (error) {
-      setError(error.message);
+      setError(error);
       setIsLoading(false);
     }
   };
