@@ -21,7 +21,6 @@ export const Sidebar = (props) => {
     const calculateSidebarWidth = () => {
       if (sidebarRef.current) {
         const widthX = sidebarRef.current.offsetWidth;
-        console.log(widthX);
         dispatch(sbwidth(widthX));
       }
     };
