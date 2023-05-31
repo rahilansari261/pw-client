@@ -8,7 +8,8 @@ import { faGem, faChartLine, faUsers, faBagShopping, faGears, faArrowRightFromBr
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/authSlice";
 import { close, open } from "../reducers/drawerSlice";
-
+import { sbwidth } from "../reducers/sidebarwidthSlice";
+import listItems from "../util/sidebarList";
 let isOpen;
 export const Sidebar = (props) => {
   isOpen = useSelector((state) => state.drawer.isOpen);
@@ -19,79 +20,24 @@ export const Sidebar = (props) => {
   useEffect(() => {
     const calculateSidebarWidth = () => {
       if (sidebarRef.current) {
-        const width = sidebarRef.current.offsetWidth;
-        props.onUpdateSidebarWidth(width);
+        const widthX = sidebarRef.current.offsetWidth;
+        console.log(widthX);
+        dispatch(sbwidth(widthX));
       }
     };
     calculateSidebarWidth();
     // dont need these two lines below as of now since Sidebar width if fixed but we'll keep it.
     window.addEventListener("resize", calculateSidebarWidth);
     return () => window.removeEventListener("resize", calculateSidebarWidth);
-  }, [props.onUpdateSidebarWidth]);
+  }, []);
 
-  // openMenu = props.open;
-  const listItems = [
-    {
-      id: "1",
-      title: "Dashboard",
-      link: "/",
-      icon: <FontAwesomeIcon icon={faChartLine} />,
-    },
-
-    {
-      id: "2",
-      title: "Products",
-      link: "/products",
-      icon: <FontAwesomeIcon icon={faBagShopping} />,
-    },
-    {
-      id: "3",
-      title: "Clients",
-      link: "/clients",
-      icon: <FontAwesomeIcon icon={faUsers} />,
-    },
-
-    {
-      id: "4",
-      title: "Invoices",
-      link: "/invoices",
-      icon: <FontAwesomeIcon icon={faFileInvoiceDollar} />,
-    },
-    {
-      id: "5",
-      title: "Accounts",
-      link: "/accounts",
-      icon: <FontAwesomeIcon icon={faFileInvoice} />,
-    },
-
-    {
-      id: "6",
-      title: "Settings",
-      link: "/settings",
-      icon: <FontAwesomeIcon icon={faGears} />,
-    },
-    // {
-    //   id: "7",
-    //   title: "Need help",
-    //   link: "/needhelp",
-    //   icon: <FontAwesomeIcon icon={faInfoCircle} />,
-    // },
-    // {
-    //   id: "8",
-    //   title: "Logout",
-    //   link: "/logout",
-    //   icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
-    // },
-  ];
-  // const [isLogout, setLogout] = useState(false);
   const handleLogout = () => {
-    // setLogout(true);
     dispatch(logout());
   };
-  
-  const handleNav2 = ()=>{
+
+  const handleNav2 = () => {
     isOpen ? dispatch(close()) : dispatch(open());
-  }
+  };
   return (
     <Aside ref={sidebarRef}>
       <nav>
@@ -110,7 +56,7 @@ export const Sidebar = (props) => {
                 <LiFlexItem
                   onClick={handleNav2}
                   style={{
-                    backgroundColor: item.link === props.title  ? Pallete.secondaryColor : "initial",
+                    backgroundColor: item.link === props.title ? Pallete.secondaryColor : "initial",
                   }}
                 >
                   <div>{item.title}</div>
@@ -123,7 +69,7 @@ export const Sidebar = (props) => {
             <LiFlexItem
               onClick={handleNav2}
               style={{
-                backgroundColor: props.title === "/needhelp"  ? Pallete.secondaryColor : "initial",
+                backgroundColor: props.title === "/needhelp" ? Pallete.secondaryColor : "initial",
               }}
             >
               <div>Need Help</div>

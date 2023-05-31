@@ -17,25 +17,23 @@ export const AppWrapper = () => {
   const location = useLocation();
   const pathName = location.pathname.split("/");
   const isOpen = useSelector((state) => state.drawer.isOpen);
-  // const [open, setOpen] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(null);
-  const handleSidebarWidthUpdate = (width) => setSidebarWidth(width);
-  // const handleNav = () => setOpen(!open);
-  // const closeNav = () => setOpen(false);
+  const width = useSelector((state) => state.sidebarWidth.width);
+  // const [sidebarWidth, setSidebarWidth] = useState(null);
+  // const handleSidebarWidthUpdate = (width) => setSidebarWidth(width);
+
   const handleClick = (event) => {
     const clickX = event.clientX;
     const pageWidth = window.innerWidth;
-    if (isOpen && clickX > sidebarWidth) {
-      // setOpen(false);
-      dispatch(close())
+    if (isOpen && clickX > width) {
+      dispatch(close());
     }
   };
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`}   onUpdateSidebarWidth={handleSidebarWidthUpdate} />
+      <Sidebar title={`/${pathName[1]}`}  />
       <PageWrapper>
-        <Header  />
+        <Header />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="products" element={<Products />}>
