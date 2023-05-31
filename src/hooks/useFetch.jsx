@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../reducers/authSlice";
 const baseUrl = "https://pw-backend.onrender.com/api/v1";
 
 function useFetch() {
@@ -8,7 +9,7 @@ function useFetch() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const user = useSelector((state) => state.auth.user);
-  
+  const dispatch = useDispatch();
 
   const fetchData = async (url) => {
     try {
@@ -17,6 +18,8 @@ function useFetch() {
       });
       setData(response.data);
       setIsLoading(false);
+
+      // dispatch(logout()); only call when status code is not 200
     } catch (error) {
       setError(error);
       setIsLoading(false);
@@ -28,7 +31,7 @@ function useFetch() {
       const response = await axios.post(`${baseUrl}/${url}`, formData, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${user.token}`,
         },
       });
       setData(response.data);

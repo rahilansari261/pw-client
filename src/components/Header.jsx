@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faHamburger, faNavicon, faUser } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 export const Header = (props) => {
+  const user = useSelector((state) => state.auth.user);
   return (
     <TopHeader>
       <NavIcon onClick={props.handleNav}>
@@ -11,7 +13,7 @@ export const Header = (props) => {
       </NavIcon>
 
       <UserWrapper>
-        <UserName>Rahil Ansari</UserName>
+        <UserName>{user.user_name}</UserName>
         <FontAwesomeIcon icon={faUser} />
       </UserWrapper>
     </TopHeader>
