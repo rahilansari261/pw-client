@@ -5,9 +5,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as Pallete from "../util/Constant";
 import FAQpdf from "../assets/FAQ.pdf";
 import { faGem, faChartLine, faUsers, faBagShopping, faGears, faArrowRightFromBracket, faFileInvoiceDollar, faFileInvoice, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../reducers/authSlice";
 
 let openMenu;
 export const Sidebar = (props) => {
+  const dispatch = useDispatch();
   const sidebarRef = useRef(null);
   useEffect(() => {
     const calculateSidebarWidth = () => {
@@ -79,9 +82,9 @@ export const Sidebar = (props) => {
   const [isLogout, setLogout] = useState(false);
   const handleLogout = () => {
     props.closeNav();
-    setLogout(true);
-    localStorage.setItem("token", "");
-    window.location.reload();
+    setLogout(true);    
+    dispatch(logout());
+    // window.location.reload();
   };
   return (
     <Aside ref={sidebarRef}>

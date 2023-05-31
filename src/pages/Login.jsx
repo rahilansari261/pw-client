@@ -2,11 +2,18 @@ import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { LineWave, ColorRing } from "react-loader-spinner";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../reducers/authSlice";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("subayan@roaring.com");
   const [user_password, setPassword] = useState("subayan@123");
   const [isLoading, setisLoading] = useState(false);
+
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setisLoading(true);
@@ -19,10 +26,7 @@ export const Login = () => {
 
       if (response.ok) {
         const { token, data } = await response.json();
-        localStorage.setItem("token", token);
-        localStorage.setItem("docs", JSON.stringify(data));
-        window.location.href = "/";
-        // setisLoading(false);
+        dispatch(login({ ...data, token }));
       } else {
         console.log("Login failed");
       }

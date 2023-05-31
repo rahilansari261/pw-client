@@ -1,17 +1,19 @@
 import { useState } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 const baseUrl = "https://pw-backend.onrender.com/api/v1";
 
 function useFetch() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const token = localStorage.getItem("token");
+  const user = useSelector((state) => state.auth.user);
+  
 
   const fetchData = async (url) => {
     try {
       const response = await axios.get(`${baseUrl}/${url}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${user.token}` },
       });
       setData(response.data);
       setIsLoading(false);

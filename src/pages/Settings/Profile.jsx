@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { json, useParams } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
+import { useSelector, useDispatch } from "react-redux";
 
 const validationSchema = Yup.object().shape({
   // product_name: Yup.string().required("Product Name Must be filled"),
@@ -26,9 +27,9 @@ export const Profile = () => {
   const { data, isLoading, error, fetchData, postData } = useFetch();
   const [initialValuesFromAPI, setInitialValuesFromAPI] = useState(null);
 
-  useEffect(() => {
-    const docs = JSON.parse(localStorage.getItem("docs"));
-    fetchData(`users/${docs._id}`);
+  const user = useSelector((state) => state.auth.user);
+  useEffect(() => {    
+    fetchData(`users/${user._id}`);
   }, []);
 
   useEffect(() => {
