@@ -3,12 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faHamburger, faNavicon, faUser } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { close, open } from "../reducers/drawerSlice";
 export const Header = (props) => {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const isOpen = useSelector((state) => state.drawer.isOpen);
+
+  const handleNav = () => {
+    isOpen ? dispatch(close()) : dispatch(open());
+  };
   return (
     <TopHeader>
-      <NavIcon onClick={props.handleNav}>
+      <NavIcon onClick={handleNav}>
         <FontAwesomeIcon icon={faNavicon} />
       </NavIcon>
 

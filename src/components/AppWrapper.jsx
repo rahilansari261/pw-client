@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { Header, Sidebar } from "./Index";
-
 import { Products, ProductList, AddProduct, ViewProduct } from "../pages/Products/Index";
 import { Clients, ClientList, AddClient, ViewClient } from "../pages/Clients/Index";
 import { Invoices, InvoiceList, AddInvoice, ViewInvoice, InvoiceReport } from "../pages/Invoices/Index";
@@ -11,27 +10,32 @@ import { NeedHelp } from "../pages/NeedHelp";
 import { Dashboard } from "../pages/Dashboard";
 import { Login } from "../pages/Login";
 import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { close } from "../reducers/drawerSlice";
 export const AppWrapper = () => {
-  const [sidebarWidth, setSidebarWidth] = useState(null);
-  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   const location = useLocation();
   const pathName = location.pathname.split("/");
+  const isOpen = useSelector((state) => state.drawer.isOpen);
+  // const [open, setOpen] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(null);
   const handleSidebarWidthUpdate = (width) => setSidebarWidth(width);
-  const handleNav = () => setOpen(!open);
-  const closeNav = () => setOpen(false);
+  // const handleNav = () => setOpen(!open);
+  // const closeNav = () => setOpen(false);
   const handleClick = (event) => {
     const clickX = event.clientX;
     const pageWidth = window.innerWidth;
-    if (open && clickX > sidebarWidth) {
-      setOpen(false);
+    if (isOpen && clickX > sidebarWidth) {
+      // setOpen(false);
+      dispatch(close())
     }
   };
 
   return (
     <AppContainer onClick={handleClick}>
-      <Sidebar title={`/${pathName[1]}`} open={open} closeNav={closeNav} onUpdateSidebarWidth={handleSidebarWidthUpdate} />
+      <Sidebar title={`/${pathName[1]}`}   onUpdateSidebarWidth={handleSidebarWidthUpdate} />
       <PageWrapper>
-        <Header handleNav={handleNav} />
+        <Header  />
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="products" element={<Products />}>

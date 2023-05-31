@@ -7,11 +7,15 @@ import FAQpdf from "../assets/FAQ.pdf";
 import { faGem, faChartLine, faUsers, faBagShopping, faGears, faArrowRightFromBracket, faFileInvoiceDollar, faFileInvoice, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../reducers/authSlice";
+import { close, open } from "../reducers/drawerSlice";
 
-let openMenu;
+let isOpen;
 export const Sidebar = (props) => {
+  isOpen = useSelector((state) => state.drawer.isOpen);
+  const loggedIn = useSelector((state) => state.auth.loggedIn);
   const dispatch = useDispatch();
   const sidebarRef = useRef(null);
+
   useEffect(() => {
     const calculateSidebarWidth = () => {
       if (sidebarRef.current) {
@@ -25,7 +29,7 @@ export const Sidebar = (props) => {
     return () => window.removeEventListener("resize", calculateSidebarWidth);
   }, [props.onUpdateSidebarWidth]);
 
-  openMenu = props.open;
+  // openMenu = props.open;
   const listItems = [
     {
       id: "1",
@@ -79,13 +83,15 @@ export const Sidebar = (props) => {
     //   icon: <FontAwesomeIcon icon={faArrowRightFromBracket} />,
     // },
   ];
-  const [isLogout, setLogout] = useState(false);
+  // const [isLogout, setLogout] = useState(false);
   const handleLogout = () => {
-    props.closeNav();
-    setLogout(true);    
+    // setLogout(true);
     dispatch(logout());
-    // window.location.reload();
   };
+  
+  const handleNav2 = ()=>{
+    isOpen ? dispatch(close()) : dispatch(open());
+  }
   return (
     <Aside ref={sidebarRef}>
       <nav>
@@ -102,9 +108,9 @@ export const Sidebar = (props) => {
             return (
               <Link to={item.link} key={item.id}>
                 <LiFlexItem
-                  onClick={props.closeNav}
+                  onClick={handleNav2}
                   style={{
-                    backgroundColor: item.link === props.title && !isLogout ? Pallete.secondaryColor : "initial",
+                    backgroundColor: item.link === props.title  ? Pallete.secondaryColor : "initial",
                   }}
                 >
                   <div>{item.title}</div>
@@ -115,9 +121,9 @@ export const Sidebar = (props) => {
           })}
           <Link to={FAQpdf} target="_blank">
             <LiFlexItem
-              onClick={props.closeNav}
+              onClick={handleNav2}
               style={{
-                backgroundColor: props.title === "/needhelp" && !isLogout ? Pallete.secondaryColor : "initial",
+                backgroundColor: props.title === "/needhelp"  ? Pallete.secondaryColor : "initial",
               }}
             >
               <div>Need Help</div>
@@ -129,7 +135,7 @@ export const Sidebar = (props) => {
           <LiFlexItem
             onClick={handleLogout}
             style={{
-              backgroundColor: isLogout ? Pallete.secondaryColor : "initial",
+              backgroundColor: !loggedIn ? Pallete.secondaryColor : "initial",
             }}
           >
             <div>Logout</div>
@@ -154,7 +160,7 @@ const Aside = styled.aside`
   box-shadow: var(--sidebar-bs);
   @media (max-width: 550px) {
     position: fixed;
-    transform: ${(props) => (openMenu ? "translateX(0%)" : "translateX(-100%)")};
+    transform: ${(props) => (isOpen ? "translateX(0%)" : "translateX(-100%)")};
     transition: transform 250ms;
   }
 `;
