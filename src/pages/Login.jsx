@@ -7,7 +7,7 @@ import { login } from "../reducers/authSlice";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("subayan@roaring.com");
-  const [user_password, setPassword] = useState("subayan@123");
+  const [user_password, setPassword] = useState("Rahil123");
   const [isLoading, setisLoading] = useState(false);
 
   const loggedIn = useSelector((state) => state.auth.loggedIn);

@@ -1,27 +1,29 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import useFetch from "../../hooks/useFetch";
+
+import { useSelector } from "react-redux";
+const validationSchema = Yup.object().shape({
+  tax: Yup.string().required("Tax Name Must be filled"),
+  rate: Yup.string().required("Tax Rate Must be filled"),
+});
+const initialValues = {
+  tax: "",
+  rate: "",
+};
 
 export const TaxAndTerms = () => {
-  const clickHandle = () => {
+  const user = useSelector((state) => state.auth.user);
+  const taxData = user.user_settings.user_tax.map((item) => {
+    const { _id, type, rate } = item;
+    return { _id, type, rate };
+  });
+  const handleSubmit = () => {
     console.log("heyyyyyyyyy!!!!!!!1");
   };
-
-  const initTaxData = [
-    {
-      _id: "1",
-      tax: "GST",
-      rate: "2",
-    },
-    {
-      _id: "2",
-      tax: "GST",
-      rate: "8",
-    },
-  ];
-  const [taxData, setTaxData] = useState(initTaxData);
-  const [tax, setTax] = useState("");
-  const [rate, setRate] = useState("");
 
   const addTax = () => {
     if (tax == "" || rate == "") return;
@@ -38,7 +40,7 @@ export const TaxAndTerms = () => {
     actionColumnTitle: "Action",
     actionColumnValue: "Delete",
     actionColumnColor: "danger",
-    tableHeadRowData: taxData.length != 0 ? Object.keys(taxData[0]) : null,
+    tableHeadRowData: ["tax", "rate"],
     actionColumnButtonFunc: removeTax,
   };
 
@@ -47,24 +49,60 @@ export const TaxAndTerms = () => {
       <TermsWrapper>
         <TermsTitle>Terms & Conditions</TermsTitle>
         <TextArea type="text" name="terms" id="terms" autoComplete="off" placeholder="These are the terms and conditions you can change it for your invoice if you want." rows="7" />
-        <Button label="success" clickHandle={clickHandle}>
-          Update Terms & Conditions
-        </Button>
+        <SubmitButton type="submit">Update Terms & Conditions</SubmitButton>
       </TermsWrapper>
       <TaxWrapper>
         <TaxTitle>Taxes</TaxTitle>
-        <InputTax>
-          <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="Tax name." value={tax} onChange={(e) => setTax(e.target.value)} />
-          <Input type="number" name="rate" id="rate" autoComplete="off" placeholder="Tax rate." value={rate} onChange={(e) => setRate(e.target.value)} />
-          <Button label="success" clickHandle={addTax}>
-            Add Tax
-          </Button>
-        </InputTax>
-        {taxData.length != 0 ? <Table tableData={taxData} tableHelperData={tableHelperData}></Table> : null}
+        <Formik initialValues={{ ...initialValues }} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <StyledForm>
+            <Container>
+              <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="Tax name." />
+              <ErrorMsg name="tax" component="div" className="error" />
+            </Container>
+            <Container>
+              <Input type="number" name="rate" id="rate" autoComplete="off" placeholder="Tax rate." />
+              <ErrorMsg name="rate" component="div" className="error" />
+            </Container>
+            <Container>
+              <SubmitButton type="submit">Add Tax</SubmitButton>
+            </Container>
+          </StyledForm>
+        </Formik>
+        <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
       </TaxWrapper>
     </Wrapper>
   );
 };
+
+const ErrorMsg = styled(ErrorMessage)`
+  color: #c82333;
+  font-size: 12px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* Add your custom styles here */
+`;
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
+const SubmitButton = styled.button`
+  width: max-content;
+  font-size: 12px;
+  color: var(--white-color);
+  padding: 0.65em;
+  cursor: pointer;
+  text-align: center;
+  background-color: #218838;
+  border-radius: 4px;
+  border: none;
+`;
 
 const Wrapper = styled.div`
   display: flex;
@@ -87,11 +125,11 @@ const TaxWrapper = styled.div`
   flex-direction: column;
   flex: 1;
 `;
-const InputTax = styled.div`
+const StyledForm = styled(Form)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 24px;
   gap: 12px;
   @media (max-width: 550px) {
     flex-direction: column;
@@ -100,7 +138,7 @@ const InputTax = styled.div`
   }
 `;
 
-const Input = styled.input`
+const Input = styled(Field)`
   background-color: var(--white-color);
 
   padding: 8px;
