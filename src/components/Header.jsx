@@ -45,7 +45,8 @@ const TopHeader = styled.header`
   }
 `;
 const NavIcon = styled.div`
-  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   padding-left: 32px;
   font-size: 2rem;
   opacity: 0;
