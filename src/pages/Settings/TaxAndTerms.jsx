@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import useFetch from "../../hooks/useFetch";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { LineWave } from "react-loader-spinner";
 const validationSchema = Yup.object().shape({
   tax: Yup.string().required("Tax Name Must be filled"),
   rate: Yup.string().required("Tax Rate Must be filled"),
@@ -16,21 +17,56 @@ const initialValues = {
 };
 
 export const TaxAndTerms = () => {
+  const { data, isLoading, error, fetchData, postData } = useFetch();
   const user = useSelector((state) => state.user.user);
-  const taxData = user.user_settings.user_tax.map((item) => {
-    const { _id, type, rate } = item;
-    return { _id, type, rate };
-  });
-  const handleSubmit = () => {
-    console.log("heyyyyyyyyy!!!!!!!1");
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [taxData, setTaxData] = useState(null);
+
+  // let taxData = null;
+
+  const sanitizeTaxData = (taxArr) =>
+    taxArr.map((item) => {
+      const { _id, type, rate } = item;
+      return { _id, type, rate };
+    });
+
+  const fetchFunc = async () => {
+    await fetchData(`users/${user._id}`);
+    setTaxData(sanitizeTaxData(data.data.user_settings.user_tax));
+    setIsLoaded(true);
+
+  };
+  const anotherFunc = async () => {
+    await fetchFunc();
   };
 
-  const addTax = () => {
-    if (tax == "" || rate == "") return;
-    setTaxData((prev) => [...prev, { _id: taxData.length + 1, tax: tax.toUpperCase(), rate: rate }]);
-    setTax("");
-    setRate("");
+  // useEffect(() => {
+  //   anotherFunc();        
+  // }, [data]);
+
+  if (!isLoaded) {
+    anotherFunc();
+  }
+  // console.log(isLoading);
+  // if (isLoaded && !isLoading) {
+  //   taxData = sanitizeTaxData(data.data.user_settings.user_tax);
+  // }
+  const handleSubmit = async (values, { setSubmitting }) => {
+    setSubmitting(false);
+    setIsLoaded(false);
+    console.log({ ...values });
+    await postData(
+      {
+        userData: {
+          type: values.tax,
+          rate: values.rate,
+        },
+      },
+      `users/settings/addtax`
+    );
+    // await fetchFunc();
   };
+
   const removeTax = (id) => {
     console.log(taxData);
     setTaxData((prev) => prev.filter((pre) => pre._id != id));
@@ -68,7 +104,12 @@ export const TaxAndTerms = () => {
             </Container>
           </StyledForm>
         </Formik>
-        <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
+
+        {taxData !== null && isLoaded ? (
+          <Table tableData={taxData} tableHelperData={tableHelperData}></Table>
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
       </TaxWrapper>
     </Wrapper>
   );

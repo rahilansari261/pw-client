@@ -108,7 +108,7 @@ export const Dashboard = () => {
           </TitleSection>
           <DetailSection>
             {invoiceTableData !== null ? (
-              <Table tableData={invoiceTableData} tableHelperData={tableHelperDataInvoice} sty />
+              <Table tableData={invoiceTableData} tableHelperData={tableHelperDataInvoice}  />
             ) : (
               <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
             )}
