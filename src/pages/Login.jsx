@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { LineWave, ColorRing } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../reducers/authSlice";
+import { setUser } from "../reducers/userSlice";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("subayan@roaring.com");
@@ -11,7 +12,7 @@ export const Login = () => {
   const [isLoading, setisLoading] = useState(false);
 
   const loggedIn = useSelector((state) => state.auth.loggedIn);
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const handleLogin = async (e) => {
@@ -26,7 +27,8 @@ export const Login = () => {
 
       if (response.ok) {
         const { token, data } = await response.json();
-        dispatch(login({ ...data, token }));
+        dispatch(login());
+        dispatch(setUser({ ...data, token }));
       } else {
         console.log("Login failed");
       }

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { close, open } from "../reducers/drawerSlice";
 export const Header = (props) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
   const isOpen = useSelector((state) => state.drawer.isOpen);
 
   const handleNav = () => {

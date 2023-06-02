@@ -27,7 +27,7 @@ export const Profile = () => {
   const { data, isLoading, error, fetchData, postData } = useFetch();
   const [initialValuesFromAPI, setInitialValuesFromAPI] = useState(null);
 
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
   useEffect(() => {    
     fetchData(`users/${user._id}`);
   }, []);

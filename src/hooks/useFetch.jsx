@@ -8,7 +8,7 @@ function useFetch() {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
 
   const fetchData = async (url) => {

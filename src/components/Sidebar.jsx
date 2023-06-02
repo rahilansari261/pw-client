@@ -10,6 +10,7 @@ import { logout } from "../reducers/authSlice";
 import { close, open } from "../reducers/drawerSlice";
 import { sbwidth } from "../reducers/sidebarwidthSlice";
 import listItems from "../util/sidebarList";
+import { unsetUser } from "../reducers/userSlice";
 let isOpen;
 export const Sidebar = (props) => {
   isOpen = useSelector((state) => state.drawer.isOpen);
@@ -32,6 +33,8 @@ export const Sidebar = (props) => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(unsetUser());
+    dispatch(close());
   };
 
   const handleNav2 = () => {

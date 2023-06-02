@@ -16,7 +16,7 @@ const initialValues = {
 };
 
 export const TaxAndTerms = () => {
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.user.user);
   const taxData = user.user_settings.user_tax.map((item) => {
     const { _id, type, rate } = item;
     return { _id, type, rate };
