@@ -42,35 +42,6 @@ export const TaxAndTerms = () => {
     setTaxData(sanitizeTaxData(data.data.user_settings.user_tax));
   }
 
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    setSubmitting(false);
-    const newTax = {
-      _id: uuidv4(),
-      tax: values.tax.toUpperCase(),
-      rate: values.rate,
-    };
-    postData(
-      {
-        userData: newTax,
-      },
-      `users/settings/addtax`
-    );
-
-    setTaxData((prev) => [...prev, newTax]);
-    resetForm();
-  };
-  
-  const handleSubmitTerms = (values, { setSubmitting }) => {
-    console.log("called");
-    setSubmitting(false);
-    postData(
-      {
-        userData: values.user_tc,
-      },
-      `users/settings/addtandc`
-    );
-  };
-
   const removeTax = (id) => {
     fetchData(`users/settings/removetax/${id}`);
 
@@ -85,58 +56,97 @@ export const TaxAndTerms = () => {
     actionColumnButtonFunc: removeTax,
   };
 
+  const TermsForm = () => {
+    const handleSubmit = (values, { setSubmitting }) => {
+      setSubmitting(false);
+      postData(
+        {
+          userData: {
+            user_tc: values.user_tc,
+          },
+        },
+        `users/settings/addtandc`
+      );
+    };
+    return (
+      <Formik initialValues={{ ...initialValues, user_tc: tandc }} onSubmit={handleSubmit}>
+        <StyledForm>
+          <Container>
+            <Field
+              as="textarea"
+              type="text"
+              name="user_tc"
+              id="user_tc"
+              autoComplete="off"
+              placeholder="These are the terms and conditions you can change it for your invoice if you want."
+              rows="7"
+              style={{
+                backgroundColor: "var(--white-color)",
+                padding: "8px",
+                color: "var(--black-color)",
+                border: "1px solid var(--table-border-color)",
+                borderRadius: "4px",
+                outline: "none",
+                width: "100%",
+                fontFamily: "inherit",
+                ":focus": {
+                  boxshadow: "var(--input-bs)",
+                },
+              }}
+            />
+            <SubmitButton type="submit">Update Terms & Conditions</SubmitButton>
+          </Container>
+        </StyledForm>
+      </Formik>
+    );
+  };
+
+  const TaxForm = () => {
+    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+      setSubmitting(false);
+      const newTax = {
+        _id: uuidv4(),
+        tax: values.tax.toUpperCase(),
+        rate: values.rate,
+      };
+      postData(
+        {
+          userData: newTax,
+        },
+        `users/settings/addtax`
+      );
+
+      setTaxData((prev) => [...prev, newTax]);
+      resetForm();
+    };
+    return (
+      <Formik initialValues={{ ...initialValues }} validationSchema={validationSchema} onSubmit={handleSubmit}>
+        <StyledForm>
+          <Container>
+            <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="Tax name." />
+            <ErrorMsg name="tax" component="div" className="error" />
+          </Container>
+          <Container>
+            <Input type="number" name="rate" id="rate" autoComplete="off" placeholder="Tax rate." />
+            <ErrorMsg name="rate" component="div" className="error" />
+          </Container>
+          <Container>
+            <SubmitButton type="submit">Add Tax</SubmitButton>
+          </Container>
+        </StyledForm>
+      </Formik>
+    );
+  };
+
   return (
     <Wrapper>
       <TermsWrapper>
         <TermsTitle>Terms & Conditions</TermsTitle>
-        <Formik initialValues={{ ...initialValues, user_tc: tandc }} validationSchema={validationSchema} onSubmit={handleSubmitTerms}>
-          <StyledForm>
-            <Container>
-              <Field
-                as="textarea"
-                type="text"
-                name="user_tc"
-                id="user_tc"
-                autoComplete="off"
-                placeholder="These are the terms and conditions you can change it for your invoice if you want."
-                rows="7"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: "100%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxshadow: "var(--input-bs)",
-                  },
-                }}
-              />
-              <SubmitButton type="submit">Update Terms & Conditions</SubmitButton>
-            </Container>
-          </StyledForm>
-        </Formik>
+        <TermsForm />
       </TermsWrapper>
       <TaxWrapper>
         <TaxTitle>Taxes</TaxTitle>
-        <Formik initialValues={{ ...initialValues }} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          <StyledForm>
-            <Container>
-              <Input type="text" name="tax" id="tax" autoComplete="off" placeholder="Tax name." />
-              <ErrorMsg name="tax" component="div" className="error" />
-            </Container>
-            <Container>
-              <Input type="number" name="rate" id="rate" autoComplete="off" placeholder="Tax rate." />
-              <ErrorMsg name="rate" component="div" className="error" />
-            </Container>
-            <Container>
-              <SubmitButton type="submit">Add Tax</SubmitButton>
-            </Container>
-          </StyledForm>
-        </Formik>
-
+        <TaxForm />
         {taxData !== null ? (
           <Table key={taxData.length} tableData={taxData} tableHelperData={tableHelperData}></Table>
         ) : (
