@@ -9,8 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { LineWave } from "react-loader-spinner";
 import { v4 as uuidv4 } from "uuid";
 const validationSchema = Yup.object().shape({
-  tax: Yup.string().required("Tax Name Must be filled"),
-  rate: Yup.string().required("Tax Rate Must be filled"),
+  tax: Yup.string()
+    .required("Tax Name must be filled")
+    .matches(/^[A-Za-z\s]+$/, "Tax Name must contain only alphabetic characters"),
+
+  rate: Yup.number().required("Tax Rate must be filled").min(0, "Tax Rate must be greater than or equal to 0%").max(100, "Tax Rate must be less than or equal to 100%"),
 });
 const initialValues = {
   tax: "",
@@ -24,18 +27,9 @@ export const TaxAndTerms = () => {
 
   const sanitizeTaxData = (taxArr) =>
     taxArr.map((item) => {
-      const { _id, type, rate } = item;
-      return { _id, type, rate };
+      const { _id, tax, rate } = item;
+      return { _id, tax, rate };
     });
-
-  // const fetchFunc = async () => {
-  //   try {
-  //     await fetchData(`users/${user._id}`);
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   useEffect(() => {
     fetchData(`users/${user._id}`);
@@ -49,7 +43,7 @@ export const TaxAndTerms = () => {
     setSubmitting(false);
     const newTax = {
       _id: uuidv4(),
-      type: values.tax,
+      tax: values.tax.toUpperCase(),
       rate: values.rate,
     };
     postData(
@@ -118,7 +112,10 @@ const ErrorMsg = styled(ErrorMessage)`
   position: absolute;
   top: 100%;
   left: 0;
-  /* Add your custom styles here */
+  @media (max-width: 550px) {
+    left: 50%;
+    top: 7px;
+  }
 `;
 
 const Container = styled.div`
