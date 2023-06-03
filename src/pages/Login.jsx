@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
 import { LineWave, ColorRing } from "react-loader-spinner";
@@ -7,9 +7,10 @@ import { login } from "../reducers/authSlice";
 import { setUser } from "../reducers/userSlice";
 
 export const Login = () => {
-  const [user_email, setUsername] = useState("subayan@roaring.com");
+  const [user_email, setUsername] = useState("rahil@lilbit.io");
   const [user_password, setPassword] = useState("Rahil123");
   const [isLoading, setisLoading] = useState(false);
+  const [isMessage, setMessage] = useState(false);
 
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const user = useSelector((state) => state.user.user);
@@ -37,19 +38,33 @@ export const Login = () => {
     }
   };
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMessage(true);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <LoginWrapper>
       {isLoading ? (
-        <ColorRing
-          visible={true}
-          height="80"
-          width="80"
-          ariaLabel="blocks-loading"
-          wrapperStyle={{}}
-          wrapperClass="blocks-wrapper"
-          colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
-          // colors={["#0069D9", "#218838", "#C82333", "#E0A800", "#138496"]}
-        />
+        <RingWithMessage>
+          <ColorRing
+            visible={true}
+            height="80"
+            width="80"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            colors={["#e15b64", "#f47e60", "#f8b26a", "#abbd81", "#849b87"]}
+            // colors={["#0069D9", "#218838", "#C82333", "#E0A800", "#138496"]}
+          />
+          {isMessage && (
+            <Message>
+              Please wait ⌛. <br /> We're using free services: 🌐 Frontend: Netlify, 🗄️ Database: MongoDB Atlas, 🔌 APIs: Render. Thank you for your patience! 🚀✨
+            </Message>
+          )}
+        </RingWithMessage>
       ) : (
         <FormWrapper onSubmit={handleLogin}>
           <div>
@@ -67,7 +82,17 @@ export const Login = () => {
     </LoginWrapper>
   );
 };
-
+const RingWithMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const Message = styled.p`
+  color: #fff;
+  font-size: 0.75rem;
+  max-width: 65%;
+`;
 const LoginWrapper = styled.div`
   height: 100vh;
   background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
