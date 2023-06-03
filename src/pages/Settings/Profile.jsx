@@ -56,7 +56,7 @@ export const Profile = () => {
       {!isLoading && initialValuesFromAPI !== null ? (
         <Formik initialValues={{ ...initialValues, ...initialValuesFromAPI }} validationSchema={validationSchema} onSubmit={handleSubmit}>
           <StyledForm>
-            <Container style={{ flexDirection: "row", gap: "16px", alignItems: "center" }}>
+            <Container style={{ flexDirection: "row", gap: "16px", alignItems: "center", paddingTop: "0px" }}>
               <Label htmlFor="">Company Name: </Label>
               <div style={{ fontFamily: "Cabin-Bold" }}>{user.user_company_name}</div>
             </Container>
