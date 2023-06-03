@@ -15,15 +15,18 @@ const validationSchema = Yup.object().shape({
 
   rate: Yup.number().required("Tax Rate must be filled").min(0, "Tax Rate must be greater than or equal to 0%").max(100, "Tax Rate must be less than or equal to 100%"),
 });
+
 const initialValues = {
   tax: "",
   rate: "",
+  user_tc: "",
 };
 
 export const TaxAndTerms = () => {
   const { data, isLoading, error, fetchData, postData } = useFetch();
   const user = useSelector((state) => state.user.user);
   const [taxData, setTaxData] = useState(null);
+  const tandc = user.user_settings.user_tc;
 
   const sanitizeTaxData = (taxArr) =>
     taxArr.map((item) => {
@@ -56,6 +59,17 @@ export const TaxAndTerms = () => {
     setTaxData((prev) => [...prev, newTax]);
     resetForm();
   };
+  
+  const handleSubmitTerms = (values, { setSubmitting }) => {
+    console.log("called");
+    setSubmitting(false);
+    postData(
+      {
+        userData: values.user_tc,
+      },
+      `users/settings/addtandc`
+    );
+  };
 
   const removeTax = (id) => {
     fetchData(`users/settings/removetax/${id}`);
@@ -75,8 +89,35 @@ export const TaxAndTerms = () => {
     <Wrapper>
       <TermsWrapper>
         <TermsTitle>Terms & Conditions</TermsTitle>
-        <TextArea type="text" name="terms" id="terms" autoComplete="off" placeholder="These are the terms and conditions you can change it for your invoice if you want." rows="7" />
-        <SubmitButton type="submit">Update Terms & Conditions</SubmitButton>
+        <Formik initialValues={{ ...initialValues, user_tc: tandc }} validationSchema={validationSchema} onSubmit={handleSubmitTerms}>
+          <StyledForm>
+            <Container>
+              <Field
+                as="textarea"
+                type="text"
+                name="user_tc"
+                id="user_tc"
+                autoComplete="off"
+                placeholder="These are the terms and conditions you can change it for your invoice if you want."
+                rows="7"
+                style={{
+                  backgroundColor: "var(--white-color)",
+                  padding: "8px",
+                  color: "var(--black-color)",
+                  border: "1px solid var(--table-border-color)",
+                  borderRadius: "4px",
+                  outline: "none",
+                  width: "100%",
+                  fontFamily: "inherit",
+                  ":focus": {
+                    boxshadow: "var(--input-bs)",
+                  },
+                }}
+              />
+              <SubmitButton type="submit">Update Terms & Conditions</SubmitButton>
+            </Container>
+          </StyledForm>
+        </Formik>
       </TermsWrapper>
       <TaxWrapper>
         <TaxTitle>Taxes</TaxTitle>
@@ -121,6 +162,7 @@ const ErrorMsg = styled(ErrorMessage)`
 const Container = styled.div`
   position: relative;
   width: 100%;
+  gap:8px,
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

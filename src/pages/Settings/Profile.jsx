@@ -28,7 +28,7 @@ export const Profile = () => {
   const [initialValuesFromAPI, setInitialValuesFromAPI] = useState(null);
 
   const user = useSelector((state) => state.user.user);
-  useEffect(() => {    
+  useEffect(() => {
     fetchData(`users/${user._id}`);
   }, []);
 
@@ -58,7 +58,7 @@ export const Profile = () => {
           <StyledForm>
             <Container style={{ flexDirection: "row", gap: "16px", alignItems: "center" }}>
               <Label htmlFor="">Company Name: </Label>
-              <div style={{ fontFamily: "Cabin-Bold" }}>Subuyan Enterprises</div>
+              <div style={{ fontFamily: "Cabin-Bold" }}>{user.user_company_name}</div>
             </Container>
             <Container>
               <Label htmlFor="">Name *</Label>
