@@ -78,11 +78,11 @@ const AppContainer = styled.div`
 
 const PageWrapper = styled.main`
   min-height: 100vh;
-  width: 100%;
-  flex: 4;
+  width: 80%;
+  /* flex: 4; */
+  flex: 1;
   background: linear-gradient(300deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   @media (max-width: 550px) {
-    flex: 1;
     background: #fff;
   }
 `;

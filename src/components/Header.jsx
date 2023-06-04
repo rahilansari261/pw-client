@@ -51,7 +51,7 @@ const NavIcon = styled.div`
   font-size: 2rem;
   opacity: 0;
   cursor: pointer;
-  @media (max-width: 550px) {
+  @media (max-width: 1000px) {
     opacity: 1;
     padding-left: 16px;
   }

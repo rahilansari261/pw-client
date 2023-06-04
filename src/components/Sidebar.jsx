@@ -97,7 +97,8 @@ export const Sidebar = (props) => {
   );
 };
 const Aside = styled.aside`
-  flex: 1;
+  /* flex: 1; */
+  /* width: 20%; */
   height: 100vh;
   background-color: var(--primary-color);
   position: sticky;
@@ -106,11 +107,12 @@ const Aside = styled.aside`
   bottom: 0;
   z-index: 1;
   box-shadow: var(--sidebar-bs);
-  @media (max-width: 550px) {
+  @media (max-width: 1000px) {
     position: fixed;
     transform: ${(props) => (isOpen ? "translateX(0%)" : "translateX(-100%)")};
     transition: transform 250ms;
   }
+
 `;
 const LogoWrapper = styled.div`
   font-size: 2rem;

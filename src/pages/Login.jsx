@@ -41,7 +41,7 @@ export const Login = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setMessage(true);
-    }, 1000);
+    }, 3000);
     return () => clearTimeout(timer);
   }, []);
 

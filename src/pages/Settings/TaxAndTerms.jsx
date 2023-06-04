@@ -26,7 +26,8 @@ export const TaxAndTerms = () => {
   const { data, isLoading, error, fetchData, postData } = useFetch();
   const user = useSelector((state) => state.user.user);
   const [taxData, setTaxData] = useState(null);
-  const tandc = user.user_settings.user_tc;
+  const [tandc, setTandC] = useState(null);
+  // const tandc = user.user_settings.user_tc;
 
   const sanitizeTaxData = (taxArr) =>
     taxArr.map((item) => {
@@ -38,8 +39,17 @@ export const TaxAndTerms = () => {
     fetchData(`users/${user._id}`);
   }, []);
 
+  // useEffect(() => {
+  //   setTandC(data.data.user_settings.user_tc);
+  // }, [isLoading]);
+
+  // const anotherFunc = async () => {
+  //   await fetchData(`users/${user._id}`);
+  // };
+
   if (!isLoading && taxData === null) {
     setTaxData(sanitizeTaxData(data.data.user_settings.user_tax));
+    setTandC(data.data.user_settings.user_tc);
   }
 
   const removeTax = (id) => {
@@ -57,9 +67,9 @@ export const TaxAndTerms = () => {
   };
 
   const TermsForm = () => {
-    const handleSubmit = (values, { setSubmitting }) => {
+    const handleSubmit = async (values, { setSubmitting }) => {
       setSubmitting(false);
-      postData(
+      await postData(
         {
           userData: {
             user_tc: values.user_tc,
@@ -67,6 +77,7 @@ export const TaxAndTerms = () => {
         },
         `users/settings/addtandc`
       );
+      setTandC(data.data.user_settings.user_tc);
     };
     return (
       <Formik initialValues={{ ...initialValues, user_tc: tandc }} onSubmit={handleSubmit}>
