@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFileInvoiceDollar, faPrint } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -6,32 +6,23 @@ import { Button } from "../../components/Button";
 import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
 import { cabinBold, cabinRegular } from "../../util/Constant";
+import useFetch from "../../hooks/useFetch";
+import { useEffect, useState } from "react";
+import { LineWave } from "react-loader-spinner";
+import { convertDate } from "../../util/helper";
+import { convertCurrencyToIndian } from "../../util/helper";
 
 export const ViewInvoice = () => {
+  const { data, isLoading, error, fetchData } = useFetch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    fetchData(`invoices/${id}`);
+  }, []);
+
   const clickHandle = () => {};
   const btnFunc = () => {};
-  const invoiceData = [
-    {
-      _id: "1",
-      name: "LG Monitor",
-      desc: "LED Display LG Monitor",
-      price: 15000,
-      qty: 1,
-      tax_amount: 500,
-      tax: "gst@18",
-      total: 15500,
-    },
-    {
-      _id: "2",
-      name: "LG Monitor",
-      desc: "LED Display LG Monitor",
-      price: 15000,
-      qty: 1,
-      tax_amount: 500,
-      tax: "gst@18",
-      total: 15500,
-    },
-  ];
+
   return (
     <Main>
       <TitleSection>
@@ -55,89 +46,95 @@ export const ViewInvoice = () => {
         </ButtonWrapper>
       </TitleSection>
       <DetailSection>
-        <InvoiceWrapper>
-          <InvoiceRow>
-            <LeftSide>
-              <InvoiceNumber>Invoice #:44532</InvoiceNumber>
-              <InvoiceDate>Date: 30-Mar-2023</InvoiceDate>
-            </LeftSide>
-            <RightSide>Tax Invoice</RightSide>
-          </InvoiceRow>
-          <AddressRow>
-            <SellerInfo>
-              <Name>Rahil Computers</Name>
-              <Address>Near Mansarovar Metro Jaipur</Address>
-              <Phone>7742148739</Phone>
-              <GST>AEDS1125498ZS</GST>
-            </SellerInfo>
-            <BuyerInfo>
-              {/* <BuyerTitle>Client's Details:</BuyerTitle> */}
-              <Name>Satyam Computers</Name>
-              <Address>Near JLN Marg Jaipur</Address>
-              <Phone>7990348739</Phone>
-              <GST>ZHS22325498ZS</GST>
-            </BuyerInfo>
-          </AddressRow>
-          <TableWrapper>
-            <TableContent>
-              <TableHead>
-                <TableRow>
-                  <TableHeadData>Product Name</TableHeadData>
-                  <TableHeadData>Price(Rs)</TableHeadData>
-                  <TableHeadData>Quantity</TableHeadData>
-                  <TableHeadData>Tax(%)</TableHeadData>
-                  <TableHeadData>Total(Rs)</TableHeadData>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {invoiceData.map((item) => (
-                  <TableRow key={item._id}>
-                    <TableData>
-                      {item.name}
-                      <br />
-                      {item.desc}
-                    </TableData>
-                    <TableData>{item.price}</TableData>
-                    <TableData>{item.qty}</TableData>
-                    <TableData>
-                      {item.tax_amount}
-                      <br />
-                      {item.tax}
-                    </TableData>
-                    <TableData>{item.total}</TableData>
-                  </TableRow>
-                ))}
-                <TableRow>
-                  <TermsTableData>Hello</TermsTableData>
-                  <TableData>Sub Total</TableData>
-                  <TableData>31000</TableData>
-                </TableRow>
-                <TableRow>
-                  <TableData>
-                    Tax Summary <br />
-                    gst@18
-                  </TableData>
-                  <TableData>1000</TableData>
-                </TableRow>
-                <TableRow>
-                  <TableData>Discount</TableData>
-                  <TableData>1000</TableData>
-                </TableRow>
-                <TableRow>
-                  <TableData>Grand Total</TableData>
-                  <TableData>30000</TableData>
-                </TableRow>
-              </TableBody>
-            </TableContent>
-          </TableWrapper>
-          <BottomLine>
-            <LeftNote>This is a Computer Generated Document, No Signature Required.</LeftNote>
-            <RightNote>Paper Weight | Roaring Studios Product</RightNote>
-          </BottomLine>
-        </InvoiceWrapper>
-        <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
-          <Button label="danger">Delete Invoice</Button>
-        </div>
+        {!isLoading ? (
+          <Invoice>
+            <InvoiceWrapper>
+              <InvoiceRow>
+                <LeftSide>
+                  <InvoiceNumber>Invoice #{data.data.invoice_data.number}</InvoiceNumber>
+                  <InvoiceDate>Date: {convertDate(data.data.invoice_data.date)}</InvoiceDate>
+                </LeftSide>
+                <RightSide>Tax Invoice</RightSide>
+              </InvoiceRow>
+              <AddressRow>
+                <SellerInfo>
+                  <Name>{data.data.user_data.user_company_name}</Name>
+                  <Address>{data.data.user_data.user_address}</Address>
+                  <Phone>{data.data.user_data.user_phone}</Phone>
+                  <GST>{data.data.user_data.user_stn}</GST>
+                </SellerInfo>
+                <BuyerInfo>
+                  {/* <BuyerTitle>Client's Details:</BuyerTitle> */}
+                  <Name>{data.data.client_data.client_company_name}</Name>
+                  <Address>{data.data.client_data.client_address}</Address>
+                  <Phone>{data.data.client_data.client_phone}</Phone>
+                  <GST>{data.data.client_data.client_stn}</GST>
+                </BuyerInfo>
+              </AddressRow>
+              <TableWrapper>
+                <TableContent>
+                  <TableHead>
+                    <TableRow>
+                      <TableHeadData>Product Name</TableHeadData>
+                      <TableHeadData>Price(Rs)</TableHeadData>
+                      <TableHeadData>Quantity</TableHeadData>
+                      <TableHeadData>Tax(%)</TableHeadData>
+                      <TableHeadData>Total(Rs)</TableHeadData>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {data.data.product_data.map((item) => (
+                      <TableRow key={item._id}>
+                        <TableData>
+                          {item.product_name}
+                          <br />
+                          {item.product_desc}
+                        </TableData>
+                        <TableData>{convertCurrencyToIndian(item.product_price)}</TableData>
+                        <TableData>{item.qty}</TableData>
+                        <TableData>
+                          {convertCurrencyToIndian(item.tax_amount)}
+                          <br />
+                          {item.tax_name}
+                        </TableData>
+                        <TableData>{convertCurrencyToIndian(item.row_total)}</TableData>
+                      </TableRow>
+                    ))}
+                    <TableRow>
+                      <TermsTableData>{data.data.user_data.user_tc}</TermsTableData>
+                      <TableData>Sub Total</TableData>
+                      <TableData>{convertCurrencyToIndian(data.data.invoice_data.sub_total)}</TableData>
+                    </TableRow>
+                    <TableRow>
+                      <TableData>
+                        Tax Summary <br />
+                        {/* {data.data.invoice_data.sub_total} */}
+                      </TableData>
+                      <TableData>{convertCurrencyToIndian(data.data.invoice_data.taxTotal)}</TableData>
+                    </TableRow>
+                    <TableRow>
+                      <TableData>Discount</TableData>
+                      <TableData>{convertCurrencyToIndian(data.data.invoice_data.discount)}</TableData>
+                    </TableRow>
+                    <TableRow>
+                      <TableData>Grand Total</TableData>
+                      <TableData>{convertCurrencyToIndian(data.data.invoice_data.grand_total)}</TableData>
+                    </TableRow>
+                  </TableBody>
+                </TableContent>
+              </TableWrapper>
+              <BottomLine>
+                <LeftNote>This is a Computer Generated Document, No Signature Required.</LeftNote>
+                <RightNote>Paper Weight | Roaring Studios Product</RightNote>
+              </BottomLine>
+            </InvoiceWrapper>
+            <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
+              <Button label="danger">Delete Invoice</Button>
+            </div>
+          </Invoice>
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
       </DetailSection>
     </Main>
   );
@@ -171,6 +168,7 @@ const DetailSection = styled.div`
   overflow-x: auto;
   margin: 0 auto;
 `;
+const Invoice = styled.div``;
 const InvoiceWrapper = styled.div`
   max-width: 700px;
   padding: 1em 1em 0 1em;

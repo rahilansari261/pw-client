@@ -7,8 +7,10 @@ export const convertDate = (oldDate) => {
 
   return `${day}-${month}-${year}`;
 };
-export const convertCurrencyToIndian = (amount) =>
-  amount.toLocaleString("en-IN", {
+export const convertCurrencyToIndian = (amount) => {
+  if (!amount) return "-";
+  return amount.toLocaleString("en-IN", {
     style: "currency",
     currency: "INR",
   });
+};

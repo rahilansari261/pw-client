@@ -9,6 +9,7 @@ import { BarChart, Button, Table } from "../components/Index";
 import useFetch from "../hooks/useFetch";
 import { Link, Outlet } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
+import { convertCurrencyToIndian } from "../util/helper";
 
 Chart.register(CategoryScale);
 
@@ -36,13 +37,13 @@ export const Dashboard = () => {
       const { _id } = invoice;
       const { number, grand_total } = invoice.invoice_data;
       const { client_company_name } = invoice.client_data;
-      return { _id, number, client_company_name, grand_total };
+      return { _id, number, client_company_name, grand_total: convertCurrencyToIndian(grand_total) };
     });
 
   const sanitizeTableDataForClientBalance = (clientDataArray) =>
     clientDataArray.map((client) => {
       const { _id, client_company_name, client_balance } = client;
-      return { _id, client_company_name, client_balance };
+      return { _id, client_company_name, client_balance: convertCurrencyToIndian(client_balance) };
     });
 
   let invoiceTableData = null;
@@ -108,7 +109,7 @@ export const Dashboard = () => {
           </TitleSection>
           <DetailSection>
             {invoiceTableData !== null ? (
-              <Table tableData={invoiceTableData} tableHelperData={tableHelperDataInvoice}  />
+              <Table tableData={invoiceTableData} tableHelperData={tableHelperDataInvoice} />
             ) : (
               <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
             )}
