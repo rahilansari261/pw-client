@@ -5,48 +5,44 @@ import { LineWave, ColorRing } from "react-loader-spinner";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../reducers/authSlice";
 import { setUser } from "../reducers/userSlice";
+import useFetch from "../hooks/useFetch";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("rahil@lilbit.io");
   const [user_password, setPassword] = useState("Rahil123");
-  const [isLoading, setisLoading] = useState(false);
+  const [showRingLoader, setShowRingLoader] = useState(false);
   const [isMessage, setMessage] = useState(false);
 
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
-  // const timer = setTimeout(() => {
-  //   setMessage(true);
-  // }, 3000);
+  const { data, isLoading, error, loginUser } = useFetch();
 
   const handleLogin = async (e) => {
+    setShowRingLoader(true);
+    e.preventDefault();
     setTimeout(() => {
       setMessage(true);
     }, 3000);
-    e.preventDefault();
-    setisLoading(true);
-    try {
-      const response = await fetch("https://pw-backend.onrender.com/api/v1/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_email, user_password }),
-      });
 
-      if (response.ok) {
-        const { token, data } = await response.json();
-        dispatch(login());
-        dispatch(setUser({ ...data, token }));
-      } else {
-        console.log("Login failed");
-      }
-    } catch (error) {
-      console.log("An error occurred:", error);
-    }
+    await toast.promise(loginUser({ user_email, user_password }), {
+      loading: "Loading",
+      success: "Sucessfully signed in.",
+      error: "Error when sign in.",
+    });
   };
 
+  useEffect(() => {
+    if (!isLoading) {
+      dispatch(login());
+      dispatch(setUser({ ...data.data, token: data.token }));
+    }
+  }, [data, error, isLoading]);
+  console.log(isLoading);
   return (
     <LoginWrapper>
-      {isLoading ? (
+      {showRingLoader ? (
         <RingWithMessage>
           <ColorRing
             visible={true}
@@ -82,6 +78,7 @@ export const Login = () => {
           <Button type="submit">Login</Button>
         </FormWrapper>
       )}
+      <Toaster />
     </LoginWrapper>
   );
 };

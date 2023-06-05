@@ -42,7 +42,22 @@ function useFetch() {
     }
   };
 
-  return { data, isLoading, error, fetchData, postData };
+  const loginUser = async (formData) => {
+    try {
+      const response = await axios.post(`${baseUrl}/users/login`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      setData(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error);
+      setIsLoading(false);
+    }
+  };
+
+  return { data, isLoading, error, fetchData, postData, loginUser };
 }
 
 export default useFetch;
