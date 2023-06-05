@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { LineWave } from "react-loader-spinner";
 import { convertDate } from "../../util/helper";
 import { convertCurrencyToIndian } from "../../util/helper";
+import toast, { Toaster } from "react-hot-toast";
 
 export const ViewInvoice = () => {
   const { data, isLoading, error, fetchData } = useFetch();
@@ -20,7 +21,13 @@ export const ViewInvoice = () => {
     fetchData(`invoices/${id}`);
   }, []);
 
-  const clickHandle = () => {};
+  const clickHandle2 = async () => {
+    await toast.promise(fetchData(`invoices/${id}`), {
+      loading: "Loading",
+      success: "Invoice deleted sucessfully",
+      error: "Error when invoice deleting",
+    });
+  };
   const btnFunc = () => {};
 
   return (
@@ -32,17 +39,17 @@ export const ViewInvoice = () => {
         </TitleWrapper>
         <ButtonWrapper>
           <Link to="/invoices/invoicelist">
-            <Button label="warning" clickHandle={() => {}}>
+            <Button label="warning" clickHandle={clickHandle2}>
               <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "14px", marginRight: "4px" }} />
               Back
             </Button>
           </Link>
-          <Link to="/invoices/invoicereport">
-            <Button label="secondary" clickHandle={() => {}}>
-              <FontAwesomeIcon icon={faPrint} style={{ fontSize: "14px", marginRight: "4px" }} />
-              Print
-            </Button>
-          </Link>
+          {/* <Link to="/invoices/invoicereport"> */}
+          <Button label="secondary" clickHandle={clickHandle2}>
+            <FontAwesomeIcon icon={faPrint} style={{ fontSize: "14px", marginRight: "4px" }} />
+            Print
+          </Button>
+          {/* </Link> */}
         </ButtonWrapper>
       </TitleSection>
       <DetailSection>
@@ -136,6 +143,8 @@ export const ViewInvoice = () => {
           <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
         )}
       </DetailSection>
+
+      <Toaster />
     </Main>
   );
 };

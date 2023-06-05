@@ -15,8 +15,14 @@ export const Login = () => {
   const loggedIn = useSelector((state) => state.auth.loggedIn);
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  // const timer = setTimeout(() => {
+  //   setMessage(true);
+  // }, 3000);
 
   const handleLogin = async (e) => {
+    setTimeout(() => {
+      setMessage(true);
+    }, 3000);
     e.preventDefault();
     setisLoading(true);
     try {
@@ -38,13 +44,6 @@ export const Login = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMessage(true);
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <LoginWrapper>
       {isLoading ? (
@@ -61,7 +60,11 @@ export const Login = () => {
           />
           {isMessage && (
             <Message>
-              Please wait ⌛. <br /> We're using free services: 🌐 Frontend: Netlify, 🗄️ Database: MongoDB Atlas, 🔌 APIs: Render. Thank you for your patience! 🚀✨
+              Please wait ⌛. <br /> We're using free services: <br />
+              🌐 Frontend: Netlify, <br />
+              🗄️ Database: MongoDB Atlas, <br />
+              🔌 APIs: Render. <br />
+              Thank you for your patience! 🚀✨
             </Message>
           )}
         </RingWithMessage>
@@ -91,7 +94,7 @@ const RingWithMessage = styled.div`
 const Message = styled.p`
   color: #fff;
   font-size: 0.75rem;
-  max-width: 65%;
+  max-width: 200px;
 `;
 const LoginWrapper = styled.div`
   height: 100vh;
