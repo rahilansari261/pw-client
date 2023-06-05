@@ -1,4 +1,4 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import { Link, Outlet, redirect, useNavigate, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faFileInvoiceDollar, faPrint } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -16,19 +16,24 @@ import toast, { Toaster } from "react-hot-toast";
 export const ViewInvoice = () => {
   const { data, isLoading, error, fetchData } = useFetch();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData(`invoices/${id}`);
   }, []);
 
-  const clickHandle2 = async () => {
+  const deleteInvoice = async () => {
     await toast.promise(fetchData(`invoices/${id}`), {
       loading: "Loading",
       success: "Invoice deleted sucessfully",
       error: "Error when invoice deleting",
     });
+    return setTimeout(() => {
+      navigate("/invoices");
+    }, 1000);
   };
-  const btnFunc = () => {};
+  const printInvoice = () => {};
+  const clickHandle = () => {};
 
   return (
     <Main>
@@ -39,13 +44,13 @@ export const ViewInvoice = () => {
         </TitleWrapper>
         <ButtonWrapper>
           <Link to="/invoices/invoicelist">
-            <Button label="warning" clickHandle={clickHandle2}>
+            <Button label="warning" >
               <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "14px", marginRight: "4px" }} />
               Back
             </Button>
           </Link>
           {/* <Link to="/invoices/invoicereport"> */}
-          <Button label="secondary" clickHandle={clickHandle2}>
+          <Button label="secondary" clickHandle={()=>printInvoice}>
             <FontAwesomeIcon icon={faPrint} style={{ fontSize: "14px", marginRight: "4px" }} />
             Print
           </Button>
@@ -136,7 +141,7 @@ export const ViewInvoice = () => {
               </BottomLine>
             </InvoiceWrapper>
             <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
-              <Button label="danger">Delete Invoice</Button>
+              <Button label="danger" clickHandle={deleteInvoice} >Delete Invoice</Button>
             </div>
           </Invoice>
         ) : (

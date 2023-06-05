@@ -39,7 +39,6 @@ export const Login = () => {
       dispatch(setUser({ ...data.data, token: data.token }));
     }
   }, [data, error, isLoading]);
-  console.log(isLoading);
   return (
     <LoginWrapper>
       {showRingLoader ? (
