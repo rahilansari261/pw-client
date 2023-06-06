@@ -169,6 +169,8 @@ export const ViewInvoice = () => {
 };
 
 const Main = styled.div`
+  position: relative;
+  z-index: 0;
   margin: 2em;
   background-color: var(--white-color);
   color: black;

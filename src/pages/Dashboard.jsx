@@ -148,6 +148,8 @@ const Main = styled.div`
   background-color: white;
   color: black;
   border-radius: 4px;
+  position: relative;
+  z-index: 0;
 
   @media (max-width: 550px) {
     margin: 0em 0em 2em;

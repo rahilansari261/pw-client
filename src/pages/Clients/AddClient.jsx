@@ -8,8 +8,6 @@ import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import useWindowWidth from "../../hooks/useWindowWidth";
 
-
-
 const validationSchema = Yup.object().shape({
   client_company_name: Yup.string().required("Client Company Name Must be filled"),
   client_name: Yup.string().required("Client Name Must be filled"),
@@ -25,8 +23,6 @@ const initialValues = {
   client_stn: "",
   client_notes: "",
 };
-
-
 
 export const AddClient = () => {
   const { data, isLoading, error, postData } = useFetch();
@@ -140,6 +136,8 @@ export const AddClient = () => {
 };
 
 const Main = styled.div`
+  position: relative;
+  z-index: 0;
   margin: 2em;
   background-color: var(--white-color);
   color: black;

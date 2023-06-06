@@ -19,7 +19,7 @@ export const ProductList = () => {
     pData.map((product) => {
       const p_tax = `${product.product_tax.type}@${product.product_tax.rate}`;
       const { _id, product_name, product_code, product_price } = product;
-      return { _id, product_name, product_code, product_price:convertCurrencyToIndian(product_price), product_tax: p_tax };
+      return { _id, product_name, product_code, product_price: convertCurrencyToIndian(product_price), product_tax: p_tax };
     });
 
   if (!isLoading) {
@@ -77,6 +77,8 @@ export const ProductList = () => {
 };
 
 const Main = styled.div`
+  position: relative;
+  z-index: 0;
   margin: 2em;
   background-color: var(--white-color);
   color: black;

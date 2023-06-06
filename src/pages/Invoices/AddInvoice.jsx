@@ -3,8 +3,30 @@ import { faFileInvoiceDollar, faPlus, faPlusCircle, faTrashCan } from "@fortawes
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
 import { cabinBold, cabinRegular } from "../../util/Constant";
+import { useEffect, useState } from "react";
+import useFetch from "../../hooks/useFetch";
 
 export const AddInvoice = () => {
+  const { data: productData, isLoading: isProductLoading, error: productError, fetchData: fetchProductData } = useFetch();
+  const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
+  const [isOpen, setOpen] = useState(false);
+  const [clientSuggList, setClientSuggList]  = useState(null)
+  const [productSuggList, setProductSuggList]  = useState(null)
+
+  useEffect(() => {
+    fetchClientData(`clients/selected/all`);
+    fetchProductData(`products/selected/all`);
+  }, []);
+
+  useEffect(() => {
+    if(!isProductLoading && !isClientLoading){
+      setClientSuggList(clientData.data)
+      setProductSuggList(productData.data)
+    }
+    
+  }, [isProductLoading, isClientLoading]);
+
+
   const clickHandle = () => {};
   const handleSearch = () => {};
   const accountData = [
@@ -51,7 +73,17 @@ export const AddInvoice = () => {
       <DetailSection>
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
-          <Input type="text" placeholder="search from saved clients..." />
+          <AutoComplete>
+            <Input type="text" placeholder="search from saved clients..." />
+            <MyUl isOpen={isOpen}>
+              {
+                clientSuggList.map((item)=>{
+                  <MyLi>`${item.client_name} ${client_company_name}`</MyLi>
+                })
+              }
+              
+            </MyUl>
+          </AutoComplete>
           <Button label="success" width="225px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Client
@@ -211,6 +243,8 @@ export const AddInvoice = () => {
 };
 
 const Main = styled.div`
+  position: relative;
+  z-index: 0;
   margin: 2em;
   background-color: var(--white-color);
   color: black;
@@ -299,6 +333,8 @@ const ItemSearch = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 1em;
+  justify-content: space-between;
+  gap: 1em;
 `;
 
 const SearchTitle = styled.div`
@@ -309,12 +345,12 @@ const SearchTitle = styled.div`
 `;
 const Input = styled.input`
   background-color: var(--white-color);
-  margin: 0 1em;
+  /* margin: 0 1em; */
   padding: 8px;
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 40%;
+  width: 100%;
   outline: none;
   font-family: inherit;
   &:focus {
@@ -376,7 +412,7 @@ const TermsAndSummary = styled.div`
   border: 1px solid #808080;
   box-shadow: 0.5px 0.5px 0.5px rgba(51, 51, 51, 0.36);
   margin-bottom: 1em;
-  @media (max-width: 550px) {
+  @media (max-width: 700px) {
     flex-direction: column;
   }
 `;
@@ -418,4 +454,38 @@ const ButtonWrapper = styled.div`
   display: grid;
   place-items: center;
   padding-bottom: 1em;
+`;
+const AutoComplete = styled.div`
+  position: relative;
+  width: 100%;
+  z-index: 1;
+`;
+const MyUl = styled.ul`
+  position: absolute;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
+  -o-transition: border-color ease-in-out;
+
+  display: ${(props) => (props.isOpen ? "block" : "none")};
+`;
+
+const MyLi = styled.li`
+  text-align: left;
+  list-style: none;
+  width: 100%;
+  font-size: 14px;
+  padding: 0.4em;
+  background-color: #fff;
+  &:hover {
+    background-color: #2d7d87;
+    color: #fff;
+  }
 `;
