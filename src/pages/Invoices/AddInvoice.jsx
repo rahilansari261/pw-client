@@ -3,7 +3,7 @@ import { faFileInvoiceDollar, faPlus, faPlusCircle, faTrashCan } from "@fortawes
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
 import { cabinBold, cabinRegular } from "../../util/Constant";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
 export const AddInvoice = () => {
@@ -12,6 +12,7 @@ export const AddInvoice = () => {
   const [isOpen, setOpen] = useState(false);
   const [clientSuggList, setClientSuggList] = useState(null);
   const [productSuggList, setProductSuggList] = useState(null);
+  const [matchedArr, setArrayAgain] = useState(null);  
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -22,6 +23,8 @@ export const AddInvoice = () => {
     if (!isProductLoading && !isClientLoading) {
       setClientSuggList(clientData.data);
       setProductSuggList(productData.data);
+      setArrayAgain(clientData.data);
+      console.log("first time or second dont know");
     }
   }, [isProductLoading, isClientLoading]);
 
@@ -61,21 +64,27 @@ export const AddInvoice = () => {
   const tableHelperData = {
     tableHeadRowData: Object.keys(accountData[0]),
   };
+
+
   const handleChange = (e) => {
     e.preventDefault();
-    if (!e.target.value) {
+    const input = e.target.value;
+
+    if (!input) {
       return setOpen(false);
     }
-    const input = e.target.value;
-    const regex = new RegExp(input, "i");
-    setClientSuggList((prev) =>
-      prev.filter((client) => {
-        return regex.test(client.client_name) || regex.test(client.client_company_name);
-      })
-    );
 
-    console.log(input);
+    const lowerInput = input.toLowerCase();
+    const reultedArr = clientSuggList.filter((client) => {
+      const lowerClientName = client.client_name.toLowerCase();
+      const lowerCompanyName = client.client_company_name.toLowerCase();
+      return lowerClientName.includes(lowerInput) || lowerCompanyName.includes(lowerInput);
+    });
+    if (reultedArr.length === 0) {
+      return setOpen(false);
+    }
     setOpen(true);
+    setArrayAgain(reultedArr);
   };
   return (
     <Main>
@@ -90,12 +99,12 @@ export const AddInvoice = () => {
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
             <Input type="text" placeholder="search from saved clients..." onChange={handleChange} />
-            {clientSuggList && (
+            {matchedArr && (
               <MyUl isOpen={isOpen}>
-                {clientSuggList.map((item) => {
+                {matchedArr.map((item) => {
                   return (
-                    <MyLi>
-                      {item.client_name} {item.client_company_name}
+                    <MyLi key={item._id}>
+                      {item.client_name}, {item.client_company_name}
                     </MyLi>
                   );
                 })}
