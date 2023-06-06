@@ -36,10 +36,10 @@ export const ViewInvoice = () => {
       success: "Invoice deleted sucessfully,",
       error: "Error when invoice deleting",
     });
-    // return setTimeout(() => {
-    //   navigate("/invoices");
-    // }, 3000);
-    return navigate("/invoices");
+    return setTimeout(() => {
+      navigate("/invoices");
+    }, 3000);
+    // return navigate("/invoices");
   };
   const printInvoice = () => {};
   const clickHandle = () => {};
