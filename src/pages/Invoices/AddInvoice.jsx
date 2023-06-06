@@ -10,8 +10,8 @@ export const AddInvoice = () => {
   const { data: productData, isLoading: isProductLoading, error: productError, fetchData: fetchProductData } = useFetch();
   const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
   const [isOpen, setOpen] = useState(false);
-  const [clientSuggList, setClientSuggList]  = useState(null)
-  const [productSuggList, setProductSuggList]  = useState(null)
+  const [clientSuggList, setClientSuggList] = useState(null);
+  const [productSuggList, setProductSuggList] = useState(null);
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -19,16 +19,15 @@ export const AddInvoice = () => {
   }, []);
 
   useEffect(() => {
-    if(!isProductLoading && !isClientLoading){
-      setClientSuggList(clientData.data)
-      setProductSuggList(productData.data)
+    if (!isProductLoading && !isClientLoading) {
+      setClientSuggList(clientData.data);
+      setProductSuggList(productData.data);
     }
-    
   }, [isProductLoading, isClientLoading]);
-
 
   const clickHandle = () => {};
   const handleSearch = () => {};
+
   const accountData = [
     {
       _id: "1",
@@ -62,6 +61,22 @@ export const AddInvoice = () => {
   const tableHelperData = {
     tableHeadRowData: Object.keys(accountData[0]),
   };
+  const handleChange = (e) => {
+    e.preventDefault();
+    if (!e.target.value) {
+      return setOpen(false);
+    }
+    const input = e.target.value;
+    const regex = new RegExp(input, "i");
+    setClientSuggList((prev) =>
+      prev.filter((client) => {
+        return regex.test(client.client_name) || regex.test(client.client_company_name);
+      })
+    );
+
+    console.log(input);
+    setOpen(true);
+  };
   return (
     <Main>
       <TitleSection>
@@ -74,15 +89,18 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved clients..." />
-            <MyUl isOpen={isOpen}>
-              {
-                clientSuggList.map((item)=>{
-                  <MyLi>`${item.client_name} ${client_company_name}`</MyLi>
-                })
-              }
-              
-            </MyUl>
+            <Input type="text" placeholder="search from saved clients..." onChange={handleChange} />
+            {clientSuggList && (
+              <MyUl isOpen={isOpen}>
+                {clientSuggList.map((item) => {
+                  return (
+                    <MyLi>
+                      {item.client_name} {item.client_company_name}
+                    </MyLi>
+                  );
+                })}
+              </MyUl>
+            )}
           </AutoComplete>
           <Button label="success" width="225px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
@@ -473,7 +491,6 @@ const MyUl = styled.ul`
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
   -o-transition: border-color ease-in-out;
-
   display: ${(props) => (props.isOpen ? "block" : "none")};
 `;
 
