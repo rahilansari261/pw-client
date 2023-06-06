@@ -537,6 +537,8 @@ const MyUl = styled.ul`
 `;
 
 const MyLi = styled.li`
+  -webkit-tap-highlight-color: transparent; 
+   touch-action: manipulation;
   text-align: left;
   list-style: none;
   width: 100%;
