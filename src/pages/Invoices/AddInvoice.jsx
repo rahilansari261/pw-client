@@ -9,10 +9,12 @@ import useFetch from "../../hooks/useFetch";
 export const AddInvoice = () => {
   const { data: productData, isLoading: isProductLoading, error: productError, fetchData: fetchProductData } = useFetch();
   const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
-  const [isOpen, setOpen] = useState(false);
   const [clientSuggList, setClientSuggList] = useState(null);
   const [productSuggList, setProductSuggList] = useState(null);
-  const [matchedArr, setArrayAgain] = useState(null);  
+  const [matchedClientList, setMatchedClientList] = useState(null);
+  const [matchedProductList, setMatchedProductList] = useState(null);
+  const [isOpenClient, setOpenClient] = useState(false);
+  const [isOpenProduct, setOpenProduct] = useState(false);
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -23,8 +25,8 @@ export const AddInvoice = () => {
     if (!isProductLoading && !isClientLoading) {
       setClientSuggList(clientData.data);
       setProductSuggList(productData.data);
-      setArrayAgain(clientData.data);
-      console.log("first time or second dont know");
+      setMatchedClientList(clientData.data);
+      setMatchedProductList(productData.data);
     }
   }, [isProductLoading, isClientLoading]);
 
@@ -64,27 +66,45 @@ export const AddInvoice = () => {
   const tableHelperData = {
     tableHeadRowData: Object.keys(accountData[0]),
   };
-
-
-  const handleChange = (e) => {
-    e.preventDefault();
-    const input = e.target.value;
-
-    if (!input) {
-      return setOpen(false);
-    }
-
-    const lowerInput = input.toLowerCase();
-    const reultedArr = clientSuggList.filter((client) => {
+  const getClientList = (lowerInput) => {
+    return clientSuggList.filter((client) => {
       const lowerClientName = client.client_name.toLowerCase();
       const lowerCompanyName = client.client_company_name.toLowerCase();
       return lowerClientName.includes(lowerInput) || lowerCompanyName.includes(lowerInput);
     });
-    if (reultedArr.length === 0) {
-      return setOpen(false);
+  };
+  const getProductList = (lowerInput) => {
+    return productSuggList.filter((product) => {
+      const lowerProductName = product.product_name.toLowerCase();
+      const lowerProductCode = product.product_code.toLowerCase();
+      const lowerProductDesc = product.product_description.toLowerCase();
+      return lowerProductName.includes(lowerInput) || lowerProductCode.includes(lowerInput) || lowerProductDesc.includes(lowerInput);
+    });
+  };
+  const handleChange = (e, x) => {
+    e.preventDefault();
+    const input = e.target.value;
+    if (!input) {
+      return x === "client" ? setOpenClient(false) : setOpenProduct(false);
+    } else {
+      if (x === "client") {
+        setOpenProduct(false);
+      } else {
+        setOpenClient(false);
+      }
     }
-    setOpen(true);
-    setArrayAgain(reultedArr);
+
+    const lowerInput = input.toLowerCase();
+
+    const reultedArr = x === "client" ? getClientList(lowerInput) : getProductList(lowerInput);
+
+    if (reultedArr.length === 0) return x === "client" ? setOpenClient(false) : setOpenProduct(false);
+
+    x === "client" ? setOpenClient(true) : setOpenProduct(true);
+    x === "client" ? setMatchedClientList(reultedArr) : setMatchedProductList(reultedArr);
+    // console.log(reultedArr);
+    // console.log(isOpenClient);
+    // console.log(isOpenProduct);
   };
   return (
     <Main>
@@ -98,10 +118,10 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved clients..." onChange={handleChange} />
-            {matchedArr && (
-              <MyUl isOpen={isOpen}>
-                {matchedArr.map((item) => {
+            <Input type="text" placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} />
+            {matchedClientList && (
+              <MyUl isOpen={isOpenClient}>
+                {matchedClientList.map((item) => {
                   return (
                     <MyLi key={item._id}>
                       {item.client_name}, {item.client_company_name}
@@ -142,7 +162,20 @@ export const AddInvoice = () => {
 
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
-          <Input type="text" placeholder="search from saved products..." />
+          <AutoComplete>
+            <Input type="text" placeholder="search from saved products..." onChange={(event) => handleChange(event, "product")} />
+            {matchedProductList && (
+              <MyUl isOpen={isOpenProduct}>
+                {matchedProductList.map((item) => {
+                  return (
+                    <MyLi key={item._id}>
+                      {item.product_name}, {item.product_code}, {item.product_description.substring(0, 30)}...
+                    </MyLi>
+                  );
+                })}
+              </MyUl>
+            )}
+          </AutoComplete>
           <Button label="success" width="225px">
             <FontAwesomeIcon style={{ fontSize: "14px", marginRight: "4px" }} icon={faPlusCircle} />
             Add New Product
