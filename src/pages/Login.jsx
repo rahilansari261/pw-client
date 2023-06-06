@@ -35,8 +35,10 @@ export const Login = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      dispatch(login());
-      dispatch(setUser({ ...data.data, token: data.token }));
+      setTimeout(() => {
+        dispatch(login());
+        dispatch(setUser({ ...data.data, token: data.token }));
+      }, 3000);
     }
   }, [data, error, isLoading]);
   return (

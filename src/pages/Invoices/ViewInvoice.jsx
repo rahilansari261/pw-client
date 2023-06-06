@@ -17,20 +17,29 @@ export const ViewInvoice = () => {
   const { data, isLoading, error, fetchData } = useFetch();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     fetchData(`invoices/${id}`);
   }, []);
 
+  useEffect(() => {
+    if (data !== null) {
+      setIsDisabled(!data.data.invoice_data.status);
+    }
+  }, [isLoading]);
+
   const deleteInvoice = async () => {
-    await toast.promise(fetchData(`invoices/${id}`), {
+    setIsDisabled(true);
+    await toast.promise(fetchData(`invoices/cancel/${id}`), {
       loading: "Loading",
-      success: "Invoice deleted sucessfully",
+      success: "Invoice deleted sucessfully,",
       error: "Error when invoice deleting",
     });
-    return setTimeout(() => {
-      navigate("/invoices");
-    }, 1000);
+    // return setTimeout(() => {
+    //   navigate("/invoices");
+    // }, 3000);
+    return navigate("/invoices");
   };
   const printInvoice = () => {};
   const clickHandle = () => {};
@@ -44,13 +53,13 @@ export const ViewInvoice = () => {
         </TitleWrapper>
         <ButtonWrapper>
           <Link to="/invoices/invoicelist">
-            <Button label="warning" >
+            <Button label="warning">
               <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: "14px", marginRight: "4px" }} />
               Back
             </Button>
           </Link>
           {/* <Link to="/invoices/invoicereport"> */}
-          <Button label="secondary" clickHandle={()=>printInvoice}>
+          <Button label="secondary" clickHandle={() => printInvoice}>
             <FontAwesomeIcon icon={faPrint} style={{ fontSize: "14px", marginRight: "4px" }} />
             Print
           </Button>
@@ -141,7 +150,12 @@ export const ViewInvoice = () => {
               </BottomLine>
             </InvoiceWrapper>
             <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
-              <Button label="danger" clickHandle={deleteInvoice} >Delete Invoice</Button>
+              <SubmitButton onClick={deleteInvoice} disabled={isDisabled}>
+                Delete Invoice
+              </SubmitButton>
+              {/* <Button label="danger" clickHandle={deleteInvoice}>
+                Delete Invoice
+              </Button> */}
             </div>
           </Invoice>
         ) : (
@@ -310,4 +324,16 @@ const LeftNote = styled.div`
 const RightNote = styled.div`
   font-size: 70%;
   font-family: ${cabinRegular};
+`;
+
+const SubmitButton = styled.button`
+  width: max-content;
+  font-size: 12px;
+  color: var(--white-color);
+  padding: 0.65em;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
+  text-align: center;
+  background-color: ${(props) => (props.disabled ? "hsla(0, 0%, 0%, 0.243)" : "#c82333")};
+  border-radius: 4px;
+  border: none;
 `;
