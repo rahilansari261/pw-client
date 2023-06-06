@@ -123,7 +123,7 @@ export const AddInvoice = () => {
               <MyUl isOpen={isOpenClient}>
                 {matchedClientList.map((item) => {
                   return (
-                    <MyLi key={item._id} onClick={()=>handle}>
+                    <MyLi key={item._id} onClick={() => handle}>
                       {item.client_name}, {item.client_company_name}
                     </MyLi>
                   );
@@ -536,16 +536,31 @@ const MyUl = styled.ul`
   -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out 0.15s;
   -o-transition: border-color ease-in-out;
   display: ${(props) => (props.isOpen ? "block" : "none")};
-  height: 200px;
-    overflow-y: scroll;
-  &:-webkit-scrollbar{
-    width:100px
+  max-height: 200px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d6dee1;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #a8bbbf;
   }
 `;
 
 const MyLi = styled.li`
-  -webkit-tap-highlight-color: transparent; 
-   touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
   text-align: left;
   list-style: none;
   width: 100%;
