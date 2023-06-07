@@ -25,8 +25,10 @@ export const AddInvoice = () => {
   const [invoiecData, setInvoiceData] = useState(initialInvoiceData);
   const { data: invoiceClientData, isLoading: isInvoiceClientLoading, error: invoiceClientError, fetchData: fetchInvoiceClientData } = useFetch();
   const { data: invoiceProductData, isLoading: isInvoiceProductLoading, error: invoiceProductError, fetchData: fetchInvoiceProductData } = useFetch();
-  const [id, setId] = useState(null);
-  const [inputVal, setInputVal] = useState("");
+  const [clientId, setClientId] = useState(null);
+  const [productId, setProductId] = useState(null);
+  const [inputClientVal, setInputClientVal] = useState("");
+  const [inputProductVal, setInputProductVal] = useState("");
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -42,42 +44,6 @@ export const AddInvoice = () => {
     }
   }, [isProductLoading, isClientLoading]);
 
-  const clickHandle = () => {};
-  const handleSearch = () => {};
-
-  const accountData = [
-    {
-      _id: "1",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-    {
-      _id: "2",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-    {
-      _id: "3",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-  ];
-
-  const tableHelperData = {
-    tableHeadRowData: Object.keys(accountData[0]),
-  };
   const getClientList = (lowerInput) => {
     return clientSuggList.filter((client) => {
       const lowerClientName = client.client_name.toLowerCase();
@@ -122,27 +88,41 @@ export const AddInvoice = () => {
     //   setOpenClient(false);
     // }
   };
-  const getClientDetail = (id, x, name) => {
-    setId(id);
+  const getDetail = (id, x, name) => {
     console.log("triggered");
     if (x === "client") {
       setOpenClient(false);
+      setInputClientVal(name);
+      setClientId(id);
     } else {
       setOpenProduct(false);
+      setInputProductVal(name);
+      setProductId(id);
     }
-    setInputVal(name);
   };
   useEffect(() => {
-    if (id !== null) {
+    if (clientId !== null) {
       fetchInvoiceClientData(`clients/${id}`);
     }
-  }, [id]);
+  }, [clientId]);
+
+  useEffect(() => {
+    if (productId !== null) {
+      fetchInvoiceProductData(`products/${id}`);
+    }
+  }, [productId]);
 
   useEffect(() => {
     if (invoiceClientData) {
       setInvoiceData({ ...invoiecData, client_data: invoiceClientData.data });
     }
   }, [invoiceClientData]);
+
+  useEffect(() => {
+    if (invoiceProductData) {
+      setInvoiceData({ ...invoiecData, product_data: [...product_data, invoiceProductData.data] });
+    }
+  }, [invoiceProductData]);
 
   console.log(invoiecData);
   return (
@@ -157,12 +137,12 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
-            <Input type="text" value={inputVal} placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} onClick={() => handleClick("client")} />
+            <Input type="text" value={inputClientVal} placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} onClick={() => handleClick("client")} />
             {matchedClientList && (
               <MyUl isOpen={isOpenClient}>
                 {matchedClientList.map((item) => {
                   return (
-                    <MyLi key={item._id} onClick={() => getClientDetail(item._id, "client", item.client_name)}>
+                    <MyLi key={item._id} onClick={() => getDetail(item._id, "client", item.client_name)}>
                       {item.client_name}, {item.client_company_name}
                     </MyLi>
                   );
@@ -206,12 +186,12 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved products..." onChange={(event) => handleChange(event, "product")} onClick={() => handleClick("product")} />
+            <Input type="text" value={inputProductVal} placeholder="search from saved products..." onChange={(event) => handleChange(event, "product")} onClick={() => handleClick("product")} />
             {matchedProductList && (
               <MyUl isOpen={isOpenProduct}>
                 {matchedProductList.map((item) => {
                   return (
-                    <MyLi key={item._id}>
+                    <MyLi key={item._id} onClick={() => getDetail(item._id, "product", item.product_name)}>
                       {item.product_name}, {item.product_code}, {item.product_description.substring(0, 30)}...
                     </MyLi>
                   );
@@ -224,85 +204,52 @@ export const AddInvoice = () => {
             Add New Product
           </Button>
         </ItemSearch>
+        {invoiceProductData !== null
+          ? invoiceProductData.map((item) => {
+              return (
+                <ItemWrapper key={item._id}>
+                  <DeleteButton>
+                    <FontAwesomeIcon icon={faTrashCan} />
+                  </DeleteButton>
+                  <TwoColumn>
+                    <ItemInfo>
+                      <ItemTitle>Name :</ItemTitle>
+                      <ItemValue>{item.product_name}</ItemValue>
+                    </ItemInfo>
 
-        <ItemWrapper>
-          <DeleteButton>
-            <FontAwesomeIcon icon={faTrashCan} />
-          </DeleteButton>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Name :</ItemTitle>
-              <ItemValue>LG Monitor</ItemValue>
-            </ItemInfo>
+                    <ItemInfo>
+                      <ItemTitle>Quantity :</ItemTitle>
+                      <ItemValue>
+                        <ProductInput type="number" placeholder="0" />
+                      </ItemValue>
+                    </ItemInfo>
+                  </TwoColumn>
+                  <TwoColumn>
+                    <ItemInfo>
+                      <ItemTitle>Price :</ItemTitle>
+                      <ItemValue>{item.product_price}</ItemValue>
+                    </ItemInfo>
 
-            <ItemInfo>
-              <ItemTitle>Quantity :</ItemTitle>
-              <ItemValue>
-                <ProductInput type="number" placeholder="0" />
-              </ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Price :</ItemTitle>
-              <ItemValue>15,500</ItemValue>
-            </ItemInfo>
+                    <ItemInfo>
+                      <ItemTitle>GST :</ItemTitle>
+                      <ItemValue>{item.product_name}</ItemValue>
+                    </ItemInfo>
+                  </TwoColumn>
+                  <TwoColumn>
+                    <ItemInfo>
+                      <ItemTitle>Description :</ItemTitle>
+                      <ItemValue>{item.product_description}</ItemValue>
+                    </ItemInfo>
+                    <ItemInfo>
+                      <ItemTitle>Total :</ItemTitle>
+                      <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
+                    </ItemInfo>
+                  </TwoColumn>
+                </ItemWrapper>
+              );
+            })
+          : null}
 
-            <ItemInfo>
-              <ItemTitle>GST :</ItemTitle>
-              <ItemValue>18%</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Description :</ItemTitle>
-              <ItemValue>LG Monitor with retina display high quality build </ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>Total :</ItemTitle>
-              <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-        </ItemWrapper>
-        <ItemWrapper>
-          <DeleteButton>
-            <FontAwesomeIcon icon={faTrashCan} />
-          </DeleteButton>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Name :</ItemTitle>
-              <ItemValue>LG Monitor</ItemValue>
-            </ItemInfo>
-
-            <ItemInfo>
-              <ItemTitle>Quantity :</ItemTitle>
-              <ItemValue>
-                <ProductInput type="number" placeholder="0" />
-              </ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Price :</ItemTitle>
-              <ItemValue>15,500</ItemValue>
-            </ItemInfo>
-
-            <ItemInfo>
-              <ItemTitle>GST :</ItemTitle>
-              <ItemValue>18%</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Description :</ItemTitle>
-              <ItemValue>LG Monitor with retina display high quality build </ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>Total :</ItemTitle>
-              <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-        </ItemWrapper>
         <TermsAndSummary>
           <Terms>
             <TermsTitle>Terms</TermsTitle>
