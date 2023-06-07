@@ -29,6 +29,7 @@ export const AddInvoice = () => {
   const [productId, setProductId] = useState(null);
   const [inputClientVal, setInputClientVal] = useState("");
   const [inputProductVal, setInputProductVal] = useState("");
+  // const [productQty, setProductQty] = useState(1)
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -90,15 +91,25 @@ export const AddInvoice = () => {
     // }
   };
   const getDetail = (id, x, name) => {
-    console.log("triggered");
     if (x === "client") {
       setOpenClient(false);
-      setInputClientVal(name);
+      setInputClientVal("");
       setClientId(id);
     } else {
       setOpenProduct(false);
-      setInputProductVal(name);
-      setProductId(id);
+      setInputProductVal("");
+      const isProductPresent = invoiceData.product_data.find((item) => item._id === id);
+      if (!isProductPresent) {
+        setProductId(id);
+      } else {
+        const updatedProduct = invoiceData.product_data.map((product) => {
+          if (product._id === id) {
+            return { ...product, qty: parseInt(product.qty) + 1 }; // Increment quantity by 1
+          }
+          return product;
+        });
+        setInvoiceData({ ...invoiceData, product_data: updatedProduct });
+      }
     }
   };
   useEffect(() => {
@@ -120,13 +131,23 @@ export const AddInvoice = () => {
   }, [invoiceClientData]);
 
   useEffect(() => {
-    console.log(`inside useeffect  ${invoiceProductData}`);
     if (invoiceProductData !== null) {
-      console.log(invoiceProductData);
-      setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, invoiceProductData.data] });
+      setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, { ...invoiceProductData.data, qty: 1 }] });
     }
   }, [invoiceProductData]);
 
+  const handleChangeQty = (e, id) => {
+    const inputQty = e.target.value;
+    const updatedProduct = invoiceData.product_data.map((product) => {
+      if (product._id === id) {
+        const val = parseInt(inputQty);
+        const newQty = isNaN(val) || val <= 0 ? 1 : inputQty;
+        return { ...product, qty: newQty };
+      }
+      return product;
+    });
+    setInvoiceData({ ...invoiceData, product_data: updatedProduct });
+  };
   console.log(invoiceData);
   return (
     <Main>
@@ -158,7 +179,6 @@ export const AddInvoice = () => {
             Add New Client
           </Button>
         </ItemSearch>
-
         {invoiceClientData !== null ? (
           <ItemWrapper>
             <TwoColumn>
@@ -185,7 +205,6 @@ export const AddInvoice = () => {
         ) : (
           <div> selected client will show up here</div>
         )}
-
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
           <AutoComplete>
@@ -224,7 +243,7 @@ export const AddInvoice = () => {
                     <ItemInfo>
                       <ItemTitle>Quantity :</ItemTitle>
                       <ItemValue>
-                        <ProductInput type="number" placeholder="0" />
+                        <ProductInput value={item.qty} min="1" onChange={(event) => handleChangeQty(event, item._id)} type="number" placeholder="please fill quantity." />
                       </ItemValue>
                     </ItemInfo>
                   </TwoColumn>
@@ -236,7 +255,9 @@ export const AddInvoice = () => {
 
                     <ItemInfo>
                       <ItemTitle>GST :</ItemTitle>
-                      <ItemValue>{item.product_name}</ItemValue>
+                      <ItemValue>
+                        {item.product_tax.type}@{item.product_tax.rate}
+                      </ItemValue>
                     </ItemInfo>
                   </TwoColumn>
                   <TwoColumn>
@@ -246,14 +267,16 @@ export const AddInvoice = () => {
                     </ItemInfo>
                     <ItemInfo>
                       <ItemTitle>Total :</ItemTitle>
-                      <ItemValue>(15500*1) + 1500 = 17000</ItemValue>
+                      <ItemValue>
+                        ({item.product_price}*{item.qty}) + {((item.product_price * item.product_tax.rate) / 100) * item.qty} ={" "}
+                        {item.product_price * item.qty + ((item.product_price * item.product_tax.rate) / 100) * item.qty}
+                      </ItemValue>
                     </ItemInfo>
                   </TwoColumn>
                 </ItemWrapper>
               );
             })
           : null}
-
         {invoiceData.product_data.length !== 0 && (
           <TermsAndSummary>
             <Terms>
