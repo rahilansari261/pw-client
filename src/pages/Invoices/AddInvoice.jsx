@@ -254,44 +254,48 @@ export const AddInvoice = () => {
             })
           : null}
 
-        <TermsAndSummary>
-          <Terms>
-            <TermsTitle>Terms</TermsTitle>
-            <TermsDetail name="terms" id="terms" cols="30" rows="7" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
-          </Terms>
-          <Summary>
-            <SingleColumn>
-              <SummaryInfo>
-                <ItemTitle>Sub Total :</ItemTitle>
-                <ItemValue>46500</ItemValue>
-              </SummaryInfo>
+        {invoiceData.product_data.length !== 0 && (
+          <TermsAndSummary>
+            <Terms>
+              <TermsTitle>Terms</TermsTitle>
+              <TermsDetail name="terms" id="terms" cols="30" rows="7" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
+            </Terms>
+            <Summary>
+              <SingleColumn>
+                <SummaryInfo>
+                  <ItemTitle>Sub Total :</ItemTitle>
+                  <ItemValue>46500</ItemValue>
+                </SummaryInfo>
 
-              <SummaryInfo>
-                <ItemTitle>Tax Summary :</ItemTitle>
-                <ItemValue>4500</ItemValue>
-              </SummaryInfo>
-              <SummaryInfo>
-                <ItemTitle>GST :</ItemTitle>
-                <ItemValue>4500</ItemValue>
-              </SummaryInfo>
+                <SummaryInfo>
+                  <ItemTitle>Tax Summary :</ItemTitle>
+                  <ItemValue>4500</ItemValue>
+                </SummaryInfo>
+                <SummaryInfo>
+                  <ItemTitle>GST :</ItemTitle>
+                  <ItemValue>4500</ItemValue>
+                </SummaryInfo>
 
-              <SummaryInfo>
-                <ItemTitle>Discount :</ItemTitle>
-                <ItemValue>
-                  <DiscountInput type="number" placeholder="0" />
-                </ItemValue>
-              </SummaryInfo>
-              <SummaryInfo>
-                <ItemTitle>Grand Total :</ItemTitle>
-                <ItemValue>51000</ItemValue>
-              </SummaryInfo>
-            </SingleColumn>
-          </Summary>
-        </TermsAndSummary>
+                <SummaryInfo>
+                  <ItemTitle>Discount :</ItemTitle>
+                  <ItemValue>
+                    <DiscountInput type="number" placeholder="0" />
+                  </ItemValue>
+                </SummaryInfo>
+                <SummaryInfo>
+                  <ItemTitle>Grand Total :</ItemTitle>
+                  <ItemValue>51000</ItemValue>
+                </SummaryInfo>
+              </SingleColumn>
+            </Summary>
+          </TermsAndSummary>
+        )}
       </DetailSection>
-      <ButtonWrapper>
-        <Button label="success">Create Invoice</Button>
-      </ButtonWrapper>
+      {invoiceData.product_data.length !== 0 && (
+        <ButtonWrapper>
+          <Button label="success">Create Invoice</Button>
+        </ButtonWrapper>
+      )}
     </Main>
   );
 };
