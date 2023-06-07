@@ -6,6 +6,13 @@ import { cabinBold, cabinRegular } from "../../util/Constant";
 import { useEffect, useMemo, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 
+const initialInvoiceData = {
+  client_data: {},
+  user_data: {},
+  invoice_data: {},
+  product_data: [],
+};
+
 export const AddInvoice = () => {
   const { data: productData, isLoading: isProductLoading, error: productError, fetchData: fetchProductData } = useFetch();
   const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
@@ -15,6 +22,11 @@ export const AddInvoice = () => {
   const [matchedProductList, setMatchedProductList] = useState(null);
   const [isOpenClient, setOpenClient] = useState(false);
   const [isOpenProduct, setOpenProduct] = useState(false);
+  const [invoiecData, setInvoiceData] = useState(initialInvoiceData);
+  const { data: invoiceClientData, isLoading: isInvoiceClientLoading, error: invoiceClientError, fetchData: fetchInvoiceClientData } = useFetch();
+  const { data: invoiceProductData, isLoading: isInvoiceProductLoading, error: invoiceProductError, fetchData: fetchInvoiceProductData } = useFetch();
+  const [id, setId] = useState(null);
+  const [inputVal, setInputVal] = useState("");
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
@@ -84,6 +96,7 @@ export const AddInvoice = () => {
   const handleChange = (e, x) => {
     e.preventDefault();
     const input = e.target.value;
+    setInputVal(input);
     if (!input) {
       return x === "client" ? setOpenClient(false) : setOpenProduct(false);
     } else {
@@ -95,27 +108,43 @@ export const AddInvoice = () => {
     }
 
     const lowerInput = input.toLowerCase();
-
     const reultedArr = x === "client" ? getClientList(lowerInput) : getProductList(lowerInput);
-
     if (reultedArr.length === 0) return x === "client" ? setOpenClient(false) : setOpenProduct(false);
-
     x === "client" ? setOpenClient(true) : setOpenProduct(true);
     x === "client" ? setMatchedClientList(reultedArr) : setMatchedProductList(reultedArr);
-    // console.log(reultedArr);
-    // console.log(isOpenClient);
-    // console.log(isOpenProduct);
   };
   const handleClick = (x) => {
-    if (x === "client") {
-      setOpenProduct(false);
-      setOpenClient(true);
-    } else {
-      setOpenProduct(true);
-      setOpenClient(false);
-    }
+    // if (x === "client") {
+    //   setOpenProduct(false);
+    //   setOpenClient(true);
+    // } else {
+    //   setOpenProduct(true);
+    //   setOpenClient(false);
+    // }
   };
+  const getClientDetail = (id, x, name) => {
+    setId(id);
+    console.log("triggered");
+    if (x === "client") {
+      setOpenClient(false);
+    } else {
+      setOpenProduct(false);
+    }
+    setInputVal(name);
+  };
+  useEffect(() => {
+    if (id !== null) {
+      fetchInvoiceClientData(`clients/${id}`);
+    }
+  }, [id]);
 
+  useEffect(() => {
+    if (invoiceClientData) {
+      setInvoiceData({ ...invoiecData, client_data: invoiceClientData.data });
+    }
+  }, [invoiceClientData]);
+
+  console.log(invoiecData);
   return (
     <Main>
       <TitleSection>
@@ -128,12 +157,12 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} onClick={() => handleClick("client")} />
+            <Input type="text" value={inputVal} placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} onClick={() => handleClick("client")} />
             {matchedClientList && (
               <MyUl isOpen={isOpenClient}>
                 {matchedClientList.map((item) => {
                   return (
-                    <MyLi key={item._id} onClick={() => handle}>
+                    <MyLi key={item._id} onClick={() => getClientDetail(item._id, "client", item.client_name)}>
                       {item.client_name}, {item.client_company_name}
                     </MyLi>
                   );
@@ -147,28 +176,32 @@ export const AddInvoice = () => {
           </Button>
         </ItemSearch>
 
-        <ItemWrapper>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Client Name :</ItemTitle>
-              <ItemValue>Rahil Computers</ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>Address :</ItemTitle>
-              <ItemValue>Delhi</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-          <TwoColumn>
-            <ItemInfo>
-              <ItemTitle>Phone :</ItemTitle>
-              <ItemValue>7742148739</ItemValue>
-            </ItemInfo>
-            <ItemInfo>
-              <ItemTitle>GST No :</ItemTitle>
-              <ItemValue>ADF33647775TH</ItemValue>
-            </ItemInfo>
-          </TwoColumn>
-        </ItemWrapper>
+        {invoiceClientData !== null ? (
+          <ItemWrapper>
+            <TwoColumn>
+              <ItemInfo>
+                <ItemTitle>Client Name :</ItemTitle>
+                <ItemValue>{invoiecData.client_data.client_name}</ItemValue>
+              </ItemInfo>
+              <ItemInfo>
+                <ItemTitle>Address :</ItemTitle>
+                <ItemValue>{invoiecData.client_data.client_address}</ItemValue>
+              </ItemInfo>
+            </TwoColumn>
+            <TwoColumn>
+              <ItemInfo>
+                <ItemTitle>Phone :</ItemTitle>
+                <ItemValue>{invoiecData.client_data.client_phone}</ItemValue>
+              </ItemInfo>
+              <ItemInfo>
+                <ItemTitle>GST No :</ItemTitle>
+                <ItemValue>{invoiecData.client_data.client_stn}</ItemValue>
+              </ItemInfo>
+            </TwoColumn>
+          </ItemWrapper>
+        ) : (
+          <div> selected client will show up here</div>
+        )}
 
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
@@ -372,7 +405,7 @@ const TwoColumn = styled.div`
 const ItemInfo = styled.div`
   display: flex;
   flex: 1;
-  align-items: center;
+  /* align-items: center; */
   gap: 16px;
   @media (max-width: 550px) {
     width: 100%;
@@ -573,6 +606,7 @@ const MyLi = styled.li`
   font-size: 14px;
   padding: 0.4em;
   background-color: #fff;
+  cursor: pointer;
   &:hover {
     background-color: #2d7d87;
     color: #fff;
