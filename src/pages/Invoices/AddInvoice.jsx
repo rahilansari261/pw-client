@@ -22,7 +22,7 @@ export const AddInvoice = () => {
   const [matchedProductList, setMatchedProductList] = useState(null);
   const [isOpenClient, setOpenClient] = useState(false);
   const [isOpenProduct, setOpenProduct] = useState(false);
-  const [invoiecData, setInvoiceData] = useState(initialInvoiceData);
+  const [invoiceData, setInvoiceData] = useState(initialInvoiceData);
   const { data: invoiceClientData, isLoading: isInvoiceClientLoading, error: invoiceClientError, fetchData: fetchInvoiceClientData } = useFetch();
   const { data: invoiceProductData, isLoading: isInvoiceProductLoading, error: invoiceProductError, fetchData: fetchInvoiceProductData } = useFetch();
   const [clientId, setClientId] = useState(null);
@@ -62,7 +62,8 @@ export const AddInvoice = () => {
   const handleChange = (e, x) => {
     e.preventDefault();
     const input = e.target.value;
-    setInputVal(input);
+    x === "client" ? setInputClientVal(input) : setInputProductVal(input);
+
     if (!input) {
       return x === "client" ? setOpenClient(false) : setOpenProduct(false);
     } else {
@@ -102,29 +103,31 @@ export const AddInvoice = () => {
   };
   useEffect(() => {
     if (clientId !== null) {
-      fetchInvoiceClientData(`clients/${id}`);
+      fetchInvoiceClientData(`clients/${clientId}`);
     }
   }, [clientId]);
 
   useEffect(() => {
     if (productId !== null) {
-      fetchInvoiceProductData(`products/${id}`);
+      fetchInvoiceProductData(`products/${productId}`);
     }
   }, [productId]);
 
   useEffect(() => {
-    if (invoiceClientData) {
-      setInvoiceData({ ...invoiecData, client_data: invoiceClientData.data });
+    if (invoiceClientData !== null) {
+      setInvoiceData({ ...invoiceData, client_data: invoiceClientData.data });
     }
   }, [invoiceClientData]);
 
   useEffect(() => {
-    if (invoiceProductData) {
-      setInvoiceData({ ...invoiecData, product_data: [...product_data, invoiceProductData.data] });
+    console.log(`inside useeffect  ${invoiceProductData}`);
+    if (invoiceProductData !== null) {
+      console.log(invoiceProductData);
+      setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, invoiceProductData.data] });
     }
   }, [invoiceProductData]);
 
-  console.log(invoiecData);
+  console.log(invoiceData);
   return (
     <Main>
       <TitleSection>
@@ -161,21 +164,21 @@ export const AddInvoice = () => {
             <TwoColumn>
               <ItemInfo>
                 <ItemTitle>Client Name :</ItemTitle>
-                <ItemValue>{invoiecData.client_data.client_name}</ItemValue>
+                <ItemValue>{invoiceData.client_data.client_name}</ItemValue>
               </ItemInfo>
               <ItemInfo>
                 <ItemTitle>Address :</ItemTitle>
-                <ItemValue>{invoiecData.client_data.client_address}</ItemValue>
+                <ItemValue>{invoiceData.client_data.client_address}</ItemValue>
               </ItemInfo>
             </TwoColumn>
             <TwoColumn>
               <ItemInfo>
                 <ItemTitle>Phone :</ItemTitle>
-                <ItemValue>{invoiecData.client_data.client_phone}</ItemValue>
+                <ItemValue>{invoiceData.client_data.client_phone}</ItemValue>
               </ItemInfo>
               <ItemInfo>
                 <ItemTitle>GST No :</ItemTitle>
-                <ItemValue>{invoiecData.client_data.client_stn}</ItemValue>
+                <ItemValue>{invoiceData.client_data.client_stn}</ItemValue>
               </ItemInfo>
             </TwoColumn>
           </ItemWrapper>
@@ -204,8 +207,9 @@ export const AddInvoice = () => {
             Add New Product
           </Button>
         </ItemSearch>
-        {invoiceProductData !== null
-          ? invoiceProductData.map((item) => {
+
+        {invoiceData.product_data.length !== 0
+          ? invoiceData.product_data.map((item) => {
               return (
                 <ItemWrapper key={item._id}>
                   <DeleteButton>
