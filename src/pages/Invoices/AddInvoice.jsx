@@ -106,6 +106,16 @@ export const AddInvoice = () => {
     // console.log(isOpenClient);
     // console.log(isOpenProduct);
   };
+  const handleClick = (x) => {
+    if (x === "client") {
+      setOpenProduct(false);
+      setOpenClient(true);
+    } else {
+      setOpenProduct(true);
+      setOpenClient(false);
+    }
+  };
+
   return (
     <Main>
       <TitleSection>
@@ -118,7 +128,7 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Clients :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} />
+            <Input type="text" placeholder="search from saved clients..." onChange={(event) => handleChange(event, "client")} onClick={() => handleClick("client")} />
             {matchedClientList && (
               <MyUl isOpen={isOpenClient}>
                 {matchedClientList.map((item) => {
@@ -163,7 +173,7 @@ export const AddInvoice = () => {
         <ItemSearch>
           <SearchTitle>Search Products :</SearchTitle>
           <AutoComplete>
-            <Input type="text" placeholder="search from saved products..." onChange={(event) => handleChange(event, "product")} />
+            <Input type="text" placeholder="search from saved products..." onChange={(event) => handleChange(event, "product")} onClick={() => handleClick("product")} />
             {matchedProductList && (
               <MyUl isOpen={isOpenProduct}>
                 {matchedProductList.map((item) => {
@@ -543,18 +553,14 @@ const MyUl = styled.ul`
   }
 
   ::-webkit-scrollbar-track {
-    background-color: transparent;
+    background-color: #fff;
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: #d6dee1;
+    background-color: #2d7d87;
     border-radius: 20px;
     border: 2px solid transparent;
     background-clip: content-box;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #a8bbbf;
   }
 `;
 
