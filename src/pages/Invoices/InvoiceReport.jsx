@@ -7,9 +7,15 @@ import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
+import { useEffect } from "react";
 
 export const InvoiceReport = () => {
-  const { data, isLoading, error } = useFetch("invoices/1/10/All");
+  const { data, isLoading, error, fetchData } = useFetch();
+
+  useEffect(() => {
+    fetchData("invoices/1/10/All");
+  }, []);
+
   let invoiceData;
   const sanitizeTableData = (iData) =>
     iData.map((invoice) => {
@@ -25,7 +31,7 @@ export const InvoiceReport = () => {
       };
     });
 
-  if (!isLoading) {
+  if (!isLoading && data !== null) {
     const { data: iData } = data;
     console.log(iData);
     invoiceData = sanitizeTableData(iData);
