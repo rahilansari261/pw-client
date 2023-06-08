@@ -121,6 +121,21 @@ export const AddInvoice = () => {
     }
   }, [invoiceClientData]);
 
+  const getInvoiceGrandTotalAndOtherValues = (products) => {
+    let taxTotal,
+      grand_total,
+      sub_total = 0;
+    products.map((product) => {
+      taxTotal = parseInt(taxTotal) + parseInt(product.tax_amount) * parseInt(product.qty);
+      sub_total = parseInt(sub_total) + parseInt(product.product_price) * parseInt(product.qty);
+      grand_total = parseInt(grand_total) + parseInt(product.product_price) * parseInt(product.qty) + parseInt(product.tax_amount) * parseInt(product.qty);
+    });
+    return {
+      taxTotal,
+      grand_total,
+      sub_total,
+    };
+  };
   useEffect(() => {
     if (invoiceProductData !== null) {
       const newProduct = {
@@ -159,14 +174,8 @@ export const AddInvoice = () => {
           }
           return product;
         });
-        const updatedInvoiceData = {
-          taxTotal: parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
-          grand_total:
-            parseInt(updatedProduct.product_price) * parseInt(updatedProduct.qty) +
-            parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal) -
-            parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
-          sub_total: parseInt(updatedProduct.product_price) * parseInt(updatedProduct.qty) + parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
-        };
+
+        const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues(updatedProduct);
         setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
       }
     }
@@ -178,16 +187,19 @@ export const AddInvoice = () => {
       if (product._id === id) {
         const val = parseInt(inputQty);
         const newQty = isNaN(val) || val <= 0 ? 1 : parseInt(inputQty);
-        return { ...product, qty: newQty }; // calculate new values like tax total and other
+        return { ...product, qty: newQty }; // calculate invoice_data values as well like taxTotal, sub_total, grand_total
       }
       return product;
     });
-    setInvoiceData({ ...invoiceData, product_data: updatedProduct });
+
+    const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues(updatedProduct);
+    setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
   };
 
   const removeProduct = (id) => {
     const updatedProduct = invoiceData.product_data.filter((product) => product._id !== id);
-    setInvoiceData({ ...invoiceData, product_data: updatedProduct });
+    const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues(updatedProduct);
+    setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
   };
   console.log(invoiceData);
 
