@@ -148,7 +148,14 @@ export const AddInvoice = () => {
     });
     setInvoiceData({ ...invoiceData, product_data: updatedProduct });
   };
+
+  const removeProduct = (id) => {
+    consolo.log("removed");
+    const updatedProduct = invoiceData.product_data.filter((product) => product._id !== id);
+    setInvoiceData({ ...invoiceData, product_data: updatedProduct });
+  };
   console.log(invoiceData);
+
   return (
     <Main>
       <TitleSection>
@@ -231,7 +238,7 @@ export const AddInvoice = () => {
           ? invoiceData.product_data.map((item) => {
               return (
                 <ItemWrapper key={item._id}>
-                  <DeleteButton>
+                  <DeleteButton onClick={() => removeProduct(item._id)}>
                     <FontAwesomeIcon icon={faTrashCan} />
                   </DeleteButton>
                   <TwoColumn>
