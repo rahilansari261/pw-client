@@ -122,14 +122,15 @@ export const AddInvoice = () => {
   }, [invoiceClientData]);
 
   const getInvoiceGrandTotalAndOtherValues = (products) => {
-    let taxTotal,
-      grand_total,
-      sub_total = 0;
+    let taxTotal = 0;
+    let grand_total = 0;
+    let sub_total = 0;
     products.map((product) => {
-      taxTotal = parseInt(taxTotal) + parseInt(product.tax_amount) * parseInt(product.qty);
-      sub_total = parseInt(sub_total) + parseInt(product.product_price) * parseInt(product.qty);
-      grand_total = parseInt(grand_total) + parseInt(product.product_price) * parseInt(product.qty) + parseInt(product.tax_amount) * parseInt(product.qty);
+      taxTotal = parseInt(taxTotal) + parseInt(product.tax_amount);
+      sub_total = parseInt(sub_total) + parseInt(parseInt(product.product_price) * parseInt(product.qty));
+      grand_total = parseInt(grand_total) + parseInt(product.row_total);
     });
+
     return {
       taxTotal,
       grand_total,
@@ -147,11 +148,8 @@ export const AddInvoice = () => {
         tax_amount: parseInt(invoiceProductData.data.product_price) * (parseInt(invoiceProductData.data.product_tax.rate) / 100),
         row_total: parseInt(invoiceProductData.data.product_price) + parseInt(invoiceProductData.data.product_price) * (parseInt(invoiceProductData.data.product_tax.rate) / 100),
       };
-      const updatedInvoiceData = {
-        taxTotal: parseInt(newProduct.tax_amount),
-        grand_total: parseInt(newProduct.row_total) - parseInt(newProduct.tax_amount),
-        sub_total: parseInt(newProduct.row_total),
-      };
+
+      const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues([...invoiceData.product_data, newProduct]);
       setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, newProduct], invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
     }
   }, [invoiceProductData]);
@@ -170,7 +168,14 @@ export const AddInvoice = () => {
       } else {
         const updatedProduct = invoiceData.product_data.map((product) => {
           if (product._id === id) {
-            return { ...product, qty: parseInt(product.qty) + 1 };
+            return {
+              ...product,
+              qty: parseInt(product.qty) + 1,
+              tax_amount: parseInt(product.product_price) * (parseInt(product.product_tax.rate) / 100) * parseInt(parseInt(product.qty) + 1),
+              row_total:
+                parseInt(parseInt(product.product_price) * parseInt(parseInt(product.qty) + 1)) +
+                parseInt(parseInt(product.product_price) * (parseInt(product.product_tax.rate) / 100) * parseInt(parseInt(product.qty) + 1)),
+            };
           }
           return product;
         });
@@ -186,13 +191,19 @@ export const AddInvoice = () => {
     const updatedProduct = invoiceData.product_data.map((product) => {
       if (product._id === id) {
         const val = parseInt(inputQty);
-        const newQty = isNaN(val) || val <= 0 ? 1 : parseInt(inputQty);
-        return { ...product, qty: newQty }; // calculate invoice_data values as well like taxTotal, sub_total, grand_total
+        const newQty = isNaN(val) || val <= 0 || val > parseInt(product.product_unit) ? 1 : parseInt(inputQty);
+        return {
+          ...product,
+          qty: newQty,
+          tax_amount: parseInt(product.product_price) * (parseInt(product.product_tax.rate) / 100) * parseInt(newQty),
+          row_total: parseInt(parseInt(product.product_price) * parseInt(newQty)) + parseInt(parseInt(product.product_price) * (parseInt(product.product_tax.rate) / 100) * parseInt(newQty)),
+        }; // calculate invoice_data values as well like taxTotal, sub_total, grand_total
       }
       return product;
     });
 
     const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues(updatedProduct);
+
     setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
   };
 
@@ -201,7 +212,10 @@ export const AddInvoice = () => {
     const updatedInvoiceData = getInvoiceGrandTotalAndOtherValues(updatedProduct);
     setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
   };
-  console.log(invoiceData);
+
+  const submitInvoice = () => {
+    console.log(invoiceData);
+  };
 
   return (
     <Main>
@@ -322,8 +336,7 @@ export const AddInvoice = () => {
                     <ItemInfo>
                       <ItemTitle>Total :</ItemTitle>
                       <ItemValue>
-                        ({item.product_price}*{item.qty}) + {((item.product_price * item.product_tax.rate) / 100) * item.qty} ={" "}
-                        {item.product_price * item.qty + ((item.product_price * item.product_tax.rate) / 100) * item.qty}
+                        ({item.product_price}*{item.qty}) + {item.tax_amount} = {item.row_total}
                       </ItemValue>
                     </ItemInfo>
                   </TwoColumn>
@@ -345,13 +358,13 @@ export const AddInvoice = () => {
                 </SummaryInfo>
 
                 <SummaryInfo>
-                  <ItemTitle>Tax Summary :</ItemTitle>
+                  <ItemTitle>Total Tax :</ItemTitle>
                   <ItemValue>{invoiceData.invoice_data.taxTotal}</ItemValue>
                 </SummaryInfo>
-                <SummaryInfo>
+                {/* <SummaryInfo>
                   <ItemTitle>GST :</ItemTitle>
                   <ItemValue>4500</ItemValue>
-                </SummaryInfo>
+                </SummaryInfo> */}
 
                 <SummaryInfo>
                   <ItemTitle>Discount :</ItemTitle>
@@ -370,7 +383,9 @@ export const AddInvoice = () => {
       </DetailSection>
       {invoiceData.product_data.length !== 0 && (
         <ButtonWrapper>
-          <Button label="success">Create Invoice</Button>
+          <Button label="success" clickHandle={submitInvoice}>
+            Create Invoice
+          </Button>
         </ButtonWrapper>
       )}
     </Main>
