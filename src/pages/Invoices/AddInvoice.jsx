@@ -5,11 +5,21 @@ import { Button, Table } from "../../components/Index";
 import { cabinBold, cabinRegular } from "../../util/Constant";
 import { useEffect, useMemo, useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { useSelector } from "react-redux";
 
 const initialInvoiceData = {
   client_data: {},
   user_data: {},
-  invoice_data: {},
+  invoice_data: {
+    number: 0,
+    taxTotal: 0,
+    grand_total: 0,
+    balance: 0,
+    sub_total: 0,
+    discount: 0,
+    date: new Date(),
+    tax_summary: [],
+  },
   product_data: [],
 };
 
@@ -30,10 +40,12 @@ export const AddInvoice = () => {
   const [inputClientVal, setInputClientVal] = useState("");
   const [inputProductVal, setInputProductVal] = useState("");
   // const [productQty, setProductQty] = useState(1)
+  const user = useSelector((state) => state.user.user);
 
   useEffect(() => {
     fetchClientData(`clients/selected/all`);
     fetchProductData(`products/selected/all`);
+    setInvoiceData({ ...invoiceData, user_data: user, invoice_data: { ...invoiceData.invoice_data, date: new Date(), number: user.user_invoice_number } });
   }, []);
 
   useEffect(() => {
@@ -90,28 +102,7 @@ export const AddInvoice = () => {
     //   setOpenClient(false);
     // }
   };
-  const getDetail = (id, x, name) => {
-    if (x === "client") {
-      setOpenClient(false);
-      setInputClientVal("");
-      setClientId(id);
-    } else {
-      setOpenProduct(false);
-      setInputProductVal("");
-      const isProductPresent = invoiceData.product_data.find((item) => item._id === id);
-      if (!isProductPresent) {
-        setProductId(id);
-      } else {
-        const updatedProduct = invoiceData.product_data.map((product) => {
-          if (product._id === id) {
-            return { ...product, qty: parseInt(product.qty) + 1 }; // Increment quantity by 1
-          }
-          return product;
-        });
-        setInvoiceData({ ...invoiceData, product_data: updatedProduct });
-      }
-    }
-  };
+
   useEffect(() => {
     if (clientId !== null) {
       fetchInvoiceClientData(`clients/${clientId}`);
@@ -132,24 +123,69 @@ export const AddInvoice = () => {
 
   useEffect(() => {
     if (invoiceProductData !== null) {
-      setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, { ...invoiceProductData.data, qty: 1 }] });
+      const newProduct = {
+        ...invoiceProductData.data,
+        qty: 1,
+        discount: 0,
+        tax_name: invoiceProductData.data.product_tax.type,
+        tax_rate: parseInt(invoiceProductData.data.product_tax.rate),
+        tax_amount: parseInt(invoiceProductData.data.product_price) * (parseInt(invoiceProductData.data.product_tax.rate) / 100),
+        row_total: parseInt(invoiceProductData.data.product_price) + parseInt(invoiceProductData.data.product_price) * (parseInt(invoiceProductData.data.product_tax.rate) / 100),
+      };
+      const updatedInvoiceData = {
+        taxTotal: parseInt(newProduct.tax_amount),
+        grand_total: parseInt(newProduct.row_total) - parseInt(newProduct.tax_amount),
+        sub_total: parseInt(newProduct.row_total),
+      };
+      setInvoiceData({ ...invoiceData, product_data: [...invoiceData.product_data, newProduct], invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
     }
   }, [invoiceProductData]);
+
+  const getDetail = (id, x, name) => {
+    if (x === "client") {
+      setOpenClient(false);
+      setInputClientVal("");
+      setClientId(id);
+    } else {
+      setOpenProduct(false);
+      setInputProductVal("");
+      const isProductPresent = invoiceData.product_data.find((item) => item._id === id);
+      if (!isProductPresent) {
+        setProductId(id);
+      } else {
+        const updatedProduct = invoiceData.product_data.map((product) => {
+          if (product._id === id) {
+            return { ...product, qty: parseInt(product.qty) + 1 };
+          }
+          return product;
+        });
+        const updatedInvoiceData = {
+          taxTotal: parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
+          grand_total:
+            parseInt(updatedProduct.product_price) * parseInt(updatedProduct.qty) +
+            parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal) -
+            parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
+          sub_total: parseInt(updatedProduct.product_price) * parseInt(updatedProduct.qty) + parseInt(updatedProduct.qty) * parseInt(updatedProduct.taxTotal),
+        };
+        setInvoiceData({ ...invoiceData, product_data: updatedProduct, invoice_data: { ...invoiceData.invoice_data, ...updatedInvoiceData } });
+      }
+    }
+  };
 
   const handleChangeQty = (e, id) => {
     const inputQty = e.target.value;
     const updatedProduct = invoiceData.product_data.map((product) => {
       if (product._id === id) {
         const val = parseInt(inputQty);
-        const newQty = isNaN(val) || val <= 0 ? 1 : inputQty;
-        return { ...product, qty: newQty };
+        const newQty = isNaN(val) || val <= 0 ? 1 : parseInt(inputQty);
+        return { ...product, qty: newQty }; // calculate new values like tax total and other
       }
       return product;
     });
     setInvoiceData({ ...invoiceData, product_data: updatedProduct });
   };
 
-  const removeProduct = (id) => {    
+  const removeProduct = (id) => {
     const updatedProduct = invoiceData.product_data.filter((product) => product._id !== id);
     setInvoiceData({ ...invoiceData, product_data: updatedProduct });
   };
@@ -293,12 +329,12 @@ export const AddInvoice = () => {
               <SingleColumn>
                 <SummaryInfo>
                   <ItemTitle>Sub Total :</ItemTitle>
-                  <ItemValue>46500</ItemValue>
+                  <ItemValue>{invoiceData.invoice_data.sub_total}</ItemValue>
                 </SummaryInfo>
 
                 <SummaryInfo>
                   <ItemTitle>Tax Summary :</ItemTitle>
-                  <ItemValue>4500</ItemValue>
+                  <ItemValue>{invoiceData.invoice_data.taxTotal}</ItemValue>
                 </SummaryInfo>
                 <SummaryInfo>
                   <ItemTitle>GST :</ItemTitle>
@@ -313,7 +349,7 @@ export const AddInvoice = () => {
                 </SummaryInfo>
                 <SummaryInfo>
                   <ItemTitle>Grand Total :</ItemTitle>
-                  <ItemValue>51000</ItemValue>
+                  <ItemValue>{invoiceData.invoice_data.grand_total}</ItemValue>
                 </SummaryInfo>
               </SingleColumn>
             </Summary>
