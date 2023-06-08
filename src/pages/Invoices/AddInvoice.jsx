@@ -149,8 +149,7 @@ export const AddInvoice = () => {
     setInvoiceData({ ...invoiceData, product_data: updatedProduct });
   };
 
-  const removeProduct = (id) => {
-    consolo.log("removed");
+  const removeProduct = (id) => {    
     const updatedProduct = invoiceData.product_data.filter((product) => product._id !== id);
     setInvoiceData({ ...invoiceData, product_data: updatedProduct });
   };
