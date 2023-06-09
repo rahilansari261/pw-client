@@ -383,12 +383,15 @@ export const AddInvoice = () => {
                     <DiscountInput
                       value={invoiceData.invoice_data.discount}
                       onChange={(e) => {
-                        if (e.target.value < 0) {
-                          return;
+                        let input = parseInt(e.target.value);
+                        if (input < 0) return;
+                        if (!input) {
+                          input = 0;
                         }
+
                         setInvoiceData({
                           ...invoiceData,
-                          invoice_data: { ...invoiceData.invoice_data, discount: e.target.value },
+                          invoice_data: { ...invoiceData.invoice_data, discount: input },
                         });
                       }}
                       type="number"
