@@ -382,10 +382,8 @@ export const AddInvoice = () => {
                   <ItemValue>
                     <DiscountInput
                       value={invoiceData.invoice_data.discount}
-                      
                       onChange={(e) => {
-                        if (e.target.value <= 0) {
-                          e.target.value = 0;
+                        if (e.target.value < 0) {
                           return;
                         }
                         setInvoiceData({
