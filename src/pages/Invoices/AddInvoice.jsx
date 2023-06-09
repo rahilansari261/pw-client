@@ -19,6 +19,7 @@ const initialInvoiceData = {
     discount: 0,
     date: new Date(),
     tax_summary: [],
+    terms: "Rahil",
   },
   product_data: [],
 };
@@ -348,7 +349,17 @@ export const AddInvoice = () => {
           <TermsAndSummary>
             <Terms>
               <TermsTitle>Terms</TermsTitle>
-              <TermsDetail name="terms" id="terms" cols="30" rows="7" placeholder="These are the terms and conditions you can change it for your invoice if you want."></TermsDetail>
+              <TermsDetail
+                name="terms"
+                value={invoiceData.invoice_data.terms}
+                onChange={(e) => {
+                  setInvoiceData({ ...invoiceData, invoice_data: { ...invoiceData.invoice_data, terms: e.target.value } });
+                }}
+                id="terms"
+                cols="30"
+                rows="7"
+                placeholder="These are the terms and conditions you can change it for your invoice if you want."
+              ></TermsDetail>
             </Terms>
             <Summary>
               <SingleColumn>
@@ -369,12 +380,27 @@ export const AddInvoice = () => {
                 <SummaryInfo>
                   <ItemTitle>Discount :</ItemTitle>
                   <ItemValue>
-                    <DiscountInput type="number" placeholder="0" />
+                    <DiscountInput
+                      value={invoiceData.invoice_data.discount}
+                      
+                      onChange={(e) => {
+                        if (e.target.value <= 0) {
+                          e.target.value = 0;
+                          return;
+                        }
+                        setInvoiceData({
+                          ...invoiceData,
+                          invoice_data: { ...invoiceData.invoice_data, discount: e.target.value },
+                        });
+                      }}
+                      type="number"
+                      placeholder="0"
+                    />
                   </ItemValue>
                 </SummaryInfo>
                 <SummaryInfo>
                   <ItemTitle>Grand Total :</ItemTitle>
-                  <ItemValue>{invoiceData.invoice_data.grand_total}</ItemValue>
+                  <ItemValue>{invoiceData.invoice_data.grand_total - parseInt(invoiceData.invoice_data.discount)}</ItemValue>
                 </SummaryInfo>
               </SingleColumn>
             </Summary>
