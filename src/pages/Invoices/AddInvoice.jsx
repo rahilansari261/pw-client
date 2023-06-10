@@ -214,7 +214,12 @@ export const AddInvoice = () => {
   };
 
   const submitInvoice = () => {
-    console.log(invoiceData);
+    const inData = {
+      ...invoiceData,
+      client_data: { ...invoiceData.client_data, client_id: invoiceData.client_data._id },
+      user_data: { ...invoiceData.user_data, user_tc: invoiceData.user_data.user_settings.user_tc, user_logo: invoiceData.user_data.user_settings.user_logo },
+    };
+    console.log(inData);
   };
 
   return (
