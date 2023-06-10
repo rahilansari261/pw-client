@@ -19,7 +19,6 @@ const initialInvoiceData = {
     discount: 0,
     date: new Date(),
     tax_summary: [],
-    terms: "Rahil",
   },
   product_data: [],
 };
@@ -351,9 +350,9 @@ export const AddInvoice = () => {
               <TermsTitle>Terms</TermsTitle>
               <TermsDetail
                 name="terms"
-                value={invoiceData.invoice_data.terms}
+                value={invoiceData.user_data.user_settings.user_tc}
                 onChange={(e) => {
-                  setInvoiceData({ ...invoiceData, invoice_data: { ...invoiceData.invoice_data, terms: e.target.value } });
+                  setInvoiceData({ ...invoiceData, user_data: { ...invoiceData.user_data, user_settings: { ...invoiceData.user_data.user_settings, user_tc: e.target.value } } });
                 }}
                 id="terms"
                 cols="30"
