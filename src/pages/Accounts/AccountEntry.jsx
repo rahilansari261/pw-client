@@ -3,9 +3,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button } from "../../components/Button";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import useWindowWidth from "../../hooks/useWindowWidth";
+
+const validationSchema = Yup.object().shape({});
+
+const initialValues = {};
 
 export const AccountEntry = () => {
-  const clickHandle = () => {};
+  const handleSubmit = (values, { setSubmitting }) => {
+    console.log(values);
+  };
+  const winWidth = useWindowWidth();
 
   return (
     <Main>
@@ -16,67 +26,128 @@ export const AccountEntry = () => {
         </TitleWrapper>
       </TitleSection>
       <DetailSection>
-        <Form>
-          <FormElement>
-            <Label htmlFor="">Client Name </Label>
-            <FEValue>Rahil Computers </FEValue>
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Balance </Label>
-            <FEValue>3000 </FEValue>
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Type Of Entry </Label>
-            <RadioWrapper>
-              <Radio type="radio" id="payment_received" name="payment_received" value="Payment Received" />
-              <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
-              <Radio type="radio" id="payment_return" name="payment_return" value="Payment Return" />
-              <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
-            </RadioWrapper>
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Date Of Entry </Label>
-            <DateInput type="date" name="" id="" />
-          </FormElement>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+          <StyledForm>
+            <Container>
+              <Label htmlFor="">Client Name</Label>
+              <div>Rahil Computers</div>
+              {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
+            </Container>
 
-          <FormElement>
-            <Label>Mode Of Entry</Label>
-            <Select name="modes" id="mode_selected">
-              <option value="cash">Cash</option>
-              <option value="cheque">Cheque</option>
-              <option value="neft">NEFT</option>
-              <option value="rtgs">RTGS</option>
-              <option value="upi">UPI</option>
-              <option value="others">Others</option>
-            </Select>
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Checque No. </Label>
-            <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Txn No. </Label>
-            <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
-          </FormElement>
+            <Container>
+              <Label htmlFor="">Balance</Label>
+              <div>3000 </div>
+            </Container>
 
-          <FormElement>
-            <Label htmlFor="">Amount </Label>
-            <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">Remark </Label>
-            <TextArea type="text" name="remark" id="remark" autoComplete="off" placeholder="" rows="2" />
-          </FormElement>
-          <FormElement>
-            <Label htmlFor="">New Balance </Label>
-            <FEValue>3500 </FEValue>
-          </FormElement>
-        </Form>
-        <FormElement>
-          <Button label="success" clickHandle={clickHandle}>
-            Save Entry
-          </Button>
-        </FormElement>
+            <Container>
+              <Label htmlFor="">Type Of Entry </Label>
+              <RadioWrapper>
+                <Field type="radio" id="payment_type" name="payment_type" value="received" />
+                <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
+                <Field type="radio" id="payment_type" name="payment_type" value="return" />
+                <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
+              </RadioWrapper>
+            </Container>
+
+            <Container>
+              <Label htmlFor="">Date Of Entry </Label>
+              <Field
+                type="date"
+                name="date"
+                id="date"
+                dateformat="dd,mm,yyyy"
+                style={{
+                  backgroundColor: "var(--white-color)",
+                  padding: "8px",
+                  color: "var(--black-color)",
+                  border: "1px solid var(--table-border-color)",
+                  borderRadius: "4px",
+                  outline: "none",
+                  width: winWidth < 550 ? "100%" : "60%",
+                  fontFamily: "inherit",
+                  ":focus": {
+                    boxShadow: "var(--input-bs)",
+                  },
+                }}
+              />
+            </Container>
+
+            <Container>
+              <Label>Mode Of Entry</Label>
+              <Field
+                as="select"
+                name="modes"
+                id="mode_selected"
+                style={{
+                  backgroundColor: "var(--white-color)",
+                  padding: "8px",
+                  color: "var(--black-color)",
+                  border: "1px solid var(--table-border-color)",
+                  borderRadius: "4px",
+                  outline: "none",
+                  width: winWidth < 550 ? "100%" : "60%",
+                  fontFamily: "inherit",
+                  ":focus": {
+                    boxShadow: "var(--input-bs)",
+                  },
+                }}
+              >
+                <option value="cash">Cash</option>
+                <option value="cheque">Cheque</option>
+                <option value="neft">NEFT</option>
+                <option value="rtgs">RTGS</option>
+                <option value="upi">UPI</option>
+                <option value="others">Others</option>
+              </Field>
+            </Container>
+            <Container>
+              <Label htmlFor="">Checque No. </Label>
+              <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Txn No. </Label>
+              <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
+            </Container>
+
+            <Container>
+              <Label htmlFor="">Amount </Label>
+              <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
+            </Container>
+            <Container>
+              <Label htmlFor="">Remark </Label>
+              <Field
+                as="textarea"
+                type="text"
+                name="remark"
+                id="remark"
+                autoComplete="off"
+                placeholder=""
+                rows="2"
+                style={{
+                  backgroundColor: "var(--white-color)",
+                  padding: "8px",
+                  color: "var(--black-color)",
+                  border: "1px solid var(--table-border-color)",
+                  borderRadius: "4px",
+                  outline: "none",
+                  width: winWidth < 550 ? "100%" : "60%",
+                  fontFamily: "inherit",
+                  ":focus": {
+                    boxshadow: "var(--input-bs)",
+                  },
+                }}
+              />
+            </Container>
+            <Container>
+              <Label htmlFor="">New Balance </Label>
+              <div>3500 </div>
+            </Container>
+
+            <Container>
+              <SubmitButton type="submit">Save Entry</SubmitButton>
+            </Container>
+          </StyledForm>
+        </Formik>
       </DetailSection>
     </Main>
   );
@@ -114,66 +185,62 @@ const TitleWrapper = styled.div`
 `;
 const DetailSection = styled.div`
   background-color: var(--white-color);
-  padding: 1em;
+  padding: 0 1em 1em;
   border-radius: 0 0 4px 4px;
   max-width: 100%;
   overflow-x: auto;
   margin: 0 auto;
 `;
-const Form = styled.form`
+
+const Label = styled.label`
+  /* flex: 1; */
+  text-align: right;
+`;
+
+// const Input = styled.input`
+//   background-color: var(--white-color);
+//   padding: 8px;
+//   margin-left: 20px;
+//   color: var(--black-color);
+//   border: 1px solid var(--table-border-color);
+//   border-radius: 4px;
+//   width: 100%;
+//   outline: none;
+//   font-family: inherit;
+//   &:focus {
+//     box-shadow: var(--input-bs);
+//   }
+//   flex: 2;
+//   @media (max-width: 550px) {
+//     margin-left: 0px;
+//   }
+// `;
+const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
-const FormElement = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  /* gap: 2em; */
-  margin-bottom: 1em;
-  min-width: 100%;
-  @media (max-width: 550px) {
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-  }
-`;
-
-const Label = styled.label`
-  flex: 1;
-  text-align: right;
-`;
-const FEValue = styled.div`
-  flex: 2;
-  text-align: left;
-  margin-left: 20px;
-  @media (max-width: 550px) {
-    margin-left: 0px;
-  }
-`;
-const Input = styled.input`
+const Input = styled(Field)`
   background-color: var(--white-color);
   padding: 8px;
-  margin-left: 20px;
   color: var(--black-color);
   border: 1px solid var(--table-border-color);
   border-radius: 4px;
-  width: 100%;
+  width: 60%;
   outline: none;
   font-family: inherit;
   &:focus {
     box-shadow: var(--input-bs);
   }
-  flex: 2;
   @media (max-width: 550px) {
-    margin-left: 0px;
+    width: 100%;
   }
 `;
 const RadioWrapper = styled.div`
-  flex: 2;
-  text-align: left;
-  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1em;
   @media (max-width: 550px) {
     margin-left: 0px;
   }
@@ -190,24 +257,7 @@ const RadioLabel = styled.label`
     margin-left: 0px;
   }
 `;
-const TextArea = styled.textarea`
-  background-color: var(--white-color);
-  padding: 8px;
-  margin-left: 20px;
-  color: var(--black-color);
-  border: 1px solid var(--table-border-color);
-  border-radius: 4px;
-  width: 100%;
-  outline: none;
-  font-family: inherit;
-  &:focus {
-    box-shadow: var(--input-bs);
-  }
-  flex: 2;
-  @media (max-width: 550px) {
-    margin-left: 0px;
-  }
-`;
+
 const DateInput = styled.input`
   flex: 2;
   background-color: var(--white-color);
@@ -248,4 +298,34 @@ const Select = styled.select`
   @media (max-width: 550px) {
     margin-left: 0px;
   }
+`;
+const ErrorMsg = styled(ErrorMessage)`
+  color: #c82333;
+  font-size: 12px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* Add your custom styles here */
+`;
+
+const SubmitButton = styled.button`
+  width: fit-content;
+  font-size: 12px;
+  color: var(--white-color);
+  padding: 0.65em;
+  cursor: pointer;
+  text-align: center;
+  background-color: #218838;
+  border-radius: 4px;
+  border: none;
+`;
+
+const Container = styled.div`
+  position: relative;
+  padding-top: 20px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 `;
