@@ -9,7 +9,9 @@ import useWindowWidth from "../../hooks/useWindowWidth";
 
 const validationSchema = Yup.object().shape({});
 
-const initialValues = {};
+const initialValues = {
+  modes: "cash",
+};
 
 export const AccountEntry = () => {
   const handleSubmit = (values, { setSubmitting }) => {
@@ -27,126 +29,133 @@ export const AccountEntry = () => {
       </TitleSection>
       <DetailSection>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          <StyledForm>
-            <Container>
-              <Label htmlFor="">Client Name</Label>
-              <div>Rahil Computers</div>
-              {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
-            </Container>
+          {({ values }) => (
+            <StyledForm>
+              <Container>
+                <Label htmlFor="">Client Name</Label>
+                <div>Rahil Computers</div>
+                {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
+              </Container>
 
-            <Container>
-              <Label htmlFor="">Balance</Label>
-              <div>3000 </div>
-            </Container>
+              <Container>
+                <Label htmlFor="">Balance</Label>
+                <div>3000 </div>
+              </Container>
 
-            <Container>
-              <Label htmlFor="">Type Of Entry </Label>
-              <RadioWrapper>
-                <Field type="radio" id="payment_type" name="payment_type" value="received" />
-                <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
-                <Field type="radio" id="payment_type" name="payment_type" value="return" />
-                <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
-              </RadioWrapper>
-            </Container>
+              <Container>
+                <Label htmlFor="">Type Of Entry </Label>
+                <RadioWrapper>
+                  <Field type="radio" id="payment_type" name="payment_type" value="received" />
+                  <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
+                  <Field type="radio" id="payment_type" name="payment_type" value="return" />
+                  <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
+                </RadioWrapper>
+              </Container>
 
-            <Container>
-              <Label htmlFor="">Date Of Entry </Label>
-              <Field
-                type="date"
-                name="date"
-                id="date"
-                dateformat="dd,mm,yyyy"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: winWidth < 550 ? "100%" : "60%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxShadow: "var(--input-bs)",
-                  },
-                }}
-              />
-            </Container>
+              <Container>
+                <Label htmlFor="">Date Of Entry </Label>
+                <Field
+                  type="date"
+                  name="date"
+                  id="date"
+                  dateformat="dd,mm,yyyy"
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxShadow: "var(--input-bs)",
+                    },
+                  }}
+                />
+              </Container>
 
-            <Container>
-              <Label>Mode Of Entry</Label>
-              <Field
-                as="select"
-                name="modes"
-                id="mode_selected"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: winWidth < 550 ? "100%" : "60%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxShadow: "var(--input-bs)",
-                  },
-                }}
-              >
-                <option value="cash">Cash</option>
-                <option value="cheque">Cheque</option>
-                <option value="neft">NEFT</option>
-                <option value="rtgs">RTGS</option>
-                <option value="upi">UPI</option>
-                <option value="others">Others</option>
-              </Field>
-            </Container>
-            <Container>
-              <Label htmlFor="">Checque No. </Label>
-              <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Txn No. </Label>
-              <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
-            </Container>
+              <Container>
+                <Label>Mode Of Entry</Label>
+                <Field
+                  as="select"
+                  name="modes"
+                  id="mode_selected"
+                  selected="cash"
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxShadow: "var(--input-bs)",
+                    },
+                  }}
+                >
+                  <option value="cash">Cash</option>
+                  <option value="cheque">Cheque</option>
+                  <option value="neft">NEFT</option>
+                  <option value="rtgs">RTGS</option>
+                  <option value="upi">UPI</option>
+                  <option value="others">Others</option>
+                </Field>
+              </Container>
+              {values.modes === "cheque" ? (
+                <Container>
+                  <Label htmlFor="">Checque No. </Label>
+                  <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
+                </Container>
+              ) : (
+                values.modes !== "cash" && (
+                  <Container>
+                    <Label htmlFor="">Txn No. </Label>
+                    <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
+                  </Container>
+                )
+              )}
+              <Container>
+                <Label htmlFor="">Amount </Label>
+                <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
+              </Container>
+              <Container>
+                <Label htmlFor="">Remark </Label>
+                <Field
+                  as="textarea"
+                  type="text"
+                  name="remark"
+                  id="remark"
+                  autoComplete="off"
+                  placeholder=""
+                  rows="2"
+                  style={{
+                    backgroundColor: "var(--white-color)",
+                    padding: "8px",
+                    color: "var(--black-color)",
+                    border: "1px solid var(--table-border-color)",
+                    borderRadius: "4px",
+                    outline: "none",
+                    width: winWidth < 550 ? "100%" : "60%",
+                    fontFamily: "inherit",
+                    ":focus": {
+                      boxshadow: "var(--input-bs)",
+                    },
+                  }}
+                />
+              </Container>
+              <Container>
+                <Label htmlFor="">New Balance </Label>
+                <div>3500 </div>
+              </Container>
 
-            <Container>
-              <Label htmlFor="">Amount </Label>
-              <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
-            </Container>
-            <Container>
-              <Label htmlFor="">Remark </Label>
-              <Field
-                as="textarea"
-                type="text"
-                name="remark"
-                id="remark"
-                autoComplete="off"
-                placeholder=""
-                rows="2"
-                style={{
-                  backgroundColor: "var(--white-color)",
-                  padding: "8px",
-                  color: "var(--black-color)",
-                  border: "1px solid var(--table-border-color)",
-                  borderRadius: "4px",
-                  outline: "none",
-                  width: winWidth < 550 ? "100%" : "60%",
-                  fontFamily: "inherit",
-                  ":focus": {
-                    boxshadow: "var(--input-bs)",
-                  },
-                }}
-              />
-            </Container>
-            <Container>
-              <Label htmlFor="">New Balance </Label>
-              <div>3500 </div>
-            </Container>
-
-            <Container>
-              <SubmitButton type="submit">Save Entry</SubmitButton>
-            </Container>
-          </StyledForm>
+              <Container>
+                <SubmitButton type="submit">Save Entry</SubmitButton>
+              </Container>
+            </StyledForm>
+          )}
         </Formik>
       </DetailSection>
     </Main>
