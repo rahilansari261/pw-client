@@ -34,7 +34,7 @@ export const AddInvoice = () => {
   const [isOpenProduct, setOpenProduct] = useState(false);
   const [invoiceData, setInvoiceData] = useState(initialInvoiceData);
   const { data: invoiceClientData, isLoading: isInvoiceClientLoading, error: invoiceClientError, fetchData: fetchInvoiceClientData } = useFetch();
-  const { data: invoiceProductData, isLoading: isInvoiceProductLoading, error: invoiceProductError, fetchData: fetchInvoiceProductData } = useFetch();
+  const { data: invoiceProductData, isLoading: isInvoiceProductLoading, error: invoiceProductError, fetchData: fetchInvoiceProductData, postData } = useFetch();
   const [clientId, setClientId] = useState(null);
   const [productId, setProductId] = useState(null);
   const [inputClientVal, setInputClientVal] = useState("");
@@ -219,6 +219,12 @@ export const AddInvoice = () => {
       client_data: { ...invoiceData.client_data, client_id: invoiceData.client_data._id },
       user_data: { ...invoiceData.user_data, user_tc: invoiceData.user_data.user_settings.user_tc, user_logo: invoiceData.user_data.user_settings.user_logo },
     };
+    postData(
+      {
+        invoiceData: { ...inData },
+      },
+      "invoices/new/add"
+    );
     console.log(inData);
   };
 
