@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import { LineWave } from "react-loader-spinner";
-import { convertDate } from "../../util/helper";
+import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 
 export const ViewAccount = () => {
   const { data, isLoading, error, fetchData } = useFetch();
@@ -19,12 +19,15 @@ export const ViewAccount = () => {
 
   const senitizeAccountTableData = (accArr) => {
     return accArr.map((item) => {
-      const { _id, entry_date, amount, remark } = item;
+      const { _id, entry_date, entry_amount_out, entry_amount_in, entry_transaction_number, entry_remarks, entry_balance } = item;
       return {
         _id,
-        dated: convertDate(dated),
-        amount,
-        remark,
+        entry_date: convertDate(entry_date),
+        entry_amount_out: convertCurrencyToIndian(entry_amount_out),
+        entry_amount_in: convertCurrencyToIndian(entry_amount_in),
+        entry_balance: convertCurrencyToIndian(entry_balance),
+        entry_transaction_number,
+        entry_remarks,
       };
     });
   };
@@ -32,14 +35,14 @@ export const ViewAccount = () => {
   useEffect(() => {
     console.count(isLoading);
     if (!isLoading) {
-      // setAccountData(senitizeAccountTableData(data.data));
-      setAccountData(data.data);
+      const newAccData = senitizeAccountTableData(data.data);
+      console.log(newAccData);
+      setAccountData(newAccData);
+      // setAccountData(data.data);
     }
   }, [isLoading]);
 
-  useEffect(() => {
-    console.log(accountData);
-  });
+  useEffect(() => {});
 
   const clickHandle = () => {};
   const handleSearch = () => {};

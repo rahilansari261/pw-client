@@ -10,7 +10,7 @@ const buttonColor = {
 let colorCode = "";
 let btnWidth = "";
 export const Button = (props) => {
-  btnWidth = props.width ? props.width : "fit-content";
+  btnWidth = props.width ? props.width : "max-content";
   colorCode = props.label;
   const param = props.params;
   const clickHandle2 = () => {
