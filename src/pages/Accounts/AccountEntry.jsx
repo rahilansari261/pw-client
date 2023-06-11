@@ -45,29 +45,7 @@ export const AccountEntry = () => {
               <Container>
                 <Label htmlFor="">Type Of Entry </Label>
                 <RadioWrapper>
-                  <Field
-                    type="radio"
-                    id="payment_type"
-                    name="payment_type"
-                    value="received"
-                    style={{
-                      appearance: "none",
-
-                      borderRadius: "50%",
-                      width: "16px",
-                      height: "16px",
-
-                      border: "2px solid #999",
-                      transition: "0.2s all linear",
-                      marginRight: "5px",
-
-                      position: "relative",
-                      top: "4px",
-                      ":checked": {
-                        border: " 6px solid black",
-                      },
-                    }}
-                  />
+                  <Field type="radio" id="payment_type" name="payment_type" value="received" />
                   <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
                   <Field type="radio" id="payment_type" name="payment_type" value="return" />
                   <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
@@ -94,7 +72,6 @@ export const AccountEntry = () => {
                       boxShadow: "var(--input-bs)",
                     },
                   }}
-                  
                 />
               </Container>
 
