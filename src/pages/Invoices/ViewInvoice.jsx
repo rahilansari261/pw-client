@@ -18,6 +18,18 @@ export const ViewInvoice = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [isDisabled, setIsDisabled] = useState(false);
+  const [invoicePaymentHistoryData, setInvoicePaymentHistoryData] = useState(null);
+  const senitizePaymentHistoryData = (paymentHistoryArr) => {
+    return paymentHistoryArr.map((item) => {
+      const { _id, dated, amount, remark } = item;
+      return {
+        _id,
+        dated: convertDate(dated),
+        amount,
+        remark,
+      };
+    });
+  };
 
   useEffect(() => {
     fetchData(`invoices/${id}`);
@@ -26,6 +38,7 @@ export const ViewInvoice = () => {
   useEffect(() => {
     if (data !== null) {
       setIsDisabled(!data.data.invoice_data.status);
+      setInvoicePaymentHistoryData(senitizePaymentHistoryData(data.data.invoice_data.paymentHistory));
     }
   }, [isLoading]);
 
@@ -43,6 +56,10 @@ export const ViewInvoice = () => {
   };
   const printInvoice = () => {};
   const clickHandle = () => {};
+  const tableHelperDataPaymentHistory = {
+    actionColumnSrc: null,
+    tableHeadRowData: ["id", "date", "amount ", "remark"],
+  };
 
   return (
     <Main>
@@ -67,7 +84,7 @@ export const ViewInvoice = () => {
         </ButtonWrapper>
       </TitleSection>
       <DetailSection>
-        {!isLoading ? (
+        {!isLoading && invoicePaymentHistoryData !== null ? (
           <Invoice>
             <InvoiceWrapper>
               <InvoiceRow>
@@ -149,6 +166,11 @@ export const ViewInvoice = () => {
                 <RightNote>Paper Weight | Roaring Studios Product</RightNote>
               </BottomLine>
             </InvoiceWrapper>
+            <PaymentTable>
+              <TableTitle>Payment Details</TableTitle>
+              <Table tableData={invoicePaymentHistoryData} tableHelperData={tableHelperDataPaymentHistory} />
+            </PaymentTable>
+
             <div style={{ display: "grid", placeItems: "center", padding: "12px" }}>
               <SubmitButton onClick={deleteInvoice} disabled={isDisabled}>
                 Delete Invoice
@@ -204,6 +226,19 @@ const InvoiceWrapper = styled.div`
   padding: 1em 1em 0 1em;
   border: 1px solid var(--table-border-color);
   margin: 0 auto;
+  margin-bottom: 2em;
+`;
+const PaymentTable = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+  @media (max-width: 550px) {
+    max-width: 100%;
+  }
+`;
+const TableTitle = styled.p`
+  font-size: 14px;
 `;
 const Title = styled.div`
   padding-left: 8px;
