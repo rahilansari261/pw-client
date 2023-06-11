@@ -2,44 +2,53 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
 import { Button, Table } from "../../components/Index";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import useFetch from "../../hooks/useFetch";
+import { useEffect, useState } from "react";
+import { LineWave } from "react-loader-spinner";
+import { convertDate } from "../../util/helper";
 
 export const ViewAccount = () => {
+  const { data, isLoading, error, fetchData } = useFetch();
+  const { id } = useParams();
+  const [accountData, setAccountData] = useState(null);
+
+  useEffect(() => {
+    fetchData(`accounts/${id}/no-search/1/10/no-start-date/no-end-date`);
+  }, []);
+
+  const senitizeAccountTableData = (accArr) => {
+    return accArr.map((item) => {
+      const { _id, entry_date, amount, remark } = item;
+      return {
+        _id,
+        dated: convertDate(dated),
+        amount,
+        remark,
+      };
+    });
+  };
+
+  useEffect(() => {
+    console.count(isLoading);
+    if (!isLoading) {
+      // setAccountData(senitizeAccountTableData(data.data));
+      setAccountData(data.data);
+    }
+  }, [isLoading]);
+
+  useEffect(() => {
+    console.log(accountData);
+  });
+
   const clickHandle = () => {};
   const handleSearch = () => {};
-  const accountData = [
-    {
-      _id: "1",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-    {
-      _id: "2",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-    {
-      _id: "3",
-      date: "30-Mar-2023",
-      "Invoice Value": "25500",
-      "payment received": "-",
-      balance: 3000,
-      mode: "cash",
-      remark: "Invoice Cancelled by user",
-    },
-  ];
 
   const tableHelperData = {
-    tableHeadRowData: Object.keys(accountData[0]),
+    actionColumnSrc: null,
+    tableHeadRowData: ["id", "date", "Invoice Value ", "payment received", "balance", "mode", "remark"],
   };
+
   return (
     <Main>
       <TitleSection>
@@ -88,7 +97,11 @@ export const ViewAccount = () => {
             </DateBar>
           </SearchOption>
         </SearcAndClientInfoWrapper>
-        <Table tableData={accountData} tableHelperData={tableHelperData} />
+        {!isLoading && accountData !== null ? (
+          <Table tableData={accountData} tableHelperData={tableHelperData} />
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
       </DetailSection>
     </Main>
   );
