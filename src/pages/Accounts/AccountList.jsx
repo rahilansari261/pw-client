@@ -5,39 +5,38 @@ import styled from "styled-components";
 import { Button } from "../../components/Button";
 import { Pagination } from "../../components/Pagination";
 import { Table } from "../../components/Table";
+import useFetch from "../../hooks/useFetch";
+import { useEffect } from "react";
+import { convertCurrencyToIndian } from "../../util/helper";
+import { LineWave } from "react-loader-spinner";
 
 export const AccountList = () => {
-  const accountData = [
-    {
-      _id: "1",
-      "comapny name": "Rahil Communications",
-      name: "Rahil",
-      "current balance": 17700,
-    },
-    {
-      _id: "2",
-      "comapny name": "Rahil Communications",
-      name: "Rahil",
-      "current balance": 17700,
-    },
-    {
-      _id: "3",
-      "comapny name": "Rahil Communications",
-      name: "Rahil",
-      "current balance": 17700,
-    },
-  ];
+  const { data, isLoading, error, fetchData } = useFetch();
+  useEffect(() => {
+    fetchData("clients/1/10/All");
+  }, []);
+  let accountData;
+  const sanitizeTableData = (cData) =>
+    cData.map((client) => {
+      const { _id, client_company_name, client_name, client_balance } = client;
+      return { _id, client_company_name, client_name, client_balance: convertCurrencyToIndian(client_balance) };
+    });
+
+  if (!isLoading) {
+    const { data: cData } = data;
+    accountData = sanitizeTableData(cData);
+  }
   const clickHandle = () => {};
+  const handleSearch = () => {};
   const btnFunc = () => {};
   const tableHelperData = {
     actionColumnSrc: "/accounts/viewaccount/",
     actionColumnTitle: "Action",
     actionColumnValue: "Account History",
     actionColumnColor: "info",
-    tableHeadRowData: Object.keys(accountData[0]),
+    tableHeadRowData: ["id", "company", "name", "balance"],
     actionColumnButtonFunc: btnFunc,
   };
-  const handleSearch = () => {};
 
   return (
     <Main>
@@ -58,7 +57,12 @@ export const AccountList = () => {
 
           <SearchDesc></SearchDesc>
         </SearchWrapper>
-        <Table tableData={accountData} tableHelperData={tableHelperData} />
+
+        {!isLoading ? (
+          <Table tableData={accountData} tableHelperData={tableHelperData} />
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
         <Pagination />
       </DetailSection>
       <Outlet />
