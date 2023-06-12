@@ -16,7 +16,7 @@ const validationSchema = Yup.object().shape({});
 
 const initialValues = {
   modes: "cash",
-  entry_date: convertDate(new Date()),
+  // entry_date: convertDate(new Date()),
 };
 
 export const AccountEntry = () => {
@@ -34,14 +34,14 @@ export const AccountEntry = () => {
   const senitizeInvoiceData = (invoArr) => {
     return invoArr.map((item) => {
       const { _id, number, date, balance, grand_total } = item.invoice_data;
-      const amount = <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />;
+      // const amount = <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />;
       return {
         _id,
         number,
-        date:convertDate(date),
-        amount,
-        balance:convertCurrencyToIndian(balance),
-        grand_total:convertCurrencyToIndian(grand_total),
+        date: convertDate(date),
+        amount: <Input type="number" name="entry_amount" id="entry_amount" autoComplete="off" placeholder="" />,
+        balance: convertCurrencyToIndian(balance),
+        grand_total: convertCurrencyToIndian(grand_total),
       };
     });
   };
