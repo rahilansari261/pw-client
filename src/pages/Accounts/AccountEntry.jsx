@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileInvoice } from "@fortawesome/free-solid-svg-icons";
 import styled from "styled-components";
@@ -6,18 +6,67 @@ import { Button } from "../../components/Button";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import useWindowWidth from "../../hooks/useWindowWidth";
+import { Table } from "../../components/Table";
+import useFetch from "../../hooks/useFetch";
+import { useParams } from "react-router-dom";
+import { LineWave } from "react-loader-spinner";
+import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 
 const validationSchema = Yup.object().shape({});
 
 const initialValues = {
   modes: "cash",
+  entry_date: convertDate(new Date()),
 };
 
 export const AccountEntry = () => {
+  const { data, isLoading, error, fetchData } = useFetch();
+  const { data: clientData, isLoading: clientIsLoading, error: clientError, fetchData: clientFetch } = useFetch();
+  const { id } = useParams();
+  const [invoiceAccountData, setInvoiceAccountData] = useState(null);
+  const [clientAccountData, setClientAccountData] = useState(null);
+
+  useEffect(() => {
+    fetchData(`invoices/unpaid/${id}`);
+    clientFetch(`clients/${id}`);
+  }, []);
+
+  const senitizeInvoiceData = (invoArr) => {
+    return invoArr.map((item) => {
+      const { _id, number, date, balance, grand_total } = item.invoice_data;
+      const amount = <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />;
+      return {
+        _id,
+        number,
+        date:convertDate(date),
+        amount,
+        balance:convertCurrencyToIndian(balance),
+        grand_total:convertCurrencyToIndian(grand_total),
+      };
+    });
+  };
+
+  useEffect(() => {
+    if (!clientIsLoading) {
+      setClientAccountData(clientData.data);
+    }
+  }, [clientIsLoading]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      setInvoiceAccountData(senitizeInvoiceData(data.data));
+    }
+  }, [isLoading]);
+
   const handleSubmit = (values, { setSubmitting }) => {
     console.log(values);
   };
   const winWidth = useWindowWidth();
+
+  const tableHelperData = {
+    actionColumnSrc: null,
+    tableHeadRowData: ["id", "Invoice No.", "Date", "Amount", "Balance", "Total"],
+  };
 
   return (
     <Main>
@@ -28,135 +77,142 @@ export const AccountEntry = () => {
         </TitleWrapper>
       </TitleSection>
       <DetailSection>
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-          {({ values }) => (
-            <StyledForm>
-              <Container>
-                <Label htmlFor="">Client Name</Label>
-                <div>Rahil Computers</div>
-                {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
-              </Container>
-
-              <Container>
-                <Label htmlFor="">Balance</Label>
-                <div>3000 </div>
-              </Container>
-
-              <Container>
-                <Label htmlFor="">Type Of Entry </Label>
-                <RadioWrapper>
-                  <Field type="radio" id="payment_type" name="payment_type" value="received" />
-                  <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
-                  <Field type="radio" id="payment_type" name="payment_type" value="return" />
-                  <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
-                </RadioWrapper>
-              </Container>
-
-              <Container>
-                <Label htmlFor="">Date Of Entry </Label>
-                <Field
-                  type="date"
-                  name="date"
-                  id="date"
-                  dateformat="dd,mm,yyyy"
-                  style={{
-                    backgroundColor: "var(--white-color)",
-                    padding: "8px",
-                    color: "var(--black-color)",
-                    border: "1px solid var(--table-border-color)",
-                    borderRadius: "4px",
-                    outline: "none",
-                    width: winWidth < 550 ? "100%" : "60%",
-                    fontFamily: "inherit",
-                    ":focus": {
-                      boxShadow: "var(--input-bs)",
-                    },
-                  }}
-                />
-              </Container>
-
-              <Container>
-                <Label>Mode Of Entry</Label>
-                <Field
-                  as="select"
-                  name="modes"
-                  id="mode_selected"
-                  selected="cash"
-                  style={{
-                    backgroundColor: "var(--white-color)",
-                    padding: "8px",
-                    color: "var(--black-color)",
-                    border: "1px solid var(--table-border-color)",
-                    borderRadius: "4px",
-                    outline: "none",
-                    width: winWidth < 550 ? "100%" : "60%",
-                    fontFamily: "inherit",
-                    ":focus": {
-                      boxShadow: "var(--input-bs)",
-                    },
-                  }}
-                >
-                  <option value="cash">Cash</option>
-                  <option value="cheque">Cheque</option>
-                  <option value="neft">NEFT</option>
-                  <option value="rtgs">RTGS</option>
-                  <option value="upi">UPI</option>
-                  <option value="others">Others</option>
-                </Field>
-              </Container>
-              {values.modes === "cheque" ? (
+        {clientAccountData !== null && invoiceAccountData !== null ? (
+          <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+            {({ values }) => (
+              <StyledForm>
                 <Container>
-                  <Label htmlFor="">Checque No. </Label>
-                  <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
+                  <Label htmlFor="">Client Name</Label>
+                  <div>{clientAccountData.client_name}</div>
+                  {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
                 </Container>
-              ) : (
-                values.modes !== "cash" && (
-                  <Container>
-                    <Label htmlFor="">Txn No. </Label>
-                    <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
-                  </Container>
-                )
-              )}
-              <Container>
-                <Label htmlFor="">Amount </Label>
-                <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
-              </Container>
-              <Container>
-                <Label htmlFor="">Remark </Label>
-                <Field
-                  as="textarea"
-                  type="text"
-                  name="remark"
-                  id="remark"
-                  autoComplete="off"
-                  placeholder=""
-                  rows="2"
-                  style={{
-                    backgroundColor: "var(--white-color)",
-                    padding: "8px",
-                    color: "var(--black-color)",
-                    border: "1px solid var(--table-border-color)",
-                    borderRadius: "4px",
-                    outline: "none",
-                    width: winWidth < 550 ? "100%" : "60%",
-                    fontFamily: "inherit",
-                    ":focus": {
-                      boxshadow: "var(--input-bs)",
-                    },
-                  }}
-                />
-              </Container>
-              <Container>
-                <Label htmlFor="">New Balance </Label>
-                <div>3500 </div>
-              </Container>
 
-              <Container>
-                <SubmitButton type="submit">Save Entry</SubmitButton>
-              </Container>
-            </StyledForm>
-          )}
-        </Formik>
+                <Container>
+                  <Label htmlFor="">Balance</Label>
+                  <div>{convertCurrencyToIndian(clientAccountData.client_balance)} </div>
+                </Container>
+
+                <Container>
+                  <Label htmlFor="">Type Of Entry </Label>
+                  <RadioWrapper>
+                    <Field type="radio" id="payment_type" name="payment_type" value="received" />
+                    <RadioLabel htmlFor="payment_received">Payment Received</RadioLabel>
+                    <Field type="radio" id="payment_type" name="payment_type" value="return" />
+                    <RadioLabel htmlFor="payment_return">Payment Return</RadioLabel>
+                  </RadioWrapper>
+                </Container>
+
+                <Container>
+                  <Label htmlFor="">Date Of Entry </Label>
+                  <Field
+                    type="date"
+                    name="entry_date"
+                    id="entry_date"
+                    dateformat="dd-mm-yyyy"
+                    style={{
+                      backgroundColor: "var(--white-color)",
+                      padding: "8px",
+                      color: "var(--black-color)",
+                      border: "1px solid var(--table-border-color)",
+                      borderRadius: "4px",
+                      outline: "none",
+                      width: winWidth < 550 ? "100%" : "60%",
+                      fontFamily: "inherit",
+                      ":focus": {
+                        boxShadow: "var(--input-bs)",
+                      },
+                    }}
+                  />
+                </Container>
+
+                <Container>
+                  <Label>Mode Of Entry</Label>
+                  <Field
+                    as="select"
+                    name="modes"
+                    id="mode_selected"
+                    style={{
+                      backgroundColor: "var(--white-color)",
+                      padding: "8px",
+                      color: "var(--black-color)",
+                      border: "1px solid var(--table-border-color)",
+                      borderRadius: "4px",
+                      outline: "none",
+                      width: winWidth < 550 ? "100%" : "60%",
+                      fontFamily: "inherit",
+                      ":focus": {
+                        boxShadow: "var(--input-bs)",
+                      },
+                    }}
+                  >
+                    <option value="cash">Cash</option>
+                    <option value="cheque">Cheque</option>
+                    <option value="neft">NEFT</option>
+                    <option value="rtgs">RTGS</option>
+                    <option value="upi">UPI</option>
+                    <option value="others">Others</option>
+                  </Field>
+                </Container>
+                {values.modes === "cheque" ? (
+                  <Container>
+                    <Label htmlFor="">Checque No. </Label>
+                    <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
+                  </Container>
+                ) : (
+                  values.modes !== "cash" && (
+                    <Container>
+                      <Label htmlFor="">Txn No. </Label>
+                      <Input type="text" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
+                    </Container>
+                  )
+                )}
+                <Container>
+                  <Label htmlFor="">Amount </Label>
+                  <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
+                </Container>
+                <Container>
+                  <Label htmlFor="">Remark </Label>
+                  <Field
+                    as="textarea"
+                    type="text"
+                    name="remark"
+                    id="remark"
+                    autoComplete="off"
+                    placeholder=""
+                    rows="2"
+                    style={{
+                      backgroundColor: "var(--white-color)",
+                      padding: "8px",
+                      color: "var(--black-color)",
+                      border: "1px solid var(--table-border-color)",
+                      borderRadius: "4px",
+                      outline: "none",
+                      width: winWidth < 550 ? "100%" : "60%",
+                      fontFamily: "inherit",
+                      ":focus": {
+                        boxshadow: "var(--input-bs)",
+                      },
+                    }}
+                  />
+                </Container>
+                <Container>
+                  <Label htmlFor="">New Balance </Label>
+                  <div>3500 </div>
+                </Container>
+
+                <Container>
+                  <Table tableData={invoiceAccountData} tableHelperData={tableHelperData} />
+                </Container>
+
+                <Container>
+                  <SubmitButton type="submit">Save Entry</SubmitButton>
+                </Container>
+              </StyledForm>
+            )}
+          </Formik>
+        ) : (
+          <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+        )}
       </DetailSection>
     </Main>
   );

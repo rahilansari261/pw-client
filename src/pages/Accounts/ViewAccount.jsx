@@ -10,11 +10,14 @@ import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 
 export const ViewAccount = () => {
   const { data, isLoading, error, fetchData } = useFetch();
+  const { data: clientData, isLoading: clientIsLoading, error: clientError, fetchData: clientFetch } = useFetch();
   const { id } = useParams();
   const [accountData, setAccountData] = useState(null);
+  const [clientAccountData, setClientAccountData] = useState(null);
 
   useEffect(() => {
     fetchData(`accounts/${id}/no-search/1/10/no-start-date/no-end-date`);
+    clientFetch(`clients/${id}`);
   }, []);
 
   const senitizeAccountTableData = (accArr) => {
@@ -33,16 +36,17 @@ export const ViewAccount = () => {
   };
 
   useEffect(() => {
-    console.count(isLoading);
     if (!isLoading) {
       const newAccData = senitizeAccountTableData(data.data);
-      console.log(newAccData);
       setAccountData(newAccData);
-      // setAccountData(data.data);
     }
   }, [isLoading]);
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (!clientIsLoading) {
+      setClientAccountData(clientData.data);
+    }
+  }, [clientIsLoading]);
 
   const clickHandle = () => {};
   const handleSearch = () => {};
@@ -52,6 +56,7 @@ export const ViewAccount = () => {
     tableHeadRowData: ["id", "date", "Invoice Value ", "payment received", "balance", "mode", "remark"],
   };
 
+  console.log(clientAccountData);
   return (
     <Main>
       <TitleSection>
@@ -59,22 +64,24 @@ export const ViewAccount = () => {
           <FontAwesomeIcon icon={faUsers} />
           <Title>Client Accounts</Title>
         </TitleWrapper>
-        <Link to="/accounts/accountentry/1">
-          <Button label="success" clickHandle={clickHandle}>
-            Add Payment
-          </Button>
-        </Link>
+        {clientAccountData !== null && (
+          <Link to={`/accounts/accountentry/${clientAccountData._id}`}>
+            <Button label="success" clickHandle={clickHandle}>
+              Add Payment
+            </Button>
+          </Link>
+        )}
       </TitleSection>
       <DetailSection>
         <SearcAndClientInfoWrapper>
           <ClientWrapper>
             <ClientInfo>
               <ClientTitle>Client Name :</ClientTitle>
-              <ClientValue>Rahil Computers</ClientValue>
+              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_name}</ClientValue> : <div>Loading...</div>}
             </ClientInfo>
             <ClientInfo>
               <ClientTitle>Balance :</ClientTitle>
-              <ClientValue>Rs.17600</ClientValue>
+              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_balance}</ClientValue> : <div>Loading...</div>}
             </ClientInfo>
           </ClientWrapper>
           <SearchOption>
