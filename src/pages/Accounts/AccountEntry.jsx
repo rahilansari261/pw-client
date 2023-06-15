@@ -33,10 +33,10 @@ export const AccountEntry = () => {
 
   const senitizeInvoiceData = (invoArr) => {
     return invoArr.map((item) => {
-      const { _id, number, date, balance, grand_total } = item.invoice_data;
+      const { number, date, balance, grand_total } = item.invoice_data;
       // const amount = <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />;
       return {
-        _id,
+        _id: item.invoice_data._id,
         number,
         date: convertDate(date),
         amount: <Input type="number" name="entry_amount" id="entry_amount" autoComplete="off" placeholder="" />,
