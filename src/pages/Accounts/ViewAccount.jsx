@@ -56,7 +56,6 @@ export const ViewAccount = () => {
     tableHeadRowData: ["id", "date", "Invoice Value ", "payment received", "balance", "mode", "remark"],
   };
 
-  console.log(clientAccountData);
   return (
     <Main>
       <TitleSection>
