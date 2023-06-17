@@ -11,12 +11,17 @@ import useFetch from "../../hooks/useFetch";
 import { useParams } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
+import "../../App.css";
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+  amount: Yup.number().min(0, "Amount must be a positive number").required("Amount is required"),
+});
 
 const initialValues = {
   modes: "cash",
-  // entry_date: convertDate(new Date()),
+  amount: 0,
+  entry_date: new Date().toISOString().split("T")[0],
+  payment_type: "received",
 };
 
 export const AccountEntry = () => {
@@ -25,44 +30,11 @@ export const AccountEntry = () => {
   const { id } = useParams();
   const [invoiceAccountData, setInvoiceAccountData] = useState(null);
   const [clientAccountData, setClientAccountData] = useState(null);
-  const [invoiceArray, setInvoiceArray] = useState(null);
-  const [inputValues, setInputValues] = useState([]);
 
   useEffect(() => {
     fetchData(`invoices/unpaid/${id}`);
     clientFetch(`clients/${id}`);
   }, []);
-
-  const handleInputChange = (e, index) => {
-    const { value } = e.target;
-    let inputVal = parseInt(value);
-    if (!inputVal) {
-      inputVal = 0;
-    }
-    if (inputVal < 0) {
-      inputVal = 0;
-    }
-    setInputValues((prevValues) => {
-      const updatedValues = [...prevValues];
-
-      updatedValues[index] = inputVal;
-      return updatedValues;
-    });
-  };
-
-  const senitizeInvoiceData = (invoArr) => {
-    return invoArr.map((item, index) => {
-      const { number, date, balance, grand_total } = item.invoice_data;
-      return {
-        _id: item._id,
-        number,
-        date: convertDate(date),
-        amount: <Input type="number" min="0" value={inputValues[index]} onChange={(e) => handleInputChange(e, index)} name="entry_amount" id="entry_amount" autoComplete="off" placeholder="" />,
-        balance: convertCurrencyToIndian(balance),
-        grand_total: convertCurrencyToIndian(grand_total),
-      };
-    });
-  };
 
   useEffect(() => {
     if (!clientIsLoading) {
@@ -73,29 +45,16 @@ export const AccountEntry = () => {
   useEffect(() => {
     if (!isLoading) {
       setInvoiceAccountData(data.data);
-      setInvoiceArray(senitizeInvoiceData(data.data));
     }
   }, [isLoading]);
 
   const handleSubmit = (values, { setSubmitting }) => {
-    // const apidata = {
-    //   ...item,
-    //   invoice_data: {
-    //     ...item.invoice_data,
-    //     _id: item._id,
-    //     number: item.invoice_data.number,
-    //     date: convertDate(item.invoice_data.date),
-    //     amount: <Input type="number" value={inputValues[index]} onChange={(e) => handleInputChange(e, index)} name="entry_amount" id="entry_amount" autoComplete="off" placeholder="" />,
-    //     balance: convertCurrencyToIndian(item.invoice_data.balance),
-    //     grand_total: convertCurrencyToIndian(item.invoice_data.grand_total),
-    //   },
-    // };
     clientAccountData.invoice_list = invoiceAccountData;
     const accountData = clientAccountData;
-    const updatedInvoiceList = accountData.invoice_list.map((item, index) => {
-      return { ...item, amount: parseInt(inputValues[index]) };
-    });
-    accountData.invoice_list = updatedInvoiceList;
+    // const updatedInvoiceList = accountData.invoice_list.map((item, index) => {
+    //   return { ...item, amount: parseInt(inputValues[index]) };
+    // });
+    // accountData.invoice_list = updatedInvoiceList;
     console.log(accountData);
   };
   const winWidth = useWindowWidth();
@@ -114,14 +73,13 @@ export const AccountEntry = () => {
         </TitleWrapper>
       </TitleSection>
       <DetailSection>
-        {clientAccountData !== null && invoiceArray !== null ? (
+        {clientAccountData !== null && invoiceAccountData !== null ? (
           <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
-            {({ values }) => (
+            {({ setFieldValue, values }) => (
               <StyledForm>
                 <Container>
                   <Label htmlFor="">Client Name</Label>
                   <div>{clientAccountData.client_name}</div>
-                  {/* <ErrorMsg name="client_company_name" component="div" className="error" /> */}
                 </Container>
 
                 <Container>
@@ -206,6 +164,7 @@ export const AccountEntry = () => {
                 <Container>
                   <Label htmlFor="">Amount </Label>
                   <Input type="number" name="amount" id="amount" autoComplete="off" placeholder="" />
+                  <ErrorMsg name="amount" component="div" className="error" />
                 </Container>
                 <Container>
                   <Label htmlFor="">Remark </Label>
@@ -238,7 +197,33 @@ export const AccountEntry = () => {
                 </Container>
 
                 <Container>
-                  <Table tableData={invoiceArray} tableHelperData={tableHelperData} />
+                  <Table
+                    tableData={invoiceAccountData.map((item, index) => {
+                      const { number, date, balance, grand_total } = item.invoice_data;
+                      return {
+                        _id: item._id,
+                        number,
+                        date: convertDate(date),
+                        amount: (
+                          <Input
+                            type="number"
+                            id={`entries[${index}].value`}
+                            name={`entries[${index}].value`}
+                            onChange={(event) => {
+                              console.log(values.amount);
+                              const amountValue = parseInt(values.amount);
+                              const entryValue = parseInt(event.target.value);
+                              const updatedValue = amountValue + entryValue;
+                              setFieldValue(`entries[${index}].value`, updatedValue);
+                            }}
+                          />
+                        ),
+                        balance: convertCurrencyToIndian(balance),
+                        grand_total: convertCurrencyToIndian(grand_total),
+                      };
+                    })}
+                    tableHelperData={tableHelperData}
+                  />
                 </Container>
 
                 <Container>
