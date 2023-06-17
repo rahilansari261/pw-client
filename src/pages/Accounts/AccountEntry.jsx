@@ -15,6 +15,23 @@ import "../../App.css";
 
 const validationSchema = Yup.object().shape({
   amount: Yup.number().min(0, "Amount must be a positive number").required("Amount is required"),
+  entries: Yup.array()
+    .of(Yup.number())
+    .test("sum-validation", "Sum of entries cannot be greater than the amount", function (value) {
+      const sumOfEntries = value.reduce((a, b) => a + b, 0);
+      const amount = this.parent.amount || 0;
+
+      const isNegativeElementPresent = value.some((element) => element < 0);
+
+      if (isNegativeElementPresent || sumOfEntries > amount) {
+        return this.createError({
+          message: "Entries must be non-negative and the sum cannot exceed the amount",
+          path: this.path,
+        });
+      }
+      return true;
+    })
+    .required(),
 });
 
 const initialValues = {
@@ -31,6 +48,7 @@ export const AccountEntry = () => {
   const { id } = useParams();
   const [invoiceAccountData, setInvoiceAccountData] = useState(null);
   const [clientAccountData, setClientAccountData] = useState(null);
+  const winWidth = useWindowWidth();
 
   useEffect(() => {
     fetchData(`invoices/unpaid/${id}`);
@@ -49,23 +67,34 @@ export const AccountEntry = () => {
     }
   }, [isLoading]);
 
-  const handleSubmit = (values, { setSubmitting }) => {
-    clientAccountData.invoice_list = invoiceAccountData;
-    const accountData = clientAccountData;
-    // const updatedInvoiceList = accountData.invoice_list.map((item, index) => {
-    //   return { ...item, amount: parseInt(inputValues[index]) };
-    // });
-    // accountData.invoice_list = updatedInvoiceList;
-    // console.log(accountData);
-    console.log(values);
-  };
-  const winWidth = useWindowWidth();
-
   const tableHelperData = {
     actionColumnSrc: null,
     tableHeadRowData: ["id", "Invoice No.", "Date", "Amount", "Balance", "Total"],
   };
 
+  const handleSubmit = (values, { setSubmitting }) => {
+    if (values.payment_type === "received") {
+      clientAccountData.entry_amount_in = values.amount;
+      clientAccountData.entry_amount_out = 0;
+      clientAccountData.entry_balance = clientAccountData.client_balance - values.amount;
+    } else {
+      clientAccountData.entry_amount_in = 0;
+      clientAccountData.entry_amount_out = values.amount;
+      clientAccountData.entry_balance = clientAccountData.client_balance + values.amount;
+    }
+
+    clientAccountData.entry_date = new Date(values.entry_date);
+    clientAccountData.entry_remarks = "make a custom";
+    clientAccountData.entry_transaction_number = "make a custom";
+    clientAccountData.entry_type = "User";
+
+    clientAccountData.invoice_list = invoiceAccountData;
+    const accountData = clientAccountData;
+    accountData.invoice_list.map((item, index) => {
+      item.amount = values.entries[index];
+    });
+    console.log(accountData);
+  };
   return (
     <Main>
       <TitleSection>
@@ -196,52 +225,50 @@ export const AccountEntry = () => {
                 <Container>
                   <Label htmlFor="">New Balance </Label>
                   <div>
-                    {parseInt(values.amount) > 0
+                    {values.payment_type === "received"
                       ? convertCurrencyToIndian(parseInt(clientAccountData.client_balance) - parseInt(values.amount))
-                      : convertCurrencyToIndian(parseInt(clientAccountData.client_balance))}{" "}
+                      : convertCurrencyToIndian(parseInt(clientAccountData.client_balance) + parseInt(values.amount))}
                   </div>
                 </Container>
 
                 <Container>
-                  <Table
-                    tableData={invoiceAccountData.map((item, index) => {
-                      // values.entries[index] = 0;
-                      const { number, date, balance, grand_total } = item.invoice_data;
-                      return {
-                        _id: item._id,
-                        number,
-                        date: convertDate(date),
-                        amount: (
-                          <Input
-                            type="number"
-                            id={`entries[${index}]`}
-                            name={`entries[${index}]`}
-                            onChange={(event) => {
-                              const amountValue = parseInt(values.amount);
-                              const entryValue = parseInt(event.target.value);
-
-                              const sumOfAllEntries = values.entries.reduce((accumulator, currentValue, i) => {
-                                if (i === index) {
-                                  return accumulator + entryValue;
-                                } else {
-                                  return accumulator + currentValue;
-                                }
-                              }, 0);
-                              console.log(`right now at this index -> ${index} and sum of them is -> ${sumOfAllEntries} and entries -> ${values.entries}`);
-
-                              if (amountValue < sumOfAllEntries) {
-                                return;
-                              }
-                              setFieldValue(`entries[${index}]`, entryValue);
-                            }}
-                          />
-                        ),
-                        balance: convertCurrencyToIndian(balance),
-                        grand_total: convertCurrencyToIndian(grand_total),
-                      };
-                    })}
-                    tableHelperData={tableHelperData}
-                  />
+                  {values.payment_type === "received" && (
+                    <Table
+                      tableData={invoiceAccountData
+                        .map((item, index) => {
+                          const { number, date, balance, grand_total } = item.invoice_data;
+                          return {
+                            _id: item._id,
+                            number,
+                            date: convertDate(date),
+                            amount: (
+                              <Input
+                                type="number"
+                                id={`entries[${index}]`}
+                                name={`entries[${index}]`}
+                                onChange={(event) => {
+                                  const amountValue = parseInt(values.amount);
+                                  const entryValue = parseInt(event.target.value);
+                                  setFieldValue(`entries[${index}]`, entryValue);
+                                }}
+                              />
+                            ),
+                            balance: convertCurrencyToIndian(balance),
+                            grand_total: convertCurrencyToIndian(grand_total),
+                          };
+                        })
+                        .concat({
+                          _id: 1,
+                          number: "-",
+                          date: "Advance",
+                          amount: convertCurrencyToIndian(parseInt(values.amount) - values.entries.reduce((a, c) => a + c)),
+                          balance: "-",
+                          grand_total: "-",
+                        })}
+                      tableHelperData={tableHelperData}
+                    />
+                  )}
+                  <ErrorMsg name="entries" component="div" className="error" />
                 </Container>
 
                 <Container>
