@@ -129,8 +129,7 @@ export const AccountEntry = () => {
     console.log(accountData);
     const dataToSend = { accountData: accountData };
     postData(dataToSend, "accounts/add");
-    <Redirect to="/accounts/viewaccount/"+id+" />
-
+    <Redirect to={`/accounts/viewaccount/${id}`} />;
   };
   return (
     <Main>
