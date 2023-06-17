@@ -39,7 +39,7 @@ const initialValues = {
   amount: 0,
   entry_date: new Date().toISOString().split("T")[0],
   payment_type: "received",
-  entries: [0, 0],
+  entries: [],
   txn_no: 0,
   remark: "",
 };
@@ -65,6 +65,9 @@ export const AccountEntry = () => {
 
   useEffect(() => {
     if (!isLoading) {
+      data.data.map((_, index) => {
+        initialValues.entries[index] = 0;
+      });
       setInvoiceAccountData(data.data);
     }
   }, [isLoading]);
@@ -89,7 +92,6 @@ export const AccountEntry = () => {
     const entriesTotalAmount = accountData.invoice_list.reduce((accumulator, invoice) => {
       return accumulator + invoice.amount;
     }, 0);
-    console.log(entriesTotalAmount);
     let invoiceRemark = "";
     let advanceRemark = "";
     let userRemark = "";
@@ -102,8 +104,6 @@ export const AccountEntry = () => {
     if (values.remark) {
       userRemark = `User: ${values.remark}.`;
     }
-    console.log(`${invoiceRemark} ${advanceRemark} ${userRemark}`);
-    let newRemark = "";
     if (values.payment_type === "received") {
       clientAccountData.entry_amount_in = values.amount;
       clientAccountData.entry_amount_out = 0;
@@ -282,6 +282,10 @@ export const AccountEntry = () => {
                                 onChange={(event) => {
                                   const amountValue = parseInt(values.amount);
                                   const entryValue = parseInt(event.target.value);
+                                  const sum = values.entries.reduce((a, c) => a + c);
+                                  if (entryValue > balance && amountValue > sum) {
+                                    return setFieldValue(`entries[${index}]`, balance);
+                                  }
                                   setFieldValue(`entries[${index}]`, entryValue);
                                 }}
                               />
