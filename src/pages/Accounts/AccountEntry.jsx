@@ -22,6 +22,7 @@ const initialValues = {
   amount: 0,
   entry_date: new Date().toISOString().split("T")[0],
   payment_type: "received",
+  entries: [0, 0],
 };
 
 export const AccountEntry = () => {
@@ -55,7 +56,8 @@ export const AccountEntry = () => {
     //   return { ...item, amount: parseInt(inputValues[index]) };
     // });
     // accountData.invoice_list = updatedInvoiceList;
-    console.log(accountData);
+    // console.log(accountData);
+    console.log(values);
   };
   const winWidth = useWindowWidth();
 
@@ -203,6 +205,7 @@ export const AccountEntry = () => {
                 <Container>
                   <Table
                     tableData={invoiceAccountData.map((item, index) => {
+                      // values.entries[index] = 0;
                       const { number, date, balance, grand_total } = item.invoice_data;
                       return {
                         _id: item._id,
@@ -211,14 +214,25 @@ export const AccountEntry = () => {
                         amount: (
                           <Input
                             type="number"
-                            id={`entries[${index}].value`}
-                            name={`entries[${index}].value`}
+                            id={`entries[${index}]`}
+                            name={`entries[${index}]`}
                             onChange={(event) => {
-                              console.log(values.amount);
                               const amountValue = parseInt(values.amount);
                               const entryValue = parseInt(event.target.value);
-                              const updatedValue = amountValue + entryValue;
-                              setFieldValue(`entries[${index}].value`, updatedValue);
+
+                              const sumOfAllEntries = values.entries.reduce((accumulator, currentValue, i) => {
+                                if (i === index) {
+                                  return accumulator + entryValue;
+                                } else {
+                                  return accumulator + currentValue;
+                                }
+                              }, 0);
+                              console.log(`right now at this index -> ${index} and sum of them is -> ${sumOfAllEntries} and entries -> ${values.entries}`);
+
+                              if (amountValue < sumOfAllEntries) {
+                                return;
+                              }
+                              setFieldValue(`entries[${index}]`, entryValue);
                             }}
                           />
                         ),
