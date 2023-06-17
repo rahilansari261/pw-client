@@ -40,6 +40,8 @@ const initialValues = {
   entry_date: new Date().toISOString().split("T")[0],
   payment_type: "received",
   entries: [0, 0],
+  txn_no: 0,
+  remark: "",
 };
 
 export const AccountEntry = () => {
@@ -73,26 +75,57 @@ export const AccountEntry = () => {
   };
 
   const handleSubmit = (values, { setSubmitting }) => {
+    const accountData = clientAccountData;
+    accountData.invoice_list = invoiceAccountData;
+
+    accountData.invoice_list.map((item, index) => {
+      item.amount = values.entries[index];
+    });
+
+    const invoiceNumbersArr = accountData.invoice_list.map((item) => {
+      return item.invoice_data.number;
+    });
+
+    const entriesTotalAmount = accountData.invoice_list.reduce((accumulator, invoice) => {
+      return accumulator + invoice.amount;
+    }, 0);
+    console.log(entriesTotalAmount);
+    let invoiceRemark = "";
+    let advanceRemark = "";
+    let userRemark = "";
+    if (invoiceNumbersArr.length > 0) {
+      invoiceRemark = `For Invoices ${invoiceNumbersArr.join(", ")}.`;
+    }
+    if (values.amount - entriesTotalAmount > 0) {
+      advanceRemark = `Advance of ${convertCurrencyToIndian(values.amount - entriesTotalAmount)}.`;
+    }
+    if (values.remark) {
+      userRemark = `User: ${values.remark}.`;
+    }
+    console.log(`${invoiceRemark} ${advanceRemark} ${userRemark}`);
+    let newRemark = "";
     if (values.payment_type === "received") {
       clientAccountData.entry_amount_in = values.amount;
       clientAccountData.entry_amount_out = 0;
       clientAccountData.entry_balance = clientAccountData.client_balance - values.amount;
+      clientAccountData.entry_remarks = `${invoiceRemark} ${advanceRemark} ${userRemark}`;
     } else {
       clientAccountData.entry_amount_in = 0;
       clientAccountData.entry_amount_out = values.amount;
       clientAccountData.entry_balance = clientAccountData.client_balance + values.amount;
+      clientAccountData.entry_remarks = values.remark;
     }
 
     clientAccountData.entry_date = new Date(values.entry_date);
-    clientAccountData.entry_remarks = "make a custom";
-    clientAccountData.entry_transaction_number = "make a custom";
     clientAccountData.entry_type = "User";
 
-    clientAccountData.invoice_list = invoiceAccountData;
-    const accountData = clientAccountData;
-    accountData.invoice_list.map((item, index) => {
-      item.amount = values.entries[index];
-    });
+    if (values.modes === "cash") clientAccountData.entry_transaction_number = "Cash";
+    if (values.modes === "cheque") clientAccountData.entry_transaction_number = "Cheque No. " + values.txn_no;
+    if (values.modes === "neft") clientAccountData.entry_transaction_number = "NEFT Txn No. " + values.txn_no;
+    if (values.modes === "rtgs") clientAccountData.entry_transaction_number = "RTGS Txn No. " + values.txn_no;
+    if (values.modes === "upi") clientAccountData.entry_transaction_number = "UPI Txn No." + values.txn_no;
+    if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
+
     console.log(accountData);
   };
   return (
@@ -182,7 +215,7 @@ export const AccountEntry = () => {
                 {values.modes === "cheque" ? (
                   <Container>
                     <Label htmlFor="">Checque No. </Label>
-                    <Input type="number" name="cheque_no" id="cheque_no" autoComplete="off" placeholder="" />
+                    <Input type="number" name="txn_no" id="txn_no" autoComplete="off" placeholder="" />
                   </Container>
                 ) : (
                   values.modes !== "cash" && (
