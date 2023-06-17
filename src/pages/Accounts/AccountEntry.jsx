@@ -193,7 +193,11 @@ export const AccountEntry = () => {
                 </Container>
                 <Container>
                   <Label htmlFor="">New Balance </Label>
-                  <div>3500 </div>
+                  <div>
+                    {parseInt(values.amount) > 0
+                      ? convertCurrencyToIndian(parseInt(clientAccountData.client_balance) - parseInt(values.amount))
+                      : convertCurrencyToIndian(parseInt(clientAccountData.client_balance))}{" "}
+                  </div>
                 </Container>
 
                 <Container>
