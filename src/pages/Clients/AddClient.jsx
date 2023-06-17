@@ -34,7 +34,7 @@ export const AddClient = () => {
         ...values,
       },
     };
-    console.log(cData);
+
     postData(cData, "clients/add");
   };
 

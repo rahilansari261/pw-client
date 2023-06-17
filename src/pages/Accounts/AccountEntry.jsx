@@ -45,7 +45,7 @@ const initialValues = {
 };
 
 export const AccountEntry = () => {
-  const { data, isLoading, error, fetchData } = useFetch();
+  const { data, isLoading, error, fetchData, postData } = useFetch();
   const { data: clientData, isLoading: clientIsLoading, error: clientError, fetchData: clientFetch } = useFetch();
   const { id } = useParams();
   const [invoiceAccountData, setInvoiceAccountData] = useState(null);
@@ -127,6 +127,10 @@ export const AccountEntry = () => {
     if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
 
     console.log(accountData);
+    const dataToSend = { accountData: accountData };
+    postData(dataToSend, "accounts/add");
+    <Redirect to="/accounts/viewaccount/"+id+" />
+
   };
   return (
     <Main>
