@@ -80,7 +80,7 @@ export const ViewAccount = () => {
             </ClientInfo>
             <ClientInfo>
               <ClientTitle>Balance :</ClientTitle>
-              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_balance}</ClientValue> : `Loading...`}
+              {clientAccountData !== null ? <ClientValue>{convertCurrencyToIndian(clientAccountData.client_balance)}</ClientValue> : `Loading...`}
             </ClientInfo>
           </ClientWrapper>
           <SearchOption>
