@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { Table } from "../../components/Table";
 import useFetch from "../../hooks/useFetch";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { LineWave } from "react-loader-spinner";
 import { convertCurrencyToIndian, convertDate } from "../../util/helper";
 import "../../App.css";
@@ -51,6 +51,7 @@ export const AccountEntry = () => {
   const [invoiceAccountData, setInvoiceAccountData] = useState(null);
   const [clientAccountData, setClientAccountData] = useState(null);
   const winWidth = useWindowWidth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData(`invoices/unpaid/${id}`);
@@ -77,7 +78,7 @@ export const AccountEntry = () => {
     tableHeadRowData: ["id", "Invoice No.", "Date", "Amount", "Balance", "Total"],
   };
 
-  const handleSubmit = (values, { setSubmitting }) => {
+  const handleSubmit = async (values, { setSubmitting }) => {
     const accountData = clientAccountData;
     accountData.invoice_list = invoiceAccountData;
 
@@ -121,8 +122,10 @@ export const AccountEntry = () => {
     if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
     accountData.client_id = accountData._id;
     const dataToSend = { accountData: accountData };
-    postData(dataToSend, "accounts/add");
-    // <Redirect to={`/accounts/viewaccount/${id}`} />;
+
+    await postData(dataToSend, "accounts/add");
+
+    navigate(`/accounts/viewaccount/${id}`);
   };
   return (
     <Main>
