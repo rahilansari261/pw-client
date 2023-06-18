@@ -119,7 +119,7 @@ export const AccountEntry = () => {
     if (values.modes === "rtgs") clientAccountData.entry_transaction_number = "RTGS Txn No. " + values.txn_no;
     if (values.modes === "upi") clientAccountData.entry_transaction_number = "UPI Txn No." + values.txn_no;
     if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
-    accountData.client_id = accountData._id;    
+    accountData.client_id = accountData._id;
     const dataToSend = { accountData: accountData };
     postData(dataToSend, "accounts/add");
     // <Redirect to={`/accounts/viewaccount/${id}`} />;
