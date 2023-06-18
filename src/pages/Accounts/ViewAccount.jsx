@@ -76,11 +76,11 @@ export const ViewAccount = () => {
           <ClientWrapper>
             <ClientInfo>
               <ClientTitle>Client Name :</ClientTitle>
-              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_name}</ClientValue> : <div>Loading...</div>}
+              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_name}</ClientValue> : `Loading...`}
             </ClientInfo>
             <ClientInfo>
               <ClientTitle>Balance :</ClientTitle>
-              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_balance}</ClientValue> : <div>Loading...</div>}
+              {clientAccountData !== null ? <ClientValue>{clientAccountData.client_balance}</ClientValue> : `Loading...`}
             </ClientInfo>
           </ClientWrapper>
           <SearchOption>
