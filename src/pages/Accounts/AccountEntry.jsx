@@ -85,24 +85,16 @@ export const AccountEntry = () => {
       item.amount = values.entries[index];
     });
 
-    const invoiceNumbersArr = accountData.invoice_list.map((item) => {
-      if (item.amount > 0) return item.invoice_data.number;
-    });
-
-    const entriesTotalAmount = accountData.invoice_list.reduce((accumulator, invoice) => {
-      return accumulator + invoice.amount;
-    }, 0);
+    const entriesTotalAmount = accountData.invoice_list.reduce((a, i) => a + i.amount, 0);
 
     let advanceRemark = "";
     let userRemark = "";
-    if (values.amount - entriesTotalAmount > 0) {
-      advanceRemark = `Advance of ${convertCurrencyToIndian(values.amount - entriesTotalAmount)}.`;
-    }
-    if (values.remark) {
-      userRemark = `User: ${values.remark}.`;
-    }
+    if (values.amount - entriesTotalAmount > 0) advanceRemark = `Advance of ${convertCurrencyToIndian(values.amount - entriesTotalAmount)}.`;
+    if (values.remark) userRemark = `User: ${values.remark}.`;
+
+    const invoiceNumbersArr = accountData.invoice_list.filter((item) => item.amount > 0).map((item) => item.invoice_data.number);
     const invoLength = invoiceNumbersArr.length;
-    const invoiceRemark = invoLength > 0 && invoLength === 1 ? `For Invoice ${invoiceNumbersArr[0]}.` : `For Invoices ${invoiceNumbersArr.join(", ")}.`;
+    const invoiceRemark = invoLength === 1 ? `For Invoice ${invoiceNumbersArr[0]}.` : `For Invoices ${invoiceNumbersArr.join(", ")}.`;
 
     if (values.payment_type === "received") {
       clientAccountData.entry_amount_in = values.amount;
@@ -127,8 +119,7 @@ export const AccountEntry = () => {
     if (values.modes === "rtgs") clientAccountData.entry_transaction_number = "RTGS Txn No. " + values.txn_no;
     if (values.modes === "upi") clientAccountData.entry_transaction_number = "UPI Txn No." + values.txn_no;
     if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
-    accountData.client_id = accountData._id;
-    console.log(accountData);
+    accountData.client_id = accountData._id;    
     const dataToSend = { accountData: accountData };
     postData(dataToSend, "accounts/add");
     // <Redirect to={`/accounts/viewaccount/${id}`} />;
