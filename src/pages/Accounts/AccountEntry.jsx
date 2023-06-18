@@ -86,7 +86,7 @@ export const AccountEntry = () => {
     });
 
     const invoiceNumbersArr = accountData.invoice_list.map((item) => {
-      return item.invoice_data.number;
+      if (item.amount > 0) return item.invoice_data.number;
     });
 
     const entriesTotalAmount = accountData.invoice_list.reduce((accumulator, invoice) => {
