@@ -115,9 +115,11 @@ export const AccountEntry = () => {
       clientAccountData.entry_balance = clientAccountData.client_balance + values.amount;
       clientAccountData.entry_remarks = values.remark;
     }
-
-    clientAccountData.entry_date = new Date(values.entry_date);
     clientAccountData.entry_type = "User";
+
+    const currentDate = new Date();
+    const parts = values.entry_date.split("-");
+    clientAccountData.entry_date = new Date(parts[0], parts[1] - 1, parts[2], currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
 
     if (values.modes === "cash") clientAccountData.entry_transaction_number = "Cash";
     if (values.modes === "cheque") clientAccountData.entry_transaction_number = "Cheque No. " + values.txn_no;
@@ -125,11 +127,11 @@ export const AccountEntry = () => {
     if (values.modes === "rtgs") clientAccountData.entry_transaction_number = "RTGS Txn No. " + values.txn_no;
     if (values.modes === "upi") clientAccountData.entry_transaction_number = "UPI Txn No." + values.txn_no;
     if (values.modes === "others") clientAccountData.entry_transaction_number = "Other " + values.txn_no;
-
+    accountData.client_id = accountData._id;
     console.log(accountData);
     const dataToSend = { accountData: accountData };
     postData(dataToSend, "accounts/add");
-    <Redirect to={`/accounts/viewaccount/${id}`} />;
+    // <Redirect to={`/accounts/viewaccount/${id}`} />;
   };
   return (
     <Main>
