@@ -92,20 +92,18 @@ export const AccountEntry = () => {
     const entriesTotalAmount = accountData.invoice_list.reduce((accumulator, invoice) => {
       return accumulator + invoice.amount;
     }, 0);
-    let invoiceRemark = "";
+
     let advanceRemark = "";
     let userRemark = "";
-    if (invoiceNumbersArr.length > 0 && invoiceNumbersArr.length === 1) {
-      invoiceRemark = `For Invoice ${invoiceNumbersArr[0]}.`;
-    } else {
-      invoiceRemark = `For Invoices ${invoiceNumbersArr.join(", ")}.`;
-    }
     if (values.amount - entriesTotalAmount > 0) {
       advanceRemark = `Advance of ${convertCurrencyToIndian(values.amount - entriesTotalAmount)}.`;
     }
     if (values.remark) {
       userRemark = `User: ${values.remark}.`;
     }
+    const invoLength = invoiceNumbersArr.length;
+    const invoiceRemark = invoLength > 0 && invoLength === 1 ? `For Invoice ${invoiceNumbersArr[0]}.` : `For Invoices ${invoiceNumbersArr.join(", ")}.`;
+
     if (values.payment_type === "received") {
       clientAccountData.entry_amount_in = values.amount;
       clientAccountData.entry_amount_out = 0;
