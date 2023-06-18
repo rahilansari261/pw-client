@@ -95,7 +95,9 @@ export const AccountEntry = () => {
     let invoiceRemark = "";
     let advanceRemark = "";
     let userRemark = "";
-    if (invoiceNumbersArr.length > 0) {
+    if (invoiceNumbersArr.length > 0 && invoiceNumbersArr.length === 1) {
+      invoiceRemark = `For Invoices ${invoiceNumbersArr.join(",")}.`;
+    } else {
       invoiceRemark = `For Invoices ${invoiceNumbersArr.join(", ")}.`;
     }
     if (values.amount - entriesTotalAmount > 0) {
