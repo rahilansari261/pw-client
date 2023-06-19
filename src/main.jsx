@@ -8,13 +8,16 @@ import "./fonts/Cabin/static/Cabin/Cabin-Regular.ttf";
 import "./fonts/Cabin/static/Cabin/Cabin-SemiBold.ttf";
 import App from "./App";
 import { Provider } from "react-redux";
-import store from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import { store, persistor } from "./store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
