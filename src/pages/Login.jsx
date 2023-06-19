@@ -7,6 +7,7 @@ import { login } from "../reducers/authSlice";
 import { setUser } from "../reducers/userSlice";
 import useFetch from "../hooks/useFetch";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const [user_email, setUsername] = useState("rahil@lilbit.io");
@@ -18,6 +19,7 @@ export const Login = () => {
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const { data, isLoading, error, loginUser } = useFetch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     setShowRingLoader(true);
@@ -31,6 +33,7 @@ export const Login = () => {
       success: "Sucessfully signed in.",
       error: "Error when sign in.",
     });
+    navigate(`/`);
   };
 
   useEffect(() => {
