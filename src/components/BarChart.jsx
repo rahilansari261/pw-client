@@ -1,6 +1,6 @@
 import { Bar } from "react-chartjs-2";
+import { convertCurrencyToIndian } from "../util/helper";
 export const BarChart = ({ chartData }) => {
-  console.log(chartData);
   return (
     <div className="chart-container">
       <Bar
