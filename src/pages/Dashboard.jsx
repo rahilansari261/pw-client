@@ -56,7 +56,7 @@ export const Dashboard = () => {
   const clickHandle = () => {};
   const btnFunc = () => {};
   const tableHelperDataInvoice = {
-    actionColumnSrc: "/clients/viewclient/",
+    actionColumnSrc: "/invoices/viewinvoice/",
     actionColumnTitle: "Action",
     actionColumnValue: "View",
     actionColumnColor: "info",
@@ -65,7 +65,7 @@ export const Dashboard = () => {
   };
 
   const tableHelperDataClient = {
-    actionColumnSrc: "/clients/viewclient/",
+    actionColumnSrc: "/accounts/viewaccount/",
     actionColumnTitle: "Action",
     actionColumnValue: "View",
     actionColumnColor: "info",
