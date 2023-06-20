@@ -18,7 +18,7 @@ export const Dashboard = () => {
     labels: Data.map((data) => data.year),
     datasets: [
       {
-        label: "Users Gained ",
+        label: "Sales Figure ",
         data: Data.map((data) => data.userGain),
         backgroundColor: ["rgb(82, 152, 158, 0.6)"],
       },
@@ -26,10 +26,12 @@ export const Dashboard = () => {
   });
   const { data: invoiceData, isLoading: isInvoiceLoading, error: invoiceError, fetchData: fetchInvoiceData } = useFetch();
   const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
+  const { data: graphData, isLoading: isGraphLoading, error: graphError, fetchData: fetchGraphData } = useFetch();
 
   useEffect(() => {
     fetchInvoiceData(`invoices/1/3/All`);
     fetchClientData(`clients/1/3/All`);
+    fetchGraphData(`users/salesgraph`);
   }, []);
 
   const sanitizeTableDataForInvoice = (invoiceDataArray) =>
