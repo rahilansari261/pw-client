@@ -14,16 +14,7 @@ import { convertCurrencyToIndian } from "../util/helper";
 Chart.register(CategoryScale);
 
 export const Dashboard = () => {
-  const [chartData, setChartData] = useState({
-    labels: Data.map((data) => data.year),
-    datasets: [
-      {
-        label: "Sales Figure ",
-        data: Data.map((data) => data.userGain),
-        backgroundColor: ["rgb(82, 152, 158, 0.6)"],
-      },
-    ],
-  });
+  const [chartData, setChartData] = useState(null);
   const { data: invoiceData, isLoading: isInvoiceLoading, error: invoiceError, fetchData: fetchInvoiceData } = useFetch();
   const { data: clientData, isLoading: isClientLoading, error: clientError, fetchData: fetchClientData } = useFetch();
   const { data: graphData, isLoading: isGraphLoading, error: graphError, fetchData: fetchGraphData } = useFetch();
@@ -33,6 +24,21 @@ export const Dashboard = () => {
     fetchClientData(`clients/1/3/All`);
     fetchGraphData(`users/sales/graph`);
   }, []);
+
+  useEffect(() => {
+    if (graphData !== null) {
+      setChartData({
+        labels: graphData.data.map((data) => data.month),
+        datasets: [
+          {
+            label: "Sales Figure ",
+            data: graphData.data.map((data) => data.stats),
+            backgroundColor: ["rgb(82, 152, 158, 0.6)"],
+          },
+        ],
+      });
+    }
+  }, [isGraphLoading]);
 
   const sanitizeTableDataForInvoice = (invoiceDataArray) =>
     invoiceDataArray.map((invoice) => {
@@ -86,7 +92,11 @@ export const Dashboard = () => {
         </TitleSection>
 
         <ChartWrapper>
-          <BarChart chartData={chartData}></BarChart>
+          {chartData !== null ? (
+            <BarChart chartData={chartData}></BarChart>
+          ) : (
+            <LineWave height="100" width="100" color="#003545" ariaLabel="line-wave" wrapperStyle={{}} wrapperClass="" visible={true} firstLineColor="" middleLineColor="" lastLineColor="" />
+          )}
         </ChartWrapper>
       </Main>
       <TwoTableWrapper>
