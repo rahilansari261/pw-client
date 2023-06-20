@@ -20,8 +20,8 @@ export const Dashboard = () => {
   const { data: graphData, isLoading: isGraphLoading, error: graphError, fetchData: fetchGraphData } = useFetch();
 
   useEffect(() => {
-    fetchInvoiceData(`invoices/1/3/All`);
-    fetchClientData(`clients/1/3/All`);
+    fetchInvoiceData(`invoices/1/5/All`);
+    fetchClientData(`clients/1/5/All`);
     fetchGraphData(`users/sales/graph`);
   }, []);
 
