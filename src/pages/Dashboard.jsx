@@ -32,7 +32,7 @@ export const Dashboard = () => {
         datasets: [
           {
             label: "Sales Figure ",
-            data: graphData.data.map((data) => convertCurrencyToIndian(data.stats)),
+            data: graphData.data.map((data) => convertCurrencyToIndian(data.stats).toString()),
             backgroundColor: ["rgb(82, 152, 158, 0.6)"],
           },
         ],
