@@ -31,7 +31,7 @@ export const Dashboard = () => {
   useEffect(() => {
     fetchInvoiceData(`invoices/1/3/All`);
     fetchClientData(`clients/1/3/All`);
-    fetchGraphData(`users/salesgraph`);
+    fetchGraphData(`users/sales/graph`);
   }, []);
 
   const sanitizeTableDataForInvoice = (invoiceDataArray) =>
